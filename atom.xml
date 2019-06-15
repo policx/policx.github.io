@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
-    <title>policx</title>
-    <updated>2019-06-15T20:10:33.609Z</updated>
+    <title>江湖</title>
+    <updated>2019-06-15T20:16:07.693Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
-    <subtitle>江湖远，庙堂高。</subtitle>
+    <subtitle>&lt;a href=&quot;https://www.policx.com/&quot; target=&quot;_blank&quot;&gt;江湖远，庙堂高&lt;/a&gt;</subtitle>
     <logo>https://policx.github.io/images/avatar.png</logo>
     <icon>https://policx.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, policx</rights>
+    <rights>All rights reserved 2019, 江湖</rights>
     <entry>
         <title type="html"><![CDATA[2019]]></title>
         <id>https://policx.github.io/post/2019</id>
