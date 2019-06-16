@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-16T11:51:14.981Z</updated>
+    <updated>2019-06-16T12:46:54.268Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -11,35 +11,35 @@
     <icon>https://policx.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 江湖</rights>
     <entry>
-        <title type="html"><![CDATA[2019]]></title>
+        <title type="html"><![CDATA[WWDC 2019]]></title>
         <id>https://policx.github.io/post/2019</id>
         <link href="https://policx.github.io/post/2019">
         </link>
         <updated>2019-06-02T17:06:39.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[2018]]></title>
+        <title type="html"><![CDATA[WWDC 2018]]></title>
         <id>https://policx.github.io/post/2018</id>
         <link href="https://policx.github.io/post/2018">
         </link>
         <updated>2018-06-04T16:59:59.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[2017]]></title>
+        <title type="html"><![CDATA[WWDC 2017]]></title>
         <id>https://policx.github.io/post/2017</id>
         <link href="https://policx.github.io/post/2017">
         </link>
         <updated>2017-06-04T16:50:49.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[2016]]></title>
+        <title type="html"><![CDATA[WWDC 2016]]></title>
         <id>https://policx.github.io/post/2016</id>
         <link href="https://policx.github.io/post/2016">
         </link>
         <updated>2016-06-13T16:43:27.000Z</updated>
     </entry>
     <entry>
-        <title type="html"><![CDATA[2015]]></title>
+        <title type="html"><![CDATA[WWDC 2015]]></title>
         <id>https://policx.github.io/post/2015</id>
         <link href="https://policx.github.io/post/2015">
         </link>
