@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-16T16:08:46.527Z</updated>
+    <updated>2019-06-16T16:41:48.378Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -16,6 +16,13 @@
         <link href="https://policx.github.io/post/2019">
         </link>
         <updated>2019-06-02T17:06:39.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[字典、列表、数组和字符串]]></title>
+        <id>https://policx.github.io/post/python</id>
+        <link href="https://policx.github.io/post/python">
+        </link>
+        <updated>2018-06-15T18:28:24.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[WWDC 2018]]></title>
