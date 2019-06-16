@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-16T20:22:29.366Z</updated>
+    <updated>2019-06-16T21:11:30.844Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -30,6 +30,19 @@
         <link href="https://policx.github.io/post/chuangye">
         </link>
         <updated>2018-03-25T13:02:42.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[什么是RxSwift]]></title>
+        <id>https://policx.github.io/post/RxSwift</id>
+        <link href="https://policx.github.io/post/RxSwift">
+        </link>
+        <updated>2017-08-25T12:32:36.000Z</updated>
+        <summary type="html"><![CDATA[<p>相信大家很早就听说过函数式响应编程概念，我是去年面试的时候接触到函数式响应编程的，当时也是第一次接触到MVVM这个概念，转眼都一年过去了，我却没有在函数式编程上做深入的研究，说来还真是惭愧。
+不过最近由于想要使用RxSwift，所以趁这个时候好好接触和研究一下传说中的函数式编程，由于网上关于RxSwift的教程资料很少，这篇文章其实就是最RxSwift官方文档和一些概念做一些解读。算是大家学习的参考文章吧！ 先挖个坑，这可能会是一个RxSwift系列，希望大家在学习的时候有所参考。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>相信大家很早就听说过函数式响应编程概念，我是去年面试的时候接触到函数式响应编程的，当时也是第一次接触到MVVM这个概念，转眼都一年过去了，我却没有在函数式编程上做深入的研究，说来还真是惭愧。
+不过最近由于想要使用RxSwift，所以趁这个时候好好接触和研究一下传说中的函数式编程，由于网上关于RxSwift的教程资料很少，这篇文章其实就是最RxSwift官方文档和一些概念做一些解读。算是大家学习的参考文章吧！ 先挖个坑，这可能会是一个RxSwift系列，希望大家在学习的时候有所参考。</p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[17年会]]></title>
@@ -72,12 +85,5 @@
         <link href="https://policx.github.io/post/iosyoumeng">
         </link>
         <updated>2017-01-16T18:30:36.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[机械键盘]]></title>
-        <id>https://policx.github.io/post/jianpan</id>
-        <link href="https://policx.github.io/post/jianpan">
-        </link>
-        <updated>2016-12-01T14:18:25.000Z</updated>
     </entry>
 </feed>
