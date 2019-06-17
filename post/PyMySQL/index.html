@@ -1,0 +1,334 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>python3 与 MySQL 之间的交互 | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560769575835">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560769575835" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              python3 与 MySQL 之间的交互
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2018-05-01 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://serviceimg.oray.com/1601/20160128100611129.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <h3 id="pymysql介绍">PyMySQL介绍</h3>
+<p>PyMySQL 是在 Python3.x 版本中用于连接 MySQL 服务器的一个库，Python2中则使用mysqldb。</p>
+<h4 id="pymysql安装">PyMySQL安装</h4>
+<p><code>pip install pymysql</code></p>
+<h4 id="连接数据库">连接数据库</h4>
+<h5 id="注意事项">注意事项</h5>
+<p>在进行本文以下内容之前需要注意：</p>
+<p>你有一个MySQL数据库，并且已经启动。
+你有可以连接该数据库的用户名和密码
+如果你是与远程数据库交互 ，还需要给权限 否则会报以下错误
+<img src="https://policx.github.io/post-images/1560768642535.png" alt=""></p>
+<h5 id="基本使用">基本使用</h5>
+<pre><code># 导入pymysql模块
+import pymysql
+# 连接
+conn = pymysql.connect(host=“你的数据库地址”, user=“用户名”,password=“密码”,database=“数据库名”,charset=“utf8”)
+# 得到一个可以执行SQL语句的光标对象
+cursor = conn.cursor()
+# 定义要执行的SQL语句
+sql = &quot;&quot;&quot;
+CREATE TABLE USER1 (
+id INT auto_increment PRIMARY KEY ,
+name CHAR(10) NOT NULL UNIQUE,
+age TINYINT NOT NULL
+)ENGINE=innodb DEFAULT CHARSET=utf8;
+&quot;&quot;&quot;
+# 执行SQL语句
+cursor.execute(sql)
+# 关闭光标对象
+cursor.close()
+# 关闭数据库连接
+conn.close()
+</code></pre>
+<h3 id="增删改查操作">增删改查操作</h3>
+<h4 id="1增">1.增</h4>
+<pre><code># 导入pymysql模块
+import pymysql
+# 连接
+conn = pymysql.connect(host=“你的数据库地址”, user=“用户名”,password=“密码”,database=“数据库名”,charset=“utf8”)
+# 得到一个可以执行SQL语句的光标对象
+cursor = conn.cursor()
+sql = &quot;INSERT INTO USER1(name, age) VALUES (%s, %s);&quot;
+username = &quot;LHL&quot;
+age = 22
+# 执行SQL语句
+cursor.execute(sql, [username, age])
+# 提交事务(需要提交事物)
+conn.commit()
+cursor.close()
+conn.close()
+</code></pre>
+<ul>
+<li>如没有效果 请 刷新一下 或 重启数据库。</li>
+</ul>
+<h5 id="11插入数据失败回滚">1.1插入数据失败回滚</h5>
+<pre><code># 导入pymysql模块
+import pymysql
+# 连接
+conn = pymysql.connect(host=“你的数据库地址”, user=“用户名”,password=“密码”,database=“数据库名”,charset=“utf8”)
+# 得到一个可以执行SQL语句的光标对象
+cursor = conn.cursor()
+sql = &quot;INSERT INTO USER1(name, age) VALUES (%s, %s);&quot;
+username = &quot;LHL&quot;
+age = 22
+try:
+    # 执行SQL语句
+    cursor.execute(sql, [username, age])
+    # 提交事务
+    conn.commit()
+  # 提交之后，获取刚插入的数据的ID
+    #last_id = cursor.lastrowid
+except Exception as e:
+    # 有异常，回滚事务
+    conn.rollback()
+cursor.close()
+conn.close()
+</code></pre>
+<h4 id="2删">2.删</h4>
+<pre><code># 导入pymysql模块
+import pymysql
+# 连接database
+conn = pymysql.connect(host=“你的数据库地址”, user=“用户名”,password=“密码”,database=“数据库名”,charset=“utf8”)
+# 得到一个可以执行SQL语句的光标对象
+cursor = conn.cursor()
+sql = &quot;DELETE FROM USER1 WHERE id=%s;&quot;
+try:
+    cursor.execute(sql, [4])
+    # 提交事务
+    conn.commit()
+except Exception as e:
+    # 有异常，回滚事务
+    conn.rollback()
+cursor.close()
+conn.close()
+</code></pre>
+<ul>
+<li>如没有效果 请 刷新一下 或 重启数据库。</li>
+</ul>
+<h4 id="3改">3.改</h4>
+<pre><code># 导入pymysql模块
+import pymysql
+# 连接
+conn = pymysql.connect(host=“你的数据库地址”, user=“用户名”,password=“密码”,database=“数据库名”,charset=“utf8”)
+# 得到一个可以执行SQL语句的光标对象
+cursor = conn.cursor()
+# 修改数据的SQL语句
+sql = &quot;UPDATE USER1 SET age=%s WHERE name=%s;&quot;
+username = &quot;LHL&quot;
+age = 10
+try:
+    # 执行SQL语句
+    cursor.execute(sql, [age, username])
+    # 提交事务
+    conn.commit()
+except Exception as e:
+    # 有异常，回滚事务
+    conn.rollback()
+cursor.close()
+conn.close()
+</code></pre>
+<ul>
+<li>如没有效果 请 刷新一下 或 重启数据库。</li>
+</ul>
+<h4 id="4查">4.查</h4>
+<pre><code># 导入pymysql模块
+import pymysql
+# 连接database
+conn = pymysql.connect(host=“你的数据库地址”, user=“用户名”,password=“密码”,database=“数据库名”,charset=“utf8”)
+# 得到一个可以执行SQL语句的光标对象
+cursor = conn.cursor()
+# 查询数据的SQL语句
+sql = &quot;SELECT id,name,age from USER1 WHERE id=1;&quot;
+# 执行SQL语句
+cursor.execute(sql)
+# 获取单条查询数据
+res = cursor.fetchone()
+cursor.close()
+conn.close()
+# 打印下查询结果
+print(res)
+</code></pre>
+<ul>
+<li>如没有效果 请 刷新一下 或 重启数据库。</li>
+</ul>
+<h4 id="5批量执行">5.批量执行</h4>
+<pre><code># 导入pymysql模块
+import pymysql
+# 连接database
+conn = pymysql.connect(host=“你的数据库地址”, user=“用户名”,password=“密码”,database=“数据库名”,charset=“utf8”)
+# 得到一个可以执行SQL语句的光标对象
+cursor = conn.cursor()
+sql = &quot;INSERT INTO USER1(name, age) VALUES (%s, %s);&quot;
+data = [(&quot;LHL&quot;, 22), (&quot;BOb&quot;, 20), (&quot;xiaoming&quot;, 21)]
+try:
+    # 批量执行多条插入SQL语句
+    cursor.executemany(sql, data)
+    # 提交事务
+    conn.commit()
+except Exception as e:
+    # 有异常，回滚事务
+    conn.rollback()
+cursor.close()
+conn.close()
+</code></pre>
+<h5 id="查询多条数据">查询多条数据</h5>
+<pre><code># 导入pymysql模块
+import pymysql
+# 连接
+conn = pymysql.connect(host=“你的数据库地址”, user=“用户名”,password=“密码”,database=“数据库名”,charset=“utf8”)
+# 得到一个可以执行SQL语句的光标对象
+cursor = conn.cursor()
+# 查询数据的SQL语句
+sql = &quot;SELECT id,name,age from USER1;&quot;
+# 执行SQL语句
+cursor.execute(sql)
+# 获取多条查询数据
+res = cursor.fetchall()
+cursor.close()
+conn.close()
+# 打印下查询结果
+print(res)
+</code></pre>
+<ul>
+<li>如没有效果 请 刷新一下 或 重启数据库。</li>
+</ul>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/django-bu-shu-uwsginginx">
+              <h3 class="post-title">
+                Django部署——uwsgi+Nginx
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

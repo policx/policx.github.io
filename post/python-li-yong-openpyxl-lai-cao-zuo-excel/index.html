@@ -1,0 +1,395 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Python利用openpyxl来操作Excel | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560769575835">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560769575835" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Python利用openpyxl来操作Excel
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2018-06-19 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://policx.github.io/post-images/python-li-yong-openpyxl-lai-cao-zuo-excel.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>自动化的工作是为了从繁琐重复的劳动中挣脱出来，把精力用在数据分析上。自动化方面python是在好不过了，不过既然要提交报表， 就不免要美观什么的。pandas虽然很强大，但是无法对Excel完全操作，现学vba有点来不及。于是就找到这个openpyxl包，用python来修改Excel。</p>
+<!-- more -->
+<p>如下所示：</p>
+<pre><code>from openpyxl import load_workbook
+from openpyxl.styles import colors, Font, Fill, NamedStyle
+from openpyxl.styles import PatternFill, Border, Side, Alignment
+ 
+# 加载文件
+wb = load_workbook('./5a.xlsx')
+</code></pre>
+<ul>
+<li>workbook： 工作簿，一个excel文件包含多个sheet。</li>
+<li>worksheet：工作表，一个workbook有多个，表名识别，如“sheet1”,“sheet2”等。</li>
+<li>cell： 单元格，存储数据对象
+文章所用表格为：
+<img src="https://policx.github.io/post-images/1560761501804.jpeg" alt=""></li>
+</ul>
+<h3 id="操作sheet">操作sheet</h3>
+<pre><code># 读取sheetname
+print('输出文件所有工作表名：\n', wb.sheetnames)
+ws = wb['5a']
+ 
+# 或者不知道名字时
+sheet_names = wb.sheetnames   # 返回一个列表
+ws2 = wb[sheet_names[0]]    # index为0为第一张表
+print(ws is ws2)    # 两者是一样的
+</code></pre>
+<p>输出文件所有工作表名：
+['5a']
+True</p>
+<pre><code># 修改sheetname
+ 
+ws.title = '5a_'
+print('修改sheetname：\n', wb.sheetnames)
+</code></pre>
+<p>修改sheetname：
+['5a_']</p>
+<pre><code># 创建新的sheet
+# 创建的新表必须要赋值给一个对象，不然只有名字但是没有实际的新表
+ 
+ws4 = wb.create_sheet(index=0, title='newsheet')
+# 什么参数都不写的话，默认插入到最后一个位置且名字为sheet,sheet1...按照顺序排列
+ 
+ws5 = wb.create_sheet()
+print('创建新的sheet:\n', wb.sheetnames)
+</code></pre>
+<p>创建新的sheet:
+['newsheet', '5a_', 'Sheet']</p>
+<pre><code># 删除sheet
+wb.remove(ws4)  # 这里只能写worksheet对象，不能写sheetname
+print('删除sheet：\n', wb.sheetnames)
+</code></pre>
+<p>删除sheet：
+['5a_', 'Sheet']</p>
+<pre><code># 修改sheet选项卡背景色，默认为白色，设置为RRGGBB模式
+ws.sheet_properties.tabColor = &quot;FFA500&quot;
+ 
+# 读取有效区域
+ 
+print('最大列数为：', ws.max_column)
+print('最大行数为：', ws.max_row)
+</code></pre>
+<p>最大列数为： 5
+最大行数为： 17</p>
+<pre><code># 插入行和列
+ws.insert_rows(1)  # 在第一行插入一行
+ws.insert_cols(2, 4)  # 从第二列开始插入四列
+ 
+# 删除行和列
+ws.delete_cols(6, 3)  # 从第六列（F列）开始，删除3列即（F:H）
+ws.delete_rows(3)   # 删除第三行
+</code></pre>
+<h3 id="单元格操作">单元格操作</h3>
+<pre><code># 读取
+c = ws['A1']
+c1 = ws.cell(row=1, column=2)
+print(c, c1)
+print(c.value, c1.value)
+</code></pre>
+<p>&lt;Cell '5a_'.A1&gt;  &lt;Cell '5a_'.B1&gt;<br>
+dth_title Province</p>
+<pre><code># 修改
+ws['A1'] = '景区名称'
+ws.cell(1, 2).value = '省份'
+print(c.value, c1.value)
+</code></pre>
+<p>景区名称 省份</p>
+<pre><code># 读取多个单元格
+ 
+cell_range = ws['A1':'D5']
+colC = ws['C']
+col_range = ws['C:D']
+row10 = ws[10]
+row_range = ws[5:10]
+# 其返回的结果都是一个包含单元格的元组
+print(type(cell_range))
+for i in row10:
+    print(i)    # row10只有有效单元格
+</code></pre>
+<p>&lt;class 'tuple'&gt;<br>
+&lt;Cell '5a_'.A10&gt;
+&lt;Cell '5a_'.B10&gt;
+&lt;Cell '5a_'.C10&gt;
+&lt;Cell '5a_'.D10&gt;
+&lt;Cell '5a_'.E10&gt;</p>
+<pre><code># 按照行列操作
+for row in ws.iter_rows(min_row=1, max_row=3,
+                        min_col=1, max_col=2):
+    for cell in row:
+        print(cell)
+# 也可以用worksheet.iter_col(),用法都一样
+</code></pre>
+<p>&lt;Cell '5a_'.A1&gt;
+&lt;Cell '5a_'.B1&gt;
+&lt;Cell '5a_'.A2&gt;
+&lt;Cell '5a_'.B2&gt;
+&lt;Cell '5a_'.A3&gt;
+&lt;Cell '5a_'.B3&gt;</p>
+<pre><code># 合并单元格
+ws.merge_cells('F1:G1')
+ws['F1'] = '合并两个单元格'
+# 或者
+ws.merge_cells(start_row=2, start_column=6, end_row=3, end_column=8)
+ws.cell(2, 6).value = '合并三个单元格'
+ 
+# 取消合并单元格
+ws.unmerge_cells('F1:G1')
+# 或者
+ws.unmerge_cells(start_row=2, start_column=6, end_row=3, end_column=8)
+ 
+wb.save('./5a.xlsx')
+# 保存之前的操作,保存文件时，文件必须是关闭的！！！
+</code></pre>
+<p>注意！！！，openpyxl对Excel的修改并不像是xlwings包一样是实时的，他的修改是暂时保存在内存中的，所以当 后面的修改例如我接下来要在第一行插入新的一行做标题，那么当我对新的A1单元格操作的时候，还在内存中的原A1(现在是A2)的单元格 原有的修改就会被覆盖。所以要先保存，或者从一开始就计划好更改操作避免这样的事情发生。</p>
+<h3 id="样式修改">样式修改</h3>
+<h4 id="单个单元格样式">单个单元格样式</h4>
+<pre><code>wb = load_workbook('./5a.xlsx')    # 读取修改后的文件
+ws = wb['5a_']
+# 我们来设置一个表头
+ws.insert_rows(1)    # 在第一行插入新的一行
+ws.merge_cells('A1:E1')  # 合并单元格
+a1 = ws['A1']
+ws['A1'] = '5A级风景区名单'
+ 
+# 设置字体
+ft = Font(name='微软雅黑', color='000000', size=15, b=True)
+&quot;&quot;&quot;
+name:字体名称
+color:颜色通常是RGB或aRGB十六进制值
+b(bold):加粗（bool）
+i(italic):倾斜(bool)
+shadow：阴影（bool）
+underline：下划线（‘doubleAccounting’, ‘single’, ‘double’, ‘singleAccounting’）
+charset:字符集(int)
+strike:删除线(bool)
+&quot;&quot;&quot;
+a1.font = ft
+ 
+# 设置文本对齐
+ 
+ali = Alignment(horizontal='center', vertical='center')
+&quot;&quot;&quot;
+horizontal:水平对齐('centerContinuous', 'general', 'distributed',
+                    'left', 'fill', 'center', 'justify', 'right')
+vertical:垂直对齐（'distributed', 'top', 'center', 'justify', 'bottom'）
+&quot;&quot;&quot;
+a1.alignment = ali
+ 
+# 设置图案填充
+ 
+fill = PatternFill('solid', fgColor='FFA500')
+# 颜色一般使用十六进制RGB
+# 'solid'是图案填充类型，详细可查阅文档
+ 
+a1.fill = fill
+</code></pre>
+<p><a href="https://openpyxl.readthedocs.io/en/stable/api/openpyxl.styles.fills.html">openpyxl.styles.fills模块参数文档</a></p>
+<pre><code># 设置边框
+bian = Side(style='medium', color='000000')    # 设置边框样式
+&quot;&quot;&quot;
+style:边框线的风格{'dotted','slantDashDot','dashDot','hair','mediumDashDot',
+        'dashed','mediumDashed','thick','dashDotDot','medium',
+        'double','thin','mediumDashDotDot'}
+&quot;&quot;&quot;
+ 
+border = Border(top=bian, bottom=bian, left=bian, right=bian)
+&quot;&quot;&quot;
+top（上）,bottom（下）,left（左）,right（右）:必须是 Side类型
+diagonal: 斜线 side类型 
+diagonalDownd: 右斜线 bool
+diagonalDown: 左斜线 bool
+&quot;&quot;&quot;
+ 
+# a1.border = border
+for item in ws['A1:E1'][0]:   # 去元组中的每一个cell更改样式
+    item.border = border
+ 
+wb.save('./5a.xlsx')  # 保存更改
+</code></pre>
+<p>再次注意！！！：</p>
+<p>不能使用 a1.border = border，否则只会如下图情况，B1：E1单元格没有线。我个人认为是因为线框涉及到相邻单元格边框的改动所以需要单独对每个单元格修改才行。
+不能使用ws['A1:E1'].border = border,由前面的内容可知，openpyxl的多个单元格其实是一个元组，而元组是没有style的方法的,所以必须一个一个改！！其实官方有其他办法，后面讲。</p>
+<h3 id="按列或行设置样式">按列或行设置样式</h3>
+<pre><code># 现在我们对整个表进行设置
+ 
+# 读取
+wb = load_workbook('./5a.xlsx')
+ws = wb['5a_']
+ 
+# 读取数据表格范围
+rows = ws.max_row
+cols = ws.max_column
+ 
+# 字体
+font1 = Font(name='微软雅黑', size=11, b=True)
+font2 = Font(name='微软雅黑', size=11)
+ 
+# 边框
+line_t = Side(style='thin', color='000000')  # 细边框
+line_m = Side(style='medium', color='000000')  # 粗边框
+border1 = Border(top=line_m, bottom=line_t, left=line_t, right=line_t)
+# 与标题相邻的边设置与标题一样
+border2 = Border(top=line_t, bottom=line_t, left=line_t, right=line_t)
+ 
+# 填充
+fill = PatternFill('solid', fgColor='CFCFCF')
+ 
+# 对齐
+alignment = Alignment(horizontal='center', vertical='center')
+ 
+# 将样式打包命名
+sty1 = NamedStyle(name='sty1', font=font1, fill=fill,
+                  border=border1, alignment=alignment)
+sty2 = NamedStyle(name='sty2', font=font2, border=border2, alignment=alignment)
+ 
+for r in range(2, rows+1):
+    for c in range(1, cols):
+        if r == 2:
+            ws.cell(r, c).style = sty1
+        else:
+            ws.cell(r, c).style = sty2
+ 
+wb.save('./5a.xlsx')
+</code></pre>
+<h3 id="最后">最后：</h3>
+<p><img src="https://policx.github.io/post-images/1560761595658.jpeg" alt=""></p>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/pythonopenpyxlxlsxwriter">
+              <h3 class="post-title">
+                python操作excel的包(openpyxl、xlsxwriter)
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
