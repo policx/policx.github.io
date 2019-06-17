@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>iOS计算App缓存的大小以及清理 | 江湖</title>
+<title>小米 | 江湖</title>
 <link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560776297012">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -103,74 +103,20 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              iOS计算App缓存的大小以及清理
+              小米
             </h2>
             <div class="post-info">
               <time class="post-time">
-                · 2016-08-02 ·
+                · 2014-09-20 ·
               </time>
               
             </div>
             
-              <div class="post-feature-image" style="background-image: url('https://images.pexels.com/photos/7111/couch-conference-startup-bro-concentration.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500')">
-              </div>
-            
             <div class="post-content">
-              <h2 id="一-计算缓存">一、计算缓存</h2>
-<pre><code>// 缓存大小
-- (CGFloat)folderSize{
-    CGFloat folderSize;
-    //获取路径
-    NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,NSUserDomainMask,YES)firstObject];
-    
-    //获取所有文件的数组
-    NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:cachePath];
-    
-    NSLog(@&quot;文件数：%ld&quot;,files.count);
-    
-    for(NSString *path in files) {
-        
-        NSString*filePath = [cachePath stringByAppendingString:[NSString stringWithFormat:@&quot;/%@&quot;,path]];
-      
-  //累加
-        folderSize += [[NSFileManager defaultManager]attributesOfItemAtPath:filePath error:nil].fileSize; 
-    }
-    //转换为M为单位
-    CGFloat sizeM = folderSize /1024.0/1024.0;
-   
- return sizeM;
-}
-</code></pre>
-<h2 id="二-清除缓存">二、清除缓存</h2>
-<pre><code>- (void)removeCache{
-    //===============清除缓存==============
-    //获取路径
-    NSString*cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,NSUserDomainMask,YES)objectAtIndex:0];
-    
-    //返回路径中的文件数组
-    NSArray*files = [[NSFileManager defaultManager]subpathsAtPath:cachePath];
-    
-    NSLog(@&quot;文件数：%ld&quot;,[files count]);
-    for(NSString *p in files){
-        NSError*error;
-        
-        NSString*path = [cachePath stringByAppendingString:[NSString stringWithFormat:@&quot;/%@&quot;,p]];
-        
-        if([[NSFileManager defaultManager]fileExistsAtPath:path])
-               {
-            BOOL isRemove = [[NSFileManager defaultManager]removeItemAtPath:path error:&amp;error];
-            if(isRemove) {
-                NSLog(@&quot;清除成功&quot;);
-                //这里发送一个通知给外界，外界接收通知，可以做一些操作（比如UIAlertViewController）
-            }else{
-         
-                NSLog(@&quot;清除失败&quot;);
-                
-            } 
-        }
-    }
-}
-</code></pre>
+              <p>昨天，接到了小米的电话，这个刚刚满二十岁小伙子说自己有些感到孤单，我半开玩笑的说：去谈恋爱吧。
+二十岁，一个多少人羡慕的年龄，我在二十岁的时候，还在象牙塔中读书，小米已然工作了一年。话语中他流露出与社会间的不完全融入，苦了他了。
+惭愧的是我写下这段文字的时候，我并没有能够给他足够的可行性建议，更多的是一个倾听者。
+我感谢他能在不如意的时候想到我，</p>
 
             </div>
           </article>
@@ -179,9 +125,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://policx.github.io/post/2016">
+            <a href="https://policx.github.io/post/sjz">
               <h3 class="post-title">
-                WWDC 2016
+                石家庄
               </h3>
             </a>
           </div>

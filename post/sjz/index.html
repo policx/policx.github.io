@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>iOS计算App缓存的大小以及清理 | 江湖</title>
+<title>石家庄 | 江湖</title>
 <link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560776297012">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -103,74 +103,18 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              iOS计算App缓存的大小以及清理
+              石家庄
             </h2>
             <div class="post-info">
               <time class="post-time">
-                · 2016-08-02 ·
+                · 2014-09-20 ·
               </time>
               
             </div>
             
-              <div class="post-feature-image" style="background-image: url('https://images.pexels.com/photos/7111/couch-conference-startup-bro-concentration.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500')">
-              </div>
-            
             <div class="post-content">
-              <h2 id="一-计算缓存">一、计算缓存</h2>
-<pre><code>// 缓存大小
-- (CGFloat)folderSize{
-    CGFloat folderSize;
-    //获取路径
-    NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,NSUserDomainMask,YES)firstObject];
-    
-    //获取所有文件的数组
-    NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:cachePath];
-    
-    NSLog(@&quot;文件数：%ld&quot;,files.count);
-    
-    for(NSString *path in files) {
-        
-        NSString*filePath = [cachePath stringByAppendingString:[NSString stringWithFormat:@&quot;/%@&quot;,path]];
-      
-  //累加
-        folderSize += [[NSFileManager defaultManager]attributesOfItemAtPath:filePath error:nil].fileSize; 
-    }
-    //转换为M为单位
-    CGFloat sizeM = folderSize /1024.0/1024.0;
-   
- return sizeM;
-}
-</code></pre>
-<h2 id="二-清除缓存">二、清除缓存</h2>
-<pre><code>- (void)removeCache{
-    //===============清除缓存==============
-    //获取路径
-    NSString*cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,NSUserDomainMask,YES)objectAtIndex:0];
-    
-    //返回路径中的文件数组
-    NSArray*files = [[NSFileManager defaultManager]subpathsAtPath:cachePath];
-    
-    NSLog(@&quot;文件数：%ld&quot;,[files count]);
-    for(NSString *p in files){
-        NSError*error;
-        
-        NSString*path = [cachePath stringByAppendingString:[NSString stringWithFormat:@&quot;/%@&quot;,p]];
-        
-        if([[NSFileManager defaultManager]fileExistsAtPath:path])
-               {
-            BOOL isRemove = [[NSFileManager defaultManager]removeItemAtPath:path error:&amp;error];
-            if(isRemove) {
-                NSLog(@&quot;清除成功&quot;);
-                //这里发送一个通知给外界，外界接收通知，可以做一些操作（比如UIAlertViewController）
-            }else{
-         
-                NSLog(@&quot;清除失败&quot;);
-                
-            } 
-        }
-    }
-}
-</code></pre>
+              <p><img src="https://policx.github.io/post-images/1560775853525.png" alt="">
+再次来到这座城，当火车到达车站的时候，我才意识到我很久没有来过了。火车站具体的位置没有弄清楚，但是真的很气派的建筑，恍惚间以为是北京南站。市内公交（至少我坐的那路）比北京的要好，或许是新车的原因。晚饭和面对一桌的初次见面的人，我抿了十分之一杯白酒，却感觉晕乎乎的。此刻躺在宾馆的床上，微困。</p>
 
             </div>
           </article>
@@ -179,9 +123,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://policx.github.io/post/2016">
+            <a href="https://policx.github.io/post/wang-jing-xi">
               <h3 class="post-title">
-                WWDC 2016
+                望京西
               </h3>
             </a>
           </div>
