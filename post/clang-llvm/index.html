@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>深入剖析-iOS-编译-Clang---LLVM | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -129,7 +129,7 @@
 <p>将编译器之前对于编译的前世今生也是需要了解的，比如回答下这个问题，编译器程序是用什么编译的？看看 <a href="https://book.douban.com/subject/1436811/">《linkers and loaders》</a> 这本书就知道了。</p>
 <h1 id="编译流程">编译流程</h1>
 <p>在列出完整步骤之前可以先看个简单例子。看看是如何完成一次编译的。</p>
-<pre><code class="language-objective-c">#import &lt;Foundation/Foundation.h&gt;
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
 #define DEFINEEight 8
 
 int main(){
@@ -166,7 +166,7 @@ int main(){
 <pre><code>clang -E main.m
 </code></pre>
 <p>执行完后可以看到文件</p>
-<pre><code class="language-objective-c"># 1 “/System/Library/Frameworks/Foundation.framework/Headers/FoundationLegacySwiftCompatibility.h” 1 3
+<pre><code># 1 “/System/Library/Frameworks/Foundation.framework/Headers/FoundationLegacySwiftCompatibility.h” 1 3
 # 185 “/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h” 2 3
 # 2 “main.m” 2
 
@@ -1185,7 +1185,7 @@ public:
 <p>以 <strong>attribute</strong>(xx) 的语法格式出现，是 Clang 提供的一些能够让开发者在编译过程中参与一些源码控制的方法。下面列一些会用到的用法：</p>
 <h2 id="attributeformatnsstring-f-a-格式化字符串"><strong>attribute</strong>((format(<strong>NSString</strong>, F, A))) 格式化字符串</h2>
 <p>可以查看 NSLog 的用法</p>
-<pre><code class="language-objective-c">FOUNDATION_EXPORT void NSLog(NSString *format, …) NS_FORMAT_FUNCTION(1,2) NS_NO_TAIL_CALL;
+<pre><code>FOUNDATION_EXPORT void NSLog(NSString *format, …) NS_FORMAT_FUNCTION(1,2) NS_NO_TAIL_CALL;
 
 // Marks APIs which format strings by taking a format string and optional varargs as arguments
 #if !defined(NS_FORMAT_FUNCTION)
@@ -1198,12 +1198,12 @@ public:
 </code></pre>
 <h2 id="attributedeprecateds-版本弃用提示"><strong>attribute</strong>((deprecated(s))) 版本弃用提示</h2>
 <p>在编译过程中能够提示开发者该方法或者属性已经被弃用</p>
-<pre><code class="language-objective-c">- (void)preMethod:( NSString *)string __attribute__((deprecated(“preMethod已经被弃用，请使用newMethod”)));
+<pre><code>- (void)preMethod:( NSString *)string __attribute__((deprecated(“preMethod已经被弃用，请使用newMethod”)));
 - (void)deprecatedMethod DEPRECATED_ATTRIBUTE; //也可以直接使用DEPRECATED_ATTRIBUTE这个系统定义的宏
 </code></pre>
 <h2 id="attributeavailabilityosintroducedmdeprecatedn-obsoletedomessage-va_args-指明使用版本范围"><strong>attribute</strong>((availability(os,introduced=m,deprecated=n, obsoleted=o,message=“” <strong>VA_ARGS</strong>))) 指明使用版本范围</h2>
 <p>os 指系统的版本，m 指明引入的版本，n 指明过时的版本，o 指完全不用的版本，message 可以写入些描述信息。</p>
-<pre><code class="language-objective-c">- (void)method __attribute__((availability(ios,introduced=3_0,deprecated=6_0,obsoleted=7_0,message=“iOS3到iOS7版本可用，iOS7不能用”)));
+<pre><code>- (void)method __attribute__((availability(ios,introduced=3_0,deprecated=6_0,obsoleted=7_0,message=“iOS3到iOS7版本可用，iOS7不能用”)));
 </code></pre>
 <h2 id="attributeunavailable-方法不可用提示"><strong>attribute</strong>((unavailable(…))) 方法不可用提示</h2>
 <p>这个会在编译过程中告知方法不可用，如果使用了还会让编译失败。</p>
@@ -1216,7 +1216,7 @@ public:
 <h2 id="attributecleanup-作用域结束时自动执行一个指定方法"><strong>attribute</strong>((cleanup(…))) 作用域结束时自动执行一个指定方法</h2>
 <p>作用域结束包括大括号结束，return，goto，break，exception 等情况。这个动作是先于这个对象的 dealloc 调用的。</p>
 <p>Reactive Cocoa 中有个比较好的使用范例，@onExit 这个宏，定义如下：</p>
-<pre><code class="language-objective-c">#define onExit \
+<pre><code>#define onExit \
     rac_keywordify \
     __strong rac_cleanupBlock_t metamacro_concat(rac_exitBlock_, __LINE__) __attribute__((cleanup(rac_executeCleanupBlock), unused)) = ^
 
@@ -1225,7 +1225,7 @@ static inline void rac_executeCleanupBlock (__strong rac_cleanupBlock_t *block) 
 }
 </code></pre>
 <p>这样可以在就可以很方便的把需要成对出现的代码写在一起了。同样可以在 Reactive Cocoa 看到其使用</p>
-<pre><code class="language-objective-c">if (property != NULL) {
+<pre><code>if (property != NULL) {
         rac_propertyAttributes *attributes = rac_copyPropertyAttributes(property);
         if (attributes != NULL) {
             @onExit {
@@ -1244,7 +1244,7 @@ static inline void rac_executeCleanupBlock (__strong rac_cleanupBlock_t *block) 
 <p>可以看出 attributes 的设置和释放都在一起使得代码的可读性得到了提高。</p>
 <h2 id="attributeoverloadable-方法重载"><strong>attribute</strong>((overloadable)) 方法重载</h2>
 <p>能够在 c 的函数上实现方法重载。即同样的函数名函数能够对不同参数在编译时能够自动根据参数来选择定义的函数</p>
-<pre><code class="language-objective-c">__attribute__((overloadable)) void printArgument(int number){
+<pre><code>__attribute__((overloadable)) void printArgument(int number){
     NSLog(@“Add Int %i”, number);
 }
 
@@ -1272,7 +1272,7 @@ __attribute__((overloadable)) void printArgument(NSNumber *number){
 <p>通过这个特性，可以做些比较好玩的事情，比如说类已经 load 完了，是不是可以在 constructor 中对想替换的类进行替换，而不用加在特定类的 +load 方法里。</p>
 <h1 id="clang-警告处理">Clang 警告处理</h1>
 <p>先看看这个</p>
-<pre><code class="language-objective-c">#pragma clang diagnostic push
+<pre><code>#pragma clang diagnostic push
 #pragma clang diagnostic ignored “-Wdeprecated-declarations”
         sizeLabel = [self sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
 #pragma clang diagnostic pop
@@ -1327,7 +1327,7 @@ print asciitree.draw_tree(translation_unit.cursor,
 <p>官方有个文档开发者可以按照这个里面的说明去构造 LLVM，clang 和其工具： <a href="http://clang.llvm.org/docs/LibASTMatchersTutorial.html">Tutorial for building tools using LibTooling and LibASTMatchers — Clang 4.0 documentation</a></p>
 <p>按照说明编译完成后进入 LLVM 的目录 ~/llvm/tools/clang/tools/ 在这了可以创建自己的 clang 工具。这里有个范例： <a href="https://github.com/objcio/issue-6-compiler-tool">GitHub - objcio/issue-6-compiler-tool: Example code for a standalone clang/llvm tool.</a> 可以直接 make 成一个二进制文件。</p>
 <p>下面是检查 target 对象中是否有对应的 action 方法存在检查的一个例子</p>
-<pre><code class="language-Objective-c">@interface Observer
+<pre><code>@interface Observer
 + (instancetype)observerWithTarget:(id)target action:(SEL)selector;
 @end
 </code></pre>
@@ -1687,7 +1687,7 @@ attributes PURE_INSTRUCTIONS SOME_INSTRUCTIONS
 <p>addr 的值表示代码的位置地址，在上面反汇编的代码里可以看到地址是一样的，offset 表示在文件中的偏移量。</p>
 <p>单个文件的就这样了，但是工程都是多个源文件的，那么多个文件是怎么合成一个可执行文件的呢？那么建多个文件来看看先。
 Foo.h</p>
-<pre><code class="language-Objective-c">#import &lt;Foundation/Foundation.h&gt;
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
 
 @interface Foo : NSObject
 
@@ -1696,7 +1696,7 @@ Foo.h</p>
 @end
 </code></pre>
 <p>Foo.m</p>
-<pre><code class="language-Objective-c">#import “Foo.h”
+<pre><code>#import “Foo.h”
 
 @implementation Foo
 
@@ -1708,7 +1708,7 @@ Foo.h</p>
 @end
 </code></pre>
 <p>SayHi.m</p>
-<pre><code class="language-Objective-c">#import “Foo.h”
+<pre><code>#import “Foo.h”
 
 int main(int argc, char *argv[])
 {
@@ -1987,10 +1987,8 @@ du -h -d 1
 <li><a href="https://github.com/loarabia/Clang-tutorial">GitHub - loarabia/Clang-tutorial: A collection of code samples showing usage of clang and llvm as a library</a></li>
 <li><a href="http://stackoverflow.com/questions/3297986/using-an-external-xcode-clang-static-analyzer-binary-with-additional-checks">Using an external Xcode Clang Static Analyzer binary, with additional checks - Stack Overflow</a></li>
 <li><a href="http://llvm.org/devmtg/">LLVM Developers’ Metting</a></li>
+<li><a href="https://github.com/ming1016/study/wiki">ming1016</a></li>
 </ul>
-<blockquote>
-<p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
-</blockquote>
 
             </div>
           </article>

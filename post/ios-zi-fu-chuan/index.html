@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>iOS字符串  | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -121,13 +121,13 @@
 <ul>
 <li>最灵活的方法</li>
 </ul>
-<pre><code class="language-objective-c">- (NSRange)rangeOfString:(NSString *)aString options:(NSStringCompareOptions)mask range:(NSRange)searchRange locale:(NSLocale *)locale
+<pre><code>- (NSRange)rangeOfString:(NSString *)aString options:(NSStringCompareOptions)mask range:(NSRange)searchRange locale:(NSLocale *)locale
 </code></pre>
 <h1 id="格式化字符串">格式化字符串</h1>
 <ul>
 <li>3个方法</li>
 </ul>
-<pre><code class="language-objective-c">-initWithFormat:
+<pre><code>-initWithFormat:
 -initWithFormat:arguments:
 +stringWithFormat:
 </code></pre>
@@ -135,7 +135,7 @@
 <ul>
 <li>可以同时工作在32位和64位的</li>
 </ul>
-<pre><code class="language-objective-c">uint64_t p = 2305843009213693951;
+<pre><code>uint64_t p = 2305843009213693951;
 NSString *s = [NSString stringWithFormat:@&quot;The ninth Mersenne prime is %llu&quot;, (unsigned long long) p];
 // &quot;The ninth Mersenne prime is 2305843009213693951&quot;
 </code></pre>
@@ -188,7 +188,7 @@ NSString *s = [NSString stringWithFormat:@&quot;The ninth Mersenne prime is %llu
 <ul>
 <li>转换规则</li>
 </ul>
-<pre><code class="language-objective-c">int m = -150004021;
+<pre><code>int m = -150004021;
 uint n = 150004021U;
 NSString *s = [NSString stringWithFormat:@&quot;d:%d i:%i o:%o u:%u x:%x X:%X&quot;, m, m, n, n, n, n];
 // &quot;d:-150004021 i:-150004021 o:1074160465 u:150004021 x:8f0e135 X:8F0E135&quot;
@@ -197,7 +197,7 @@ NSString *s = [NSString stringWithFormat:@&quot;d:%d i:%i o:%o u:%u x:%x X:%X&qu
 <ul>
 <li>设置最小字段宽度和最小数字位数</li>
 </ul>
-<pre><code class="language-objective-c">int m = 42;
+<pre><code>int m = 42;
 NSString *s = [NSString stringWithFormat:@&quot;'%4d' '%-4d' '%+4d' '%4.3d' '%04d'&quot;, m, m, m, m, m];
 // &quot;[ 42] [42 ] [ +42] [ 042] [0042]&quot;
 m = -42;
@@ -211,7 +211,7 @@ NSString *s = [NSString stringWithFormat:@&quot;'%4d' '%-4d' '%+4d' '%4.3d' '%04
 <ul>
 <li>使用%f和%g</li>
 </ul>
-<pre><code class="language-objective-c">double v[5] = {12345, 12, 0.12, 0.12345678901234, 0.0000012345678901234};
+<pre><code>double v[5] = {12345, 12, 0.12, 0.12345678901234, 0.0000012345678901234};
 NSString *s = [NSString stringWithFormat:@&quot;%g %g %g %g %g&quot;, v[0], v[1], v[2], v[3], v[4]];
 // &quot;12345 12 0.12 0.123457 1.23457e-06&quot;
 NSString *s = [NSString stringWithFormat:@&quot;%f %f %f %f %f&quot;, v[0], v[1], v[2], v[3], v[4]];
@@ -221,7 +221,7 @@ NSString *s = [NSString stringWithFormat:@&quot;%f %f %f %f %f&quot;, v[0], v[1]
 <ul>
 <li>使用\n来</li>
 </ul>
-<pre><code class="language-objective-c">NSString *limerick = @&quot;A lively young damsel named Menzies\n&quot;
+<pre><code>NSString *limerick = @&quot;A lively young damsel named Menzies\n&quot;
 @&quot;Inquired: «Do you know what this thenzies?»\n&quot;
 @&quot;Her aunt, with a gasp,\n&quot;
 @&quot;Replied: &quot;It's a wasp,\n&quot;
@@ -230,12 +230,12 @@ NSString *s = [NSString stringWithFormat:@&quot;%f %f %f %f %f&quot;, v[0], v[1]
 <ul>
 <li>等价写法</li>
 </ul>
-<pre><code class="language-objective-c">NSString *limerick = @&quot;A lively young damsel named Menzies\nInquired: «Do you know what this thenzies?»\nHer aunt, with a gasp,\nReplied: &quot;It's a wasp,\nAnd you're holding the end where the stenzies.\n&quot;;
+<pre><code>NSString *limerick = @&quot;A lively young damsel named Menzies\nInquired: «Do you know what this thenzies?»\nHer aunt, with a gasp,\nReplied: &quot;It's a wasp,\nAnd you're holding the end where the stenzies.\n&quot;;
 </code></pre>
 <ul>
 <li>更简洁的方法</li>
 </ul>
-<pre><code class="language-objective-c">NSString * string = @&quot;The man &quot; @&quot;who knows everything &quot; @&quot;learns nothing&quot; @&quot;.&quot;;
+<pre><code>NSString * string = @&quot;The man &quot; @&quot;who knows everything &quot; @&quot;learns nothing&quot; @&quot;.&quot;;
 </code></pre>
 <h1 id="替换字符串">替换字符串</h1>
 <ul>
@@ -256,7 +256,7 @@ NSString *s = [NSString stringWithFormat:@&quot;%f %f %f %f %f&quot;, v[0], v[1]
 <ul>
 <li>NSMutableString不会创建新字符串，性能会好点</li>
 </ul>
-<pre><code class="language-objective-c">NSMutableString *string; // 假设我们已经有了一个名为 string 的字符串
+<pre><code>NSMutableString *string; // 假设我们已经有了一个名为 string 的字符串
 // 现在要去掉它的一个前缀，做法如下:
 NSString *prefix = @&quot;WeDon’tWantThisPrefix&quot;
 NSRange r = [string rangeOfString:prefix options:NSAnchoredSearch range:NSMakeRange(0, string.length) locale:nil];
@@ -265,12 +265,12 @@ if (r.location != NSNotFound) {
 }
 </code></pre>
 <h1 id="连接字符串">连接字符串</h1>
-<pre><code class="language-objective-c">NSArray *names = @[&quot;Hildr&quot;, @&quot;Heidrun&quot;, @&quot;Gerd&quot;, @&quot;Guðrún&quot;, @&quot;Freya&quot;, @&quot;Nanna&quot;, @&quot;Siv&quot;, @&quot;Skaði&quot;, @&quot;Gróa&quot;];
+<pre><code>NSArray *names = @[&quot;Hildr&quot;, @&quot;Heidrun&quot;, @&quot;Gerd&quot;, @&quot;Guðrún&quot;, @&quot;Freya&quot;, @&quot;Nanna&quot;, @&quot;Siv&quot;, @&quot;Skaði&quot;, @&quot;Gróa&quot;];
 NSString *result = [names componentsJoinedByString:@&quot;, &quot;];
 </code></pre>
 <h1 id="字符串解析">字符串解析</h1>
 <h2 id="正则表达式">正则表达式</h2>
-<pre><code class="language-objective-c">NSError *error = nil;
+<pre><code>NSError *error = nil;
 NSString *pattern = @&quot;(\\w+) = #(\\p{Hex_Digit}{6})&quot;;
 NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:pattern
 options:0
@@ -282,7 +282,7 @@ NSString *key = [string substringWithRange:[result rangeAtIndex:1]];
 NSString *value = [string substringWithRange:[result rangeAtIndex:2]];
 </code></pre>
 <p>将字符串分解成数组，使用componentsSeparatedByString:这个方法，或者enumerateSubstringsInRange:options:usingBlock:。如果是按照行来进行分解可以使用option这个参数传NSStringEnumerationByLines</p>
-<pre><code class="language-objective-c">NSString *input = @“
+<pre><code>NSString *input = @“
 backgroundColor = #ff0000
 textColor = #0000ff
 &quot;
@@ -306,7 +306,7 @@ return result;
 <ul>
 <li>NSScanner</li>
 </ul>
-<pre><code class="language-objective-c">NSScanner *scanner = [NSScanner scannerWithString:string];
+<pre><code>NSScanner *scanner = [NSScanner scannerWithString:string];
 //默认情况下，扫描器会跳过所有空格符和换行符。但这里我们只希望跳过空格符
 scanner.charactersToBeSkipped = [NSCharacterSet whitespaceCharacterSet];
 //定义一个十六进制字符集
@@ -333,7 +333,7 @@ return result;
 <ul>
 <li>设计一个能够用(100,0,255)或者#ff0000这样的字符来定义颜色的方法。</li>
 </ul>
-<pre><code class="language-objective-c">- (NSDictionary *)parse:(NSString *)string error:(NSError **)error
+<pre><code>- (NSDictionary *)parse:(NSString *)string error:(NSError **)error
 {
      self.scanner = [NSScanner scannerWithString:string];
      self.scanner.charactersToBeSkipped = [NSCharacterSet whitespaceCharacterSet];
@@ -399,7 +399,7 @@ return result;
 <pre><code>myView.left = otherView.right * 2 + 10
 viewController.view.centerX + myConstant &lt;= self.view.centerX
 </code></pre>
-<pre><code class="language-objective-c">NSScanner *scanner = [NSScanner scannerWithString:contents];
+<pre><code>NSScanner *scanner = [NSScanner scannerWithString:contents];
 NSMutableArray *tokens = [NSMutableArray array];
 while (![scanner isAtEnd]) {
      for (NSString *operator in @[@&quot;=&quot;, @&quot;+&quot;, @&quot;*&quot;, @&quot;&gt;=&quot;, @&quot;&lt;=&quot;, @&quot;.&quot;]) {
@@ -433,7 +433,7 @@ NSArray *expected = @[@&quot;myConstant&quot;, @&quot;=&quot;, @100, @&quot;myVi
 XCTAssertEqualObjects(result, expected);
 </code></pre>
 <p>进行语法解析，需要语法分析库描述我们的语言。下面代码就是为那个布局约束语言写的解析语法，用的扩展的巴科斯范式<a href="http://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form">EBNF</a>写法：</p>
-<pre><code class="language-objective-c">constraint = expression comparator expression
+<pre><code>constraint = expression comparator expression
 comparator = &quot;=&quot; | &quot;&gt;=&quot; | &quot;&lt;=&quot;
 expression = keyPath &quot;.&quot; attribute addMultiplier addConstant
 keyPath = identifier | identifier &quot;.&quot; keyPath
@@ -443,7 +443,7 @@ addConstant = &quot;+&quot; atom
 atom = number | identifier
 </code></pre>
 <p>还有很多Objective-C的语法解析，更多的可以在CocoaPods上找到：<a href="http://cocoapods.org/?q=parse">http://cocoapods.org/?q=parse</a>。比较好的就是CoreParse，地址：<a href="https://github.com/beelsebob/CoreParse">https://github.com/beelsebob/CoreParse</a>，但是需要使用它支持的语法。下面就是CoreParse支持的格式：</p>
-<pre><code class="language-objective-c">NSString* grammarString = [@[
+<pre><code>NSString* grammarString = [@[
      @&quot;Atom ::= num@'Number' | ident@'Identifier';&quot;,
      @&quot;Constant ::= name@'Identifier' '=' value@&lt;Atom&gt;;&quot;,
      @&quot;Relation ::= '=' | '&gt;=' | '&lt;=';&quot;,
@@ -458,7 +458,7 @@ atom = number | identifier
 ] componentsJoinedByString:@&quot;\n&quot;];
 </code></pre>
 <p>一个规则匹配后解析器就找到同样名称的类</p>
-<pre><code class="language-objective-c">- (id)parser:(CPParser *)parser didProduceSyntaxTree:(CPSyntaxTree *)syntaxTree
+<pre><code>- (id)parser:(CPParser *)parser didProduceSyntaxTree:(CPSyntaxTree *)syntaxTree
      NSString *ruleName = syntaxTree.rule.name;
      if ([ruleName isEqualToString:@&quot;Attribute&quot;]) {
           return self.layoutAttributes[[[syntaxTree childAtIndex:0] keyword]];
@@ -467,10 +467,10 @@ atom = number | identifier
 }
 </code></pre>
 <p>完整的解析器代码在：<a href="https://github.com/objcio/issue-9-string-parsing">https://github.com/objcio/issue-9-string-parsing</a>。里面有个解析类可以用来解析复杂的布局约束，如下：</p>
-<pre><code class="language-objective-c">viewController.view.centerX + 20 &lt;= self.view.centerX * 0.5
+<pre><code>viewController.view.centerX + 20 &lt;= self.view.centerX * 0.5
 </code></pre>
 <p>可以得到如下结果，方便转换成NSLayoutConstraint对象</p>
-<pre><code class="language-objective-c">(&lt;Expression: self.keyPath=(viewController, view),
+<pre><code>(&lt;Expression: self.keyPath=(viewController, view),
      self.attribute=9,
      self.multiplier=1,
      self.constant=20&gt;
@@ -503,7 +503,7 @@ atom = number | identifier
 </ul>
 <h2 id="tableview中显示动态文本">TableView中显示动态文本</h2>
 <p>Table view的Delegate有个方法用来计算高度：tableView:heightForRowAtIndexPath:。自定义一个UITableViewCell的子类</p>
-<pre><code class="language-objective-c">- (void)layoutSubviews
+<pre><code>- (void)layoutSubviews
 {
      [super layoutSubviews];
      self.textLabel.frame = CGRectInset(self.bounds,
@@ -512,7 +512,7 @@ atom = number | identifier
 }
 </code></pre>
 <p>计算真实高度需要使用boundingRectWithSize:options:context: 这个方法</p>
-<pre><code class="language-objective-c">- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+<pre><code>- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
      CGFloat labelWidth = self.tableView.bounds.size.width - MyTableViewCellInset*2;
      NSAttributedString *text = [self attributedBodyTextAtIndexPath:indexPath];
@@ -527,7 +527,7 @@ atom = number | identifier
 </code></pre>
 <h2 id="使用text-kit和nsattributedstring进行布局">使用Text Kit和NSAttributedString进行布局</h2>
 <p>先设置attributes</p>
-<pre><code class="language-objective-c">CGFloat const fontSize = 15;
+<pre><code>CGFloat const fontSize = 15;
 
 NSMutableDictionary *body1stAttributes = [NSMutableDictionary dictionary];
 body1stAttributes[NSFontAttributeName] = [UIFont fontWithName:@&quot;BodoniSvtyTwoITCTT-Book&quot;
@@ -541,14 +541,14 @@ body1stAttributes[NSParagraphStyleAttributeName] = body1stParag
 raph;
 </code></pre>
 <p>这里字体为BodoniSvtyTwoITCTT，如果需要查看更多字体可以使用 +[UIFont familyNames]这个方法。为了得到字体的名字，可以使用 +[UIFont fontNamesForFamilyName:]。接下来创建段落的属性</p>
-<pre><code class="language-objective-c">NSMutableDictionary *bodyAttributes = [body1stAttributes mutableCopy];
+<pre><code>NSMutableDictionary *bodyAttributes = [body1stAttributes mutableCopy];
 NSMutableParagraphStyle *bodyParagraph =
      [bodyAttributes[NSParagraphStyleAttributeName] mutableCopy];
 bodyParagraph.firstLineHeadIndent = fontSize;
 bodyAttributes[NSParagraphStyleAttributeName] = bodyParagraph;
 </code></pre>
 <p>装饰段落风格，使用装饰字体将文本居中对齐，装饰字符的前后加上空白段落</p>
-<pre><code class="language-objective-c">NSMutableDictionary *ornamentAttributes = [NSMutableDictionary dictionary];
+<pre><code>NSMutableDictionary *ornamentAttributes = [NSMutableDictionary dictionary];
 ornamentAttributes[NSFontAttributeName] = [UIFont fontWithName:@&quot;BodoniOrnamentsITCTT&quot;
      size:36];
 NSMutableParagraphStyle *ornamentParagraph = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -558,7 +558,7 @@ ornamentParagraph.paragraphSpacing = fontSize;
 ornamentAttributes[NSParagraphStyleAttributeName] = ornamentParagraph;
 </code></pre>
 <p>显示数字表格table，表格布局示例</p>
-<pre><code class="language-objective-c">NSCharacterSet *decimalTerminator = [NSCharacterSet
+<pre><code>NSCharacterSet *decimalTerminator = [NSCharacterSet
      characterSetWithCharactersInString:decimalFormatter.decimalSeparator];
 NSTextTab *decimalTab = [[NSTextTab alloc]
      initWithTextAlignment:NSTextAlignmentCenter
@@ -572,7 +572,7 @@ NSMutableParagraphStyle *tableParagraphStyle =
 tableParagraphStyle.tabStops = @[decimalTab, percentTab];
 </code></pre>
 <p>显示列表的属性设置如下</p>
-<pre><code class="language-objective-c">NSMutableDictionary *listAttributes = [bodyAttributes mutableCopy];
+<pre><code>NSMutableDictionary *listAttributes = [bodyAttributes mutableCopy];
 NSMutableParagraphStyle *listParagraph =
      [listAttributes[NSParagraphStyleAttributeName] mutableCopy];
 listParagraph.headIndent = fontSize * 3;
@@ -585,7 +585,7 @@ listAttributes[NSParagraphStyleAttributeName] = listParagraph;
 </code></pre>
 <h1 id="字符串本地化">字符串本地化</h1>
 <ul>
-<li>使用NSLocalizedString，可查看文章《字符串本地化》：（中文）<a href="http://objccn.io/issue-9-3/">http://objccn.io/issue-9-3/</a> （英文）<a href="http://www.objc.io/issue-9/string-localization.html">http://www.objc.io/issue-9/string-localization.html</a></li>
+<li>使用NSLocalizedString，可查看文章《字符串本地化》：<a href="http://objccn.io/issue-9-3">（中文）</a><a href="http://www.objc.io/issue-9/string-localization.html">（英文）</a></li>
 </ul>
 <p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
 

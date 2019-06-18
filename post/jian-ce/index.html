@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>检测iOS的APP性能的一些方法 | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -134,7 +134,7 @@
 <p>通过Time Profier可以查看到启动所占用的时间，如果太长可以通过Heaviest Stack Trace找到费时的方法进行改造。</p>
 <h1 id="监控卡顿的方法">监控卡顿的方法</h1>
 <p>还有种方法是在程序里去监控性能问题。可以先看看这个Demo，地址<a href="https://github.com/ming1016/DecoupleDemo">https://github.com/ming1016/DecoupleDemo</a>。 这样在上线后可以通过这个程序将用户的卡顿操作记录下来，定时发到自己的服务器上，这样能够更大范围的收集性能问题。众所周知，用户层面感知的卡顿都是来自处理所有UI的主线程上，包括在主线程上进行的大计算，大量的IO操作，或者比较重的绘制工作。如何监控主线程呢，首先需要知道的是主线程和其它线程一样都是靠NSRunLoop来驱动的。可以先看看CFRunLoopRun的大概的逻辑</p>
-<pre><code class="language-C">int32_t __CFRunLoopRun()
+<pre><code>int32_t __CFRunLoopRun()
 {
     __CFRunLoopDoObservers(KCFRunLoopEntry);
     do
@@ -181,7 +181,7 @@
 }
 </code></pre>
 <p>根据这个RunLoop我们能够通过CFRunLoopObserverRef来度量。用GCD里的dispatch_semaphore_t开启一个新线程，设置一个极限值和出现次数的值，然后获取主线程上在kCFRunLoopBeforeSources到kCFRunLoopBeforeWaiting再到kCFRunLoopAfterWaiting两个状态之间的超过了极限值和出现次数的场景，将堆栈dump下来，最后发到服务器做收集，通过堆栈能够找到对应出问题的那个方法。</p>
-<pre><code class="language-C">static void runLoopObserverCallBack(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info)
+<pre><code>static void runLoopObserverCallBack(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info)
 {
     MyClass *object = (__bridge MyClass*)info;
     object-&gt;activity = activity;
@@ -252,7 +252,7 @@ static void runLoopObserverCallBack(CFRunLoopObserverRef observer, CFRunLoopActi
 <p>有时候造成卡顿是因为数据异常，过多，或者过大造成的，亦或者是操作的异常出现的，这样的情况可能在平时日常开发测试中难以遇到，但是在真实的特别是用户受众广的情况下会有人出现，这样这种收集卡顿的方式还是有价值的。</p>
 <h2 id="堆栈dump的方法">堆栈dump的方法</h2>
 <p>第一种是直接调用系统函数获取栈信息，这种方法只能够获得简单的信息，没法配合dSYM获得具体哪行代码出了问题，类型也有限。这种方法的主要思路是signal进行错误信号的获取。代码如下</p>
-<pre><code class="language-Objective-c">static int s_fatal_signals[] = {
+<pre><code>static int s_fatal_signals[] = {
     SIGABRT,
     SIGBUS,
     SIGFPE,
@@ -294,7 +294,7 @@ int main(int argc, char * argv[]) {
 }
 </code></pre>
 <p>使用PLCrashReporter的话出的报告看起来能够定位到问题代码的具体位置了。</p>
-<pre><code class="language-Objective-c">NSData *lagData = [[[PLCrashReporter alloc]
+<pre><code>NSData *lagData = [[[PLCrashReporter alloc]
                                           initWithConfiguration:[[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeBSD symbolicationStrategy:PLCrashReporterSymbolicationStrategyAll]] generateLiveReport];
 PLCrashReport *lagReport = [[PLCrashReport alloc] initWithData:lagData error:NULL];
 NSString *lagReportString = [PLCrashReportTextFormatter stringValueForCrashReport:lagReport withTextFormat:PLCrashReportTextFormatiOS];
@@ -576,9 +576,7 @@ Binary Images:
 2016-03-28 14:59:35.586 HomePageTest[4803:201212] 费时测试
 
 </code></pre>
-<blockquote>
 <p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
-</blockquote>
 
             </div>
           </article>

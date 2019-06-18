@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Camera | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -159,7 +159,7 @@
 <li>AVCaptureVideoPreviewLayer：CALayer的子类，用于自动显示相机产生的实时图像，</li>
 </ul>
 <h3 id="捕捉设置">捕捉设置</h3>
-<pre><code class="language-swift">//先需要一个AVCaptureSession对象
+<pre><code>//先需要一个AVCaptureSession对象
 let session = AVCaptureSession()
 
 //接着遍历所能提供视频数据设备并检查position属性。
@@ -243,7 +243,7 @@ session.sessionPreset = AVCaptureSessionPresetPhoto //AVCaptureSessionPresetPhot
 </code></pre>
 <h3 id="操作相机">操作相机</h3>
 <p>到了iOS8后可以对所有参数进行手动调整了。包括镜头光圈。</p>
-<pre><code class="language-swift">//先启动相机
+<pre><code>//先启动相机
 sessionQueue = dispatch_queue_create(&quot;com.example.camera.capture_session&quot;, DISPATCH_QUEUE_SERIAL)
 dispatch_async(sessionQueue) { () -&gt; Void in
      self.session.startRunning()
@@ -267,7 +267,7 @@ else {
 <li>ContinuousAutoFocus：场景改变自动重新对焦到画面中心点</li>
 </ul>
 <p>对焦可以使用UISlider设置，类似单反对焦环。手动对焦有个辅助标识指向清晰区域，可以通过对焦峰值（focus peaking）将对焦区域高亮显示的方式，方法是使用阈值边缘（threshold edge）滤镜，自定义CIFilter或GPUImageThresholdEdgeDetectionFilter，并调用AVCaptureAudioDataOutputSampleBufferDelegate下的captureOutput(_:didOutputSampleBuffer:fromConnection:)方法将它覆盖到实时预览图上。</p>
-<pre><code class="language-swift">//设置对焦模式需要在锁定后
+<pre><code>//设置对焦模式需要在锁定后
 let focusMode:AVCaptureFocusMode = ...
 if currentCameraDevice.isFocusModeSupported(focusMode) {
      ... // 锁定以进行配置
@@ -297,7 +297,7 @@ currentCameraDevice.setFocusModeLockedWithLensPosition(lensPosition) {
 </code></pre>
 <h3 id="曝光">曝光</h3>
 <p>曝光档数范围在minExposureTargetBias和maxExposureTargetBias之间。0为默认没有补偿</p>
-<pre><code class="language-swift">var exposureBias:Float = ... // 在 minExposureTargetBias 和 maxExposureTargetBias 之间的值
+<pre><code>var exposureBias:Float = ... // 在 minExposureTargetBias 和 maxExposureTargetBias 之间的值
 ... // 锁定，配置
 currentDevice.setExposureTargetBias(exposureBias) { (time:CMTime) -&gt; Void in
 }
@@ -316,7 +316,7 @@ currentDevice.setExposureModeCustomWithDuration(duration, ISO: iso) { (time:CMTi
 </code></pre>
 <h3 id="白平衡">白平衡</h3>
 <p>iOS8可以手动控制白平衡。可以通过开尔文所表示的温度来调节色温和色彩。典型色温值在2000-3000K（类似蜡烛或灯泡的暖光源）到8000K（纯净的蓝色天空）之间。色彩范围从最小的-150（偏绿）到150（偏品红）。</p>
-<pre><code class="language-swift">var incandescentLightCompensation = 3_000
+<pre><code>var incandescentLightCompensation = 3_000
 var tint = 0 // 不调节
 let temperatureAndTintValues = AVCaptureWhiteBalanceTemperatureAndTintValues(temperature: incandescentLightCompensation, tint: tint)
 var deviceGains = currentCameraDevice.deviceWhiteBalanceGainsForTemperatureAndTintValues(temperatureAndTintValues)
@@ -329,7 +329,7 @@ currentCameraDevice.setWhiteBalanceModeLockedWithDeviceWhiteBalanceGains(deviceG
 </code></pre>
 <h3 id="实时人脸检测">实时人脸检测</h3>
 <p>使用AVCaptureMetadataOutput可以检测人脸和二维码。</p>
-<pre><code class="language-swift">var metadataOutput = AVCaptureMetadataOutput()
+<pre><code>var metadataOutput = AVCaptureMetadataOutput()
 metadataOutput.setMetadataObjectsDelegate(self, queue: self.sessionQueue)
 if session.canAddOutput(metadataOutput) {
      session.addOutput(metadataOutput)
@@ -346,7 +346,7 @@ func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects met
 </code></pre>
 <h3 id="捕捉静态图片">捕捉静态图片</h3>
 <p>捕捉高分辨率图像调用captureStillImageAsynchronouslyFromConnection(connection, completionHandler)。在视觉上反应图片捕捉何时开始以及何时结束可以使用KVO来观察AVCaptureStillImageOutput的isCapturingStillImage属性。</p>
-<pre><code class="language-swift">dispatch_async(sessionQueue) { () -&gt; Void in
+<pre><code>dispatch_async(sessionQueue) { () -&gt; Void in
 
      let connection = self.stillCameraOutput.connectionWithMediaType(AVMediaTypeVideo)
 
@@ -380,7 +380,7 @@ func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects met
 </code></pre>
 <h3 id="分级捕捉">分级捕捉</h3>
 <p>通过设定-1，0，-1三个不同曝光档数用HDR算法合并成一张。</p>
-<pre><code class="language-swift">dispatch_async(sessionQueue) { () -&gt; Void in
+<pre><code>dispatch_async(sessionQueue) { () -&gt; Void in
      let connection = self.stillCameraOutput.connectionWithMediaType(AVMediaTypeVideo)
      connection.videoOrientation = AVCaptureVideoOrientation(rawValue: UIDevice.currentDevice().orientation.rawValue)!
 
@@ -463,9 +463,7 @@ return retval;
 </code></pre>
 <h2 id="元数据">元数据</h2>
 <p>存储图像信息的标准格式是Exif（可交换图像文件格式）。通常会保存照相时间日期，快门速度和光圈，设备支持还会包括GPS坐标。可以使用CGImageSourceCopyPropertiesAtIndex方法访问Exif信息。</p>
-<blockquote>
 <p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
-</blockquote>
 
             </div>
           </article>

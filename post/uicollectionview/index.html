@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>UICollectionView | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -128,7 +128,7 @@
 <h1 id="基于内容的布局计算自定义布局">基于内容的布局计算自定义布局</h1>
 <p>子类重写的方法可以参考官方文档：<a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewLayout_class/Reference/Reference.html">https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewLayout_class/Reference/Reference.html</a></p>
 <h1 id="collectionviewcontentsize">collectionViewContentSize</h1>
-<pre><code class="language-objective-c">- (CGSize)collectionViewContentSize
+<pre><code>- (CGSize)collectionViewContentSize
 {
      //不能水平滚动
      CGFloat contentWidth = self.collectionView.bounds.size.width;
@@ -141,7 +141,7 @@
 }
 </code></pre>
 <h1 id="布局中最重要的方法layoutattributesforelementsinrect">布局中最重要的方法layoutAttributesForElementsInRect:</h1>
-<pre><code class="language-objective-c">- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
+<pre><code>- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
      NSMutableArray *layoutAttributes = [NSMutableArray array];
      // Cells
@@ -174,7 +174,7 @@ atIndexPath:indexPath];
 }
 </code></pre>
 <h1 id="layoutattributesforitematindexpath">layoutAttributesForItemAtIndexPath:</h1>
-<pre><code class="language-objective-c">- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
+<pre><code>- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
      CalendarDataSource *dataSource = self.collectionView.dataSource;
      id event = [dataSource eventAtIndexPath:indexPath];
@@ -185,7 +185,7 @@ atIndexPath:indexPath];
 }
 </code></pre>
 <h1 id="shouldinvalidatelayoutforboundschange">shouldInvalidateLayoutForBoundsChange:</h1>
-<pre><code class="language-objective-c">- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+<pre><code>- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
 {
      CGRect oldBounds = self.collectionView.bounds;
      if (CGRectGetWidth(newBounds) != CGRectGetWidth(oldBounds)) {
@@ -208,10 +208,8 @@ atIndexPath:indexPath];
 <h1 id="范例">范例</h1>
 <ul>
 <li>自定义布局范例：<a href="https://github.com/objcio/issue-3-collection-view-layouts">https://github.com/objcio/issue-3-collection-view-layouts</a></li>
+<li><a href="https://github.com/ming1016/study/wiki">ming1016</a></li>
 </ul>
-<blockquote>
-<p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
-</blockquote>
 
             </div>
           </article>

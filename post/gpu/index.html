@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>GPU处理图像 | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -128,7 +128,7 @@
 </ul>
 <h1 id="shader使用范例">Shader使用范例</h1>
 <h2 id="vertex-shader">Vertex shader</h2>
-<pre><code class="language-objective-c">attribute vec4 position;
+<pre><code>attribute vec4 position;
 attribute vec4 inputTextureCoordinate；
 varying vec2 textureCoordinate;
 void main()
@@ -139,7 +139,7 @@ void main()
 </code></pre>
 <h2 id="fragment-shader">Fragment shader</h2>
 <p>直通滤镜</p>
-<pre><code class="language-objective-c">varying highp vec2 textureCoordinate; //highp属性负责变量精度，这个被加入可以提高效率
+<pre><code>varying highp vec2 textureCoordinate; //highp属性负责变量精度，这个被加入可以提高效率
 uniform sampler2D inputImageTexture; //接收一个图片的引用，当做2D的纹理，这个数据类型就是smpler2D。
 void main()
 {
@@ -363,9 +363,7 @@ void main()
 <li>GPU Gems <a href="http://http.developer.nvidia.com/GPUGems/gpugems_part01.html">http://http.developer.nvidia.com/GPUGems/gpugems_part01.html</a></li>
 <li>GPU Pro: Advanced Rendering Techniques <a href="http://www.amazon.com/GPU-Pro-Advanced-Rendering-Techniques/dp/1568814720/ref=sr_1_4?s=books&amp;ie=UTF8&amp;qid=1422837427&amp;sr=1-4&amp;keywords=gpu+pro">http://www.amazon.com/GPU-Pro-Advanced-Rendering-Techniques/dp/1568814720/ref=sr_1_4?s=books&amp;ie=UTF8&amp;qid=1422837427&amp;sr=1-4&amp;keywords=gpu+pro</a></li>
 </ul>
-<blockquote>
 <p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
-</blockquote>
 
             </div>
           </article>

@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>iOS基础集合类 | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -122,19 +122,19 @@
 <li>逆序，array.reverseObjectEnumerator.allObjects</li>
 <li>数组中是字符串对象排序首选sortedArrayUsingSelector:</li>
 </ul>
-<pre><code class="language-objective-c">NSArray *array = @[@&quot;John Appleseed&quot;, @&quot;Tim Cook&quot;, @&quot;Hair Force One&quot;, @&quot;Michael Jurewitz&quot;];
+<pre><code>NSArray *array = @[@&quot;John Appleseed&quot;, @&quot;Tim Cook&quot;, @&quot;Hair Force One&quot;, @&quot;Michael Jurewitz&quot;];
 NSArray *sortedArray = [array sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 </code></pre>
 <ul>
 <li>存储内容是数字</li>
 </ul>
-<pre><code class="language-objective-c">NSArray *numbers = @[@9, @5, @11, @3, @1];
+<pre><code>NSArray *numbers = @[@9, @5, @11, @3, @1];
 NSArray *sortedNumbers = [numbers sortedArrayUsingSelector:@selector(compare:)];
 </code></pre>
 <ul>
 <li>使用函数指针sortedArrayHint排序</li>
 </ul>
-<pre><code class="language-objective-c">- (NSData *)sortedArrayHint;
+<pre><code>- (NSData *)sortedArrayHint;
 - (NSArray *)sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))comparator
      context:(void *)context;
 - (NSArray *)sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))comparator
@@ -143,7 +143,7 @@ NSArray *sortedNumbers = [numbers sortedArrayUsingSelector:@selector(compare:)];
 <ul>
 <li>基于block的排序方法</li>
 </ul>
-<pre><code class="language-objective-c">- (NSArray *)sortedArrayUsingComparator:(NSComparator)cmptr;
+<pre><code>- (NSArray *)sortedArrayUsingComparator:(NSComparator)cmptr;
 - (NSArray *)sortedArrayWithOptions:(NSSortOptions)opts
      usingComparator:(NSComparator)cmptr;
 </code></pre>
@@ -155,7 +155,7 @@ NSArray *sortedNumbers = [numbers sortedArrayUsingSelector:@selector(compare:)];
 <ul>
 <li>更快的二分查找</li>
 </ul>
-<pre><code class="language-objective-c">typedef NS_OPTIONS(NSUInteger, NSBinarySearchingOptions) {
+<pre><code>typedef NS_OPTIONS(NSUInteger, NSBinarySearchingOptions) {
      NSBinarySearchingFirstEqual = (1UL &lt;&lt; 8),
      NSBinarySearchingLastEqual = (1UL &lt;&lt; 9),
      NSBinarySearchingInsertionIndex = (1UL &lt;&lt; 10),
@@ -172,7 +172,7 @@ NSArray *sortedNumbers = [numbers sortedArrayUsingSelector:@selector(compare:)];
 <ul>
 <li>使用indexesOfObjectsWithOptions:passingTest:</li>
 </ul>
-<pre><code class="language-objective-c">NSIndexSet *indexes = [randomArray indexesOfObjectsWithOptions:NSEnumerationConcurrent
+<pre><code>NSIndexSet *indexes = [randomArray indexesOfObjectsWithOptions:NSEnumerationConcurrent
      passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
      return testObj(obj);
 }];
@@ -181,7 +181,7 @@ NSArray *filteredArray = [randomArray objectsAtIndexes:indexes];
 <ul>
 <li>传统的枚举</li>
 </ul>
-<pre><code class="language-objective-c">NSMutableArray *mutableArray = [NSMutableArray array];
+<pre><code>NSMutableArray *mutableArray = [NSMutableArray array];
 for (id obj in randomArray) {
      if (testObj(obj)) {
           [mutableArray addObject:obj];
@@ -191,7 +191,7 @@ for (id obj in randomArray) {
 <ul>
 <li>block方式枚举</li>
 </ul>
-<pre><code class="language-objective-c">NSMutableArray *mutableArray = [NSMutableArray array];
+<pre><code>NSMutableArray *mutableArray = [NSMutableArray array];
 [randomArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
      if (testObj(obj)) {
           [mutableArray addObject:obj];
@@ -201,7 +201,7 @@ for (id obj in randomArray) {
 <ul>
 <li>通过下标objectAtIndex:</li>
 </ul>
-<pre><code class="language-objective-c">NSMutableArray *mutableArray = [NSMutableArray array];
+<pre><code>NSMutableArray *mutableArray = [NSMutableArray array];
 for (NSUInteger idx = 0; idx &lt; randomArray.count; idx++) {
      id obj = randomArray[idx];
      if (testObj(obj)) {
@@ -212,7 +212,7 @@ for (NSUInteger idx = 0; idx &lt; randomArray.count; idx++) {
 <ul>
 <li>使用比较传统的学院派NSEnumerator</li>
 </ul>
-<pre><code class="language-objective-c">NSMutableArray *mutableArray = [NSMutableArray array];
+<pre><code>NSMutableArray *mutableArray = [NSMutableArray array];
 NSEnumerator *enumerator = [randomArray objectEnumerator];
 id obj = nil;
 while ((obj = [enumerator nextObject]) != nil) {
@@ -224,7 +224,7 @@ while ((obj = [enumerator nextObject]) != nil) {
 <ul>
 <li>使用predicate</li>
 </ul>
-<pre><code class="language-objective-c">NSArray *filteredArray2 = [randomArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id obj, NSDictionary *bindings) {
+<pre><code>NSArray *filteredArray2 = [randomArray filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id obj, NSDictionary *bindings) {
      return testObj(obj);
 }]];
 </code></pre>
@@ -282,7 +282,7 @@ while ((obj = [enumerator nextObject]) != nil) {
 <p>同样数目的值，NSDictionary比NSArray要花费多得多的内存空间</p>
 <h2 id="排序">排序</h2>
 <p>使用NSArray的排序方法将键数组排序为新的对象</p>
-<pre><code class="language-objective-c">- (NSArray *)keysSortedByValueUsingSelector:(SEL)comparator;
+<pre><code>- (NSArray *)keysSortedByValueUsingSelector:(SEL)comparator;
 - (NSArray *)keysSortedByValueUsingComparator:(NSComparator)cmptr;
 - (NSArray *)keysSortedByValueWithOptions:(NSSortOptions)opts
      usingComparator:(NSComparator)cmptr;
@@ -291,7 +291,7 @@ while ((obj = [enumerator nextObject]) != nil) {
 <ul>
 <li>keysOfEntriesWithOptions:passingTest:，可并行</li>
 </ul>
-<pre><code class="language-objective-c">NSSet *matchingKeys = [randomDict keysOfEntriesWithOptions:NSEnumerationConcurrent
+<pre><code>NSSet *matchingKeys = [randomDict keysOfEntriesWithOptions:NSEnumerationConcurrent
 passingTest:^BOOL(id key, id obj, BOOL *stop)
 {
      return testObj(obj);
@@ -304,7 +304,7 @@ __unused NSDictionary *filteredDictionary = [NSDictionary dictionaryWithObjects:
 <ul>
 <li>getObjects:andKeys: 枚举，基于c数组</li>
 </ul>
-<pre><code class="language-objective-c">NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];
+<pre><code>NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];
 id __unsafe_unretained objects[numberOfEntries];
 id __unsafe_unretained keys[numberOfEntries];
 [randomDict getObjects:objects andKeys:keys];
@@ -319,7 +319,7 @@ for (int i = 0; i &lt; numberOfEntries; i++) {
 <ul>
 <li>block枚举</li>
 </ul>
-<pre><code class="language-objective-c">NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];
+<pre><code>NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];
 [randomDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
      if (testObj(obj)) {
           mutableDictionary[key] = obj;
@@ -329,7 +329,7 @@ for (int i = 0; i &lt; numberOfEntries; i++) {
 <ul>
 <li>NSFastEnumeration</li>
 </ul>
-<pre><code class="language-objective-c">NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];
+<pre><code>NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];
 for (id key in randomDict) {
      id obj = randomDict[key];
      if (testObj(obj)) {
@@ -340,7 +340,7 @@ for (id key in randomDict) {
 <ul>
 <li>NSEnumeration</li>
 </ul>
-<pre><code class="language-objective-c">NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];
+<pre><code>NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionary];
 NSEnumerator *enumerator = [randomDict keyEnumerator];
 id key = nil;
 while ((key = [enumerator nextObject]) != nil) {

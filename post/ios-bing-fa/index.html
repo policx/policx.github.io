@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>iOS并发编程 | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -116,11 +116,9 @@
               </div>
             
             <div class="post-content">
-              <p>包含GCD，Operation Queues，Run Loops，如何在后台绘制UI，后台I/O处理，最佳安全实践避免互斥锁死锁优先级反转等，以及如何使用GCD监视进程文件文件夹，并发测试的方案等。GDC队列，使用Barrier避免写死锁，dispatch_sync解决读死锁。两种GCD中Dispatch_groups发送通知的方法以及dispatch_block_cancel的使用示例。</p>
-<!-- more -->
-<h1 id="线程">线程</h1>
+              <h1 id="线程">线程</h1>
 <p>使用Instruments的CPU strategy view查看代码如何在多核CPU中执行。创建线程可以使用POSIX 线程API，或者NSThread（封装POSIX 线程API）。下面是并发4个线程在一百万个数字中找最小值和最大值的pthread例子：</p>
-<pre><code class="language-objective-c">#import &lt;pthread.h&gt;
+<pre><code>#import &lt;pthread.h&gt;
 
 struct threadInfo {
      uint32_t * inputValues;
@@ -192,7 +190,7 @@ int main(int argc, const char * argv[])
 }
 </code></pre>
 <p>使用NSThread来写</p>
-<pre><code class="language-objective-c">@interface FindMinMaxThread : NSThread
+<pre><code>@interface FindMinMaxThread : NSThread
 @property (nonatomic) NSUInteger min;
 @property (nonatomic) NSUInteger max;
 - (instancetype)initWithNumbers:(NSArray *)numbers;
@@ -250,7 +248,7 @@ for (NSUInteger i = 0; i &lt; threadCount; i++) {
 <li>可创建自定义队列：串行或并列队列。自定义一般放在Default Priority Queue和Main Queue里。</li>
 </ul>
 <h2 id="dispatch_once用法">dispatch_once用法</h2>
-<pre><code class="language-objective-c">+ (UIColor *)boringColor;
+<pre><code>+ (UIColor *)boringColor;
 {
      static UIColor *color;
      //只运行一次
@@ -263,7 +261,7 @@ for (NSUInteger i = 0; i &lt; threadCount; i++) {
 </code></pre>
 <h2 id="dispatch_async较常用">dispatch_async（较常用）</h2>
 <p>可以避免界面会被一些耗时的操作卡死，比如读取网络数据，大数据IO，还有大量数据的数据库读写，这时需要在另一个线程中处理，然后通知主线程更新界面，GCD使用起来比NSThread和NSOperation方法要简单方便。</p>
-<pre><code class="language-objective-c">//代码框架
+<pre><code>//代码框架
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
      // 耗时的操作
      dispatch_async(dispatch_get_main_queue(), ^{
@@ -284,7 +282,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 });
 </code></pre>
 <h2 id="dispatch_after延后执行">dispatch_after延后执行</h2>
-<pre><code class="language-objective-c">- (void)foo
+<pre><code>- (void)foo
 {
      double delayInSeconds = 2.0;
      dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t) (delayInSeconds * NSEC_PER_SEC));
@@ -310,7 +308,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 </code></pre>
 <h2 id="gcd队列">GCD队列</h2>
 <p>队列默认是串行的，只能执行一个单独的block，队列也可以是并行的，同一时间执行多个block</p>
-<pre><code class="language-objective-c">- (id)init;
+<pre><code>- (id)init;
 {
      self = [super init];
      if (self != nil) {
@@ -375,7 +373,7 @@ dispatch_async(GlobalUserInitiatedQueue) {
 </code></pre>
 <h2 id="使用barrier-task方法dispatch-barrier解决多线程并发读写同一个资源发生死锁">使用Barrier Task方法Dispatch Barrier解决多线程并发读写同一个资源发生死锁</h2>
 <p>Dispatch Barrier确保提交的闭包是指定队列中在特定时段唯一在执行的一个。在所有先于Dispatch Barrier的任务都完成的情况下这个闭包才开始执行。轮到这个闭包时barrier会执行这个闭包并且确保队列在此过程不会执行其它任务。闭包完成后队列恢复。</p>
-<pre><code class="language-objective-c">//创建队列
+<pre><code>//创建队列
 self.isolationQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_CONCURRENT);
 //改变setter
 - (void)setCount:(NSUInteger)count forKey:(NSString *)key
@@ -418,7 +416,7 @@ var photos: [Photo] {
 <p>都用异步处理避免死锁，异步的缺点在于调试不方便，但是比起同步容易产生死锁这个副作用还算小的。</p>
 <h2 id="异步api写法">异步API写法</h2>
 <p>设计一个异步的API调用dispatch_async()，这个调用放在API的方法或函数中做。让API的使用者设置一个回调处理队列</p>
-<pre><code class="language-objective-c">- (void)processImage:(UIImage *)image completionHandler:(void(^)(BOOL success))handler;
+<pre><code>- (void)processImage:(UIImage *)image completionHandler:(void(^)(BOOL success))handler;
 {
      dispatch_async(self.isolationQueue, ^(void){
           // do actual processing here
@@ -429,7 +427,7 @@ var photos: [Photo] {
 }
 </code></pre>
 <h2 id="dispatch_apply进行快速迭代">dispatch_apply进行快速迭代</h2>
-<pre><code class="language-objective-c">for (size_t y = 0; y &lt; height; ++y) {
+<pre><code>for (size_t y = 0; y &lt; height; ++y) {
      for (size_t x = 0; x &lt; width; ++x) {
           // Do something with x and y here
      }
@@ -535,7 +533,7 @@ dispatch_apply(height, dispatch_get_global_queue(0, 0), ^(size_t y) {
      }
 }
 </code></pre>
-<pre><code class="language-objective-c">dispatch_group_t group = dispatch_group_create();
+<pre><code>dispatch_group_t group = dispatch_group_create();
 
 dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
 dispatch_group_async(group, queue, ^(){
@@ -560,7 +558,7 @@ dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
 });
 </code></pre>
 <p>如何对现有API使用dispatch_group_t</p>
-<pre><code class="language-objective-c">//给Core Data的-performBlock:添加groups。组合完成任务后使用dispatch_group_notify来运行一个block即可。
+<pre><code>//给Core Data的-performBlock:添加groups。组合完成任务后使用dispatch_group_notify来运行一个block即可。
 - (void)withGroup:(dispatch_group_t)group performBlock:(dispatch_block_t)block
 {
      if (group == NULL) {
@@ -647,7 +645,7 @@ dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
 }
 </code></pre>
 <h2 id="用gcd监视进程">用GCD监视进程</h2>
-<pre><code class="language-objective-c">NSRunningApplication *mail = [NSRunningApplication runningApplicationsWithBundleIdentifier:@&quot;com.apple.mail&quot;];
+<pre><code>NSRunningApplication *mail = [NSRunningApplication runningApplicationsWithBundleIdentifier:@&quot;com.apple.mail&quot;];
 if (mail == nil) {
      return;
 }
@@ -660,7 +658,7 @@ dispatch_source_set_event_handler(self.source, ^(){
 dispatch_resume(self.source);
 </code></pre>
 <h2 id="监视文件夹内文件变化">监视文件夹内文件变化</h2>
-<pre><code class="language-objective-c">NSURL *directoryURL; // assume this is set to a directory
+<pre><code>NSURL *directoryURL; // assume this is set to a directory
 int const fd = open([[directoryURL path] fileSystemRepresentation], O_EVTONLY);
 if (fd &lt; 0) {
      char buffer[80];
@@ -687,7 +685,7 @@ dispatch_resume(self.source);
 //还要注意需要用DISPATCH_VNODE_DELETE 去检查监视的文件或文件夹是否被删除，如果删除了就停止监听
 </code></pre>
 <h2 id="gcd版定时器">GCD版定时器</h2>
-<pre><code class="language-objective-c">dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
+<pre><code>dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
 dispatch_source_set_event_handler(source, ^(){
      NSLog(@&quot;Time flies.&quot;);
 });
@@ -707,7 +705,7 @@ dispatch_resume(self.source);
 <p>使用NSOperation的两种方式。一种用定义好的两个子类NSInvocationOperation和NSBlockOperation，另一个是继承NSOperation。</p>
 <p>NSOperation是设计用来扩展的，只需继承重写NSOperation的一个方法main，然后把NSOperation子类的对象放入NSOperationQueue队列中，该队列就会启动并开始处理它。</p>
 <p>NSInvocationOperation例子</p>
-<pre><code class="language-objective-c">#import &quot;ViewController.h&quot;
+<pre><code>#import &quot;ViewController.h&quot;
 #define kURL @&quot;http://avatar.csdn.net/2/C/D/1_totogo2010.jpg&quot;
 
 @interface ViewController ()
@@ -742,7 +740,7 @@ dispatch_resume(self.source);
 <li>NSOperationQueue有主队列和自定义队列两种类型队列。主队列在主线程上运行，自定义队列在后台。</li>
 <li>重写main方法自定义自己的operations。较简单，不需要管理isExecuting和isFinished，main返回时operation就结束了。</li>
 </ul>
-<pre><code class="language-objective-c">@implementation YourOperation
+<pre><code>@implementation YourOperation
      - (void)main
      {
           // 进行处理 ...
@@ -752,7 +750,7 @@ dispatch_resume(self.source);
 <ul>
 <li>重写start方法能够获得更多的控制权，还可以在一个操作中执行异步任务</li>
 </ul>
-<pre><code class="language-objective-c">@implementation YourOperation
+<pre><code>@implementation YourOperation
      - (void)start
      {
           self.isExecuting = YES;
@@ -777,14 +775,14 @@ dispatch_resume(self.source);
 <ul>
 <li>定义好operation类以后，将一个operation加到队列里：</li>
 </ul>
-<pre><code class="language-objective-c">NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+<pre><code>NSOperationQueue *queue = [[NSOperationQueue alloc] init];
 YourOperation *operation = [[YourOperation alloc] init];
 [queue addOperation:operation];
 </code></pre>
 <ul>
 <li>如果是在主队列中进行一个一次性任务，可以将block加到操作队列</li>
 </ul>
-<pre><code class="language-objective-c">[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+<pre><code>[[NSOperationQueue mainQueue] addOperationWithBlock:^{
      // 代码...
 }];
 </code></pre>
@@ -792,7 +790,7 @@ YourOperation *operation = [[YourOperation alloc] init];
 <li>通过maxConcurrentOperationCount属性控制一个特定队列中并发执行操作的数量。设置为1就是串行队列。</li>
 <li>对operation优先级排序，指定operation之间的依赖关系。</li>
 </ul>
-<pre><code class="language-objective-c">//确保operation1和operation2是在intermediateOperation和finishOperation之前执行
+<pre><code>//确保operation1和operation2是在intermediateOperation和finishOperation之前执行
 [intermediateOperation addDependency:operation1];
 [intermediateOperation addDependency:operation2];
 [finishedOperation addDependency:intermediateOperation];
@@ -805,7 +803,7 @@ YourOperation *operation = [[YourOperation alloc] init];
 <li>Multiprocessing Services</li>
 </ul>
 <h2 id="创建方式">创建方式</h2>
-<pre><code class="language-objective-c">- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)argument //实例方法
+<pre><code>- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)argument //实例方法
 + (void)detachNewThreadSelector:(SEL)aSelector toTarget:(id)aTarget withObject:(id)anArgument //类方法
 
 //直接创建线程并且运行
@@ -819,7 +817,7 @@ object:nil];
 3、[Obj performSelectorInBackground:@selector(doSomething) withObject:nil];
 </code></pre>
 <p>示例</p>
-<pre><code class="language-objective-c">#import &quot;ViewController.h&quot;
+<pre><code>#import &quot;ViewController.h&quot;
 #define kURL @&quot;http://avatar.csdn.net/2/C/D/1_totogo2010.jpg&quot;
 @interface ViewController ()
 @end
@@ -853,7 +851,7 @@ object:nil];
 </code></pre>
 <h2 id="nsthread的线程同步使用nslock">NSThread的线程同步，使用NSLock</h2>
 <p>卖票的例子</p>
-<pre><code class="language-objective-c">#import &lt;UIKit/UIKit.h&gt;
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
 @class ViewController;
 @interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt;
 {
@@ -912,7 +910,7 @@ object:nil];
 <p>没有线程同步lock,卖票数可能会是-1.加上能够保证数据的正确。</p>
 <h2 id="nsthread线程的顺序执行同步">NSThread线程的顺序执行同步</h2>
 <p>可以通过[NSCondition signal]的方式发送信号，在一个线程唤醒另一个线程等待</p>
-<pre><code class="language-objective-c">#import &quot;AppDelegate.h&quot;
+<pre><code>#import &quot;AppDelegate.h&quot;
 #import &quot;ViewController.h&quot;
 @implementation AppDelegate
 
@@ -973,7 +971,7 @@ object:nil];
 <p>wait是等待，假啊一个线程3去唤醒其它两个线程锁中的wait</p>
 <h2 id="其它同步">其它同步</h2>
 <p>可以使用@synchronized来简化NSLock使用，这样就不必显示编写创建NSLock加锁并解锁相关代码。</p>
-<pre><code class="language-objective-c">- (void)doSomeThing:(id)anObj
+<pre><code>- (void)doSomeThing:(id)anObj
 {
      @synchronized(anObj)
      {
@@ -989,7 +987,7 @@ object:nil];
 </ul>
 <h1 id="在后台操作ui">在后台操作UI</h1>
 <h2 id="使用操作队列处理">使用操作队列处理</h2>
-<pre><code class="language-objective-c">//weak引用参照self避免循环引用，及block持有self，operationQueue retain了block，而self有retain了operationQueue。
+<pre><code>//weak引用参照self避免循环引用，及block持有self，operationQueue retain了block，而self有retain了operationQueue。
 __weak id weakSelf = self;
 [self.operationQueue addOperationWithBlock:^{
      NSNumber* result = findLargestMersennePrime();
@@ -1001,7 +999,7 @@ __weak id weakSelf = self;
 </code></pre>
 <h2 id="drawrect在后台绘制">drawRect在后台绘制</h2>
 <p>drawRect:方法会影响性能，所以可以放到后台执行。</p>
-<pre><code class="language-objective-c">//使用UIGraphicsBeginImageContextWithOptions取代UIGraphicsGetCurrentContext:方法
+<pre><code>//使用UIGraphicsBeginImageContextWithOptions取代UIGraphicsGetCurrentContext:方法
 UIGraphicsBeginImageContextWithOptions(size, NO, 0);
 // drawing code here
 UIImage *i = UIGraphicsGetImageFromCurrentImageContext();
@@ -1012,7 +1010,7 @@ return i;
 <p>还有个使用CALayer里drawsAsynchronously属性的方法。不过有时work，有时不一定。</p>
 <h1 id="网络异步请求">网络异步请求</h1>
 <p>网络都要使用异步方式，但是不要直接使用dispatch_async，这样没法取消这个网络请求。dataWithContentsOfURL:的超时是30秒，那么这个线程需要干等到超时完。解决办法就是使用NSURLConnection的异步方法，把所有操作转化成operation来执行。NSURLConnection是通过run loop来发送事件的。AFNetworking是建立一个独立的线程设置一个非main run loop。下面是处理URL连接重写自定义operation子类里的start方法</p>
-<pre><code class="language-objective-c">- (void)start
+<pre><code>- (void)start
 {
      NSURLRequest* request = [NSURLRequest requestWithURL:self.url];
      self.isExecuting = YES;
@@ -1025,7 +1023,7 @@ return i;
 }
 </code></pre>
 <p>重写start方法需要管理isExecuting和isFinished状态。下面是取消操作的方法</p>
-<pre><code class="language-objective-c">- (void)cancel
+<pre><code>- (void)cancel
 {
      [super cancel];
      [self.connection cancel];
@@ -1043,7 +1041,7 @@ return i;
 </code></pre>
 <h1 id="后台处理io">后台处理I/O</h1>
 <p>异步处理文件可以使用NSInputStream。官方文档：<a href="http://developer.apple.com/library/ios/#documentation/FileManagement/Conceptual/FileSystemProgrammingGUide/TechniquesforReadingandWritingCustomFiles/TechniquesforReadingandWritingCustomFiles.html">http://developer.apple.com/library/ios/#documentation/FileManagement/Conceptual/FileSystemProgrammingGUide/TechniquesforReadingandWritingCustomFiles/TechniquesforReadingandWritingCustomFiles.html</a> 实例：<a href="https://github.com/objcio/issue-2-background-file-io">https://github.com/objcio/issue-2-background-file-io</a></p>
-<pre><code class="language-objective-c">@interface Reader : NSObject
+<pre><code>@interface Reader : NSObject
 - (void)enumerateLines:(void (^)(NSString*))block
      completion:(void (^)())completion;
 - (id)initWithFileAtPath:(NSString*)path;
@@ -1117,7 +1115,7 @@ completion:(void (^)())completion
 <p>在Objective-C中如果属性声明为atomic就能够支持互斥锁，但是因为加解锁会有性能代价，所以一般是声明noatomic的。</p>
 <h2 id="死锁">死锁</h2>
 <p>当多个线程在相互等待对方锁结束时就会发生死锁，程序可能会卡住。</p>
-<pre><code class="language-objective-c">void swap(A, B)
+<pre><code>void swap(A, B)
 {
      lock(lockA);
      lock(lockB);
@@ -1141,7 +1139,8 @@ swap(Y, X); // 线程 2
 <ul>
 <li>使用SenTestingKit框架测试：<a href="https://github.com/nxtbgthng/SenTestingKitAsync">https://github.com/nxtbgthng/SenTestingKitAsync</a></li>
 <li>kiwi：<a href="https://github.com/allending/Kiwi">https://github.com/allending/Kiwi</a></li>
-<li>GHunit：<a href="https://github.com/gabriel/gh-unit/">https://github.com/gabriel/gh-unit/</a></li>
+<li>GHunit：<a href="https://github.com/gabriel/gh-unit/">https://github.com/gabriel/gh-unit/</a>
+<a href="https://github.com/ming1016/study/wiki">ming1016</a></li>
 </ul>
 
             </div>

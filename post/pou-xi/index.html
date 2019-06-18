@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>深入剖析 iOS 性能优化 | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -124,7 +124,7 @@
 <p><img src="https://github.com/ming1016/study/blob/master/pic/deeply-ios-performance-optimization02.png?raw=true" alt=""></p>
 <p>图中可以看出 O(n) 是个分水岭，大于它对于性能就具有很大的潜在影响，如果是个公共的接口一定要加上说明，自己调用也要做到心中有数。当然最好是通过算法优化或者使用合适的系统接口方法，权衡内存消耗争取通过空间来换取时间。</p>
 <p>下面通过集合里是否有某个值来举个例子：</p>
-<pre><code class="language-objc">//O(1)
+<pre><code>//O(1)
 return array[idx] == value;
 
 //O(n)
@@ -159,7 +159,7 @@ return NO;
 <p>和 Set 差不多，多了键值对应。添加删除和查找都是 O(1) 的。需要注意的是 Keys 必须是符合 NSCopying。</p>
 <h3 id="containsobject-方法在数组和-set-里不同的实现">containsObject 方法在数组和 Set 里不同的实现</h3>
 <p>在数组中的实现</p>
-<pre><code class="language-objc">- (BOOL) containsObject: (id)anObject
+<pre><code>- (BOOL) containsObject: (id)anObject
 {
   return ([self indexOfObject: anObject] != NSNotFound);
 }
@@ -183,7 +183,7 @@ return NO;
 </code></pre>
 <p>可以看到会遍历所有元素在查找到后才进行返回.</p>
 <p>接下来可以看看 containsObject 在 Set 里的实现：</p>
-<pre><code class="language-objc">- (BOOL) containsObject: (id)anObject
+<pre><code>- (BOOL) containsObject: (id)anObject
 {
   return (([self member: anObject]) ? YES : NO);
 }
@@ -216,17 +216,17 @@ return NO;
 <li>使用 NSOperationQueues 的并发限制方法 NSOperationQueue.maxConcurrentOperationCount</li>
 </ul>
 <p>举个例子，下面的写法就比较危险，可能会造成线程爆炸和死锁</p>
-<pre><code class="language-objc">for (int i = 0; i &lt; 999; i++) {
+<pre><code>for (int i = 0; i &lt; 999; i++) {
     dispatch_async(q, ^{...});
 }
 dispatch_barrier_sync(q, ^{});
 </code></pre>
 <p><img src="https://github.com/ming1016/study/blob/master/pic/deeply-ios-performance-optimization05.png?raw=true" alt=""></p>
 <p>那么怎么能够避免呢？首先可以使用 dispatch_apply</p>
-<pre><code class="language-objc">dispatch_apply(999, q, ^(size_t i){...});
+<pre><code>dispatch_apply(999, q, ^(size_t i){...});
 </code></pre>
 <p>或者使用 dispatch_semaphore</p>
-<pre><code class="language-objc">#define CONCURRENT_TASKS 4sema = dispatch_semaphore_create(CONCURRENT_TASKS);for (int i = 0; i &lt; 999; i++){    dispatch_async(q, ^{        dispatch_semaphore_signal(sema);    });    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);}
+<pre><code>#define CONCURRENT_TASKS 4sema = dispatch_semaphore_create(CONCURRENT_TASKS);for (int i = 0; i &lt; 999; i++){    dispatch_async(q, ^{        dispatch_semaphore_signal(sema);    });    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);}
 </code></pre>
 <h3 id="gcd-相关-crash-日志">GCD 相关 Crash 日志</h3>
 <p>管理线程问题</p>
@@ -302,7 +302,7 @@ NSCache 具有字典的所有功能，同时还有如下的特性：</p>
 </ul>
 <p>那么 NSCache是如何做到这些特性的呢？</p>
 <p>接下来学习下 NSCache 是如何做的。首先 NSCache 是会持有一个 NSMutableDictionary。</p>
-<pre><code class="language-c">@implementation NSCache
+<pre><code>@implementation NSCache
 - (id) init
 {
   if (nil == (self = [super init]))
@@ -315,7 +315,7 @@ NSCache 具有字典的所有功能，同时还有如下的特性：</p>
 }
 </code></pre>
 <p>需要设计一个 Cached 对象结构来保存一些额外的信息</p>
-<pre><code class="language-c">@interface _GSCachedObject : NSObject
+<pre><code>@interface _GSCachedObject : NSObject
 {
   @public
   id object; //cache 的值
@@ -327,7 +327,7 @@ NSCache 具有字典的所有功能，同时还有如下的特性：</p>
 @end
 </code></pre>
 <p>在 Cache 读取的时候会对 _accesses 数组的添加删除通过 isEvictable 布尔值来保证线程安全操作。使用 Cached 对象里的 accessCount 属性进行 +1 操作为后面自动清理的条件判断做准备。具体实现如下：</p>
-<pre><code class="language-c">- (id) objectForKey: (id)key
+<pre><code>- (id) objectForKey: (id)key
 {
   _GSCachedObject *obj = [_objects objectForKey: key];
   if (nil == obj)
@@ -346,7 +346,7 @@ NSCache 具有字典的所有功能，同时还有如下的特性：</p>
 }
 </code></pre>
 <p>在每次 Cache 添加时会先去检查是否自动清理，会创建一个 Cached 对象将 key，object，cost 等信息记录下添加到 _accesses 数组和 _objects 字典里。</p>
-<pre><code class="language-c">- (void) setObject: (id)obj forKey: (id)key cost: (NSUInteger)num
+<pre><code>- (void) setObject: (id)obj forKey: (id)key cost: (NSUInteger)num
 {
   _GSCachedObject *oldObject = [_objects objectForKey: key];
   _GSCachedObject *newObject;
@@ -373,7 +373,7 @@ NSCache 具有字典的所有功能，同时还有如下的特性：</p>
 </code></pre>
 <p>那么上面提到的自动清理内存的方法是如何实现的呢？
 既然是自动清理必定需要有触发时机和进入清理的条件判断，触发时机一个是发生在添加 Cache 内容时，一个是发生在内存警告时。条件判断代码如下：</p>
-<pre><code class="language-c">// cost 在添加新 cache 值时指定的 cost
+<pre><code>// cost 在添加新 cache 值时指定的 cost
 // _costLimit 是 totalCostLimit 属性值
 if (_costLimit &gt; 0 &amp;&amp; _totalCost + cost &gt; _costLimit){
     spaceNeeded = _totalCost + cost - _costLimit;
@@ -384,13 +384,13 @@ if (count &gt; 0 &amp;&amp; (spaceNeeded &gt; 0 || count &gt;= _countLimit))
 </code></pre>
 <p>所以 NSCache 的 totalCostLimit 的值会和每次 Cache 添加的 cost 之和对比，超出限制必然触发内存清理。</p>
 <p>清理时会对经常访问的 objects 不清理，主要是通过 _totalAccesses 和总数获得平均访问频率，如果那个对象的访问次数是小于平均值的才需要清理。</p>
-<pre><code class="language-c">//_totalAccesses 所有的值的访问都会 +1
+<pre><code>//_totalAccesses 所有的值的访问都会 +1
 NSUInteger averageAccesses = (_totalAccesses / count * 0.2) + 1;
 //accessCount 每次 obj 取值时会 +1
 if (obj-&gt;accessCount &lt; averageAccesses &amp;&amp; obj-&gt;isEvictable)
 </code></pre>
 <p>在清理之前还需要一些准备工作，包括标记 Cached 对象的 isEvictable 防止后面有不安全的线程操作。将满足条件的清理 objects 放到清理数组里，如果空间释放足够就不用再把更多的 objects 加到清理数组里了，最后遍历清理数组进行逐个清理即可。</p>
-<pre><code class="language-c">NSUInteger cost = obj-&gt;cost;
+<pre><code>NSUInteger cost = obj-&gt;cost;
 obj-&gt;cost = 0;
 // 不会被再次清除
 obj-&gt;isEvictable = NO;
@@ -408,7 +408,7 @@ if (cost &gt; spaceNeeded)
 spaceNeeded -= cost;
 </code></pre>
 <p>在清理时会执行回调内容，这样如果有些缓存数据需要持续化存储可以在回调里进行处理。</p>
-<pre><code class="language-c">- (void) removeObjectForKey: (id)key
+<pre><code>- (void) removeObjectForKey: (id)key
 {
     _GSCachedObject *obj = [_objects objectForKey: key];
     
@@ -423,7 +423,7 @@ spaceNeeded -= cost;
 </code></pre>
 <p>完整的实现可以查看 GNUstep Base 的 NSCache.m 文件。</p>
 <p>下面可以看看 NSCache 在 SDWebImage 的运用是怎么样的：</p>
-<pre><code class="language-objc">- (UIImage *)imageFromMemoryCacheForKey:(NSString *)key {
+<pre><code>- (UIImage *)imageFromMemoryCacheForKey:(NSString *)key {
     return [self.memCache objectForKey:key];
 }
 - (UIImage *)imageFromDiskCacheForKey:(NSString *)key {
@@ -445,23 +445,23 @@ spaceNeeded -= cost;
 <h2 id="控制-app-的-wake-次数">控制 App 的 Wake 次数</h2>
 <p>通知，VoIP，定位，蓝牙等都会使设备从 Standby 状态唤起。唤起这个过程会有比较大的消耗，应该避免频繁发生。通知方面主要要在产品层面多做考虑。定位方面，下面可以看看定位的一些 API 看看它们对性能的不同影响，便于考虑采用合适的接口。</p>
 <p>连续的位置更新</p>
-<pre><code class="language-objc">[locationManager startUpdatingLocation]
+<pre><code>[locationManager startUpdatingLocation]
 </code></pre>
 <p>这个方法会时设备一直处于活跃状态。</p>
 <p>延时有效定位</p>
-<pre><code class="language-objc">[locationManager allowDeferredLocationUpdatesUntilTraveled: timeout:]
+<pre><code>[locationManager allowDeferredLocationUpdatesUntilTraveled: timeout:]
 </code></pre>
 <p>高效节能的定位方式，数据会缓存在位置硬件上。适合于跑步应用应该都采用这种方式。</p>
 <p>重大位置变化</p>
-<pre><code class="language-objc">[locationManager startMonitoringSignificantLocationChanges]
+<pre><code>[locationManager startMonitoringSignificantLocationChanges]
 </code></pre>
 <p>会更节能，对于那些只有在位置有很大变化的才需要回调的应用可以采用这种，比如天气应用。</p>
 <p>区域监测</p>
-<pre><code class="language-objc">[locationManager startMonitoringForRegion:(CLRegion *)]
+<pre><code>[locationManager startMonitoringForRegion:(CLRegion *)]
 </code></pre>
 <p>也是一种节能的定位方式，比如在博物馆里按照不同区域监测展示不同信息之类的应用比较适合这种定位。</p>
 <p>经常访问的地方</p>
-<pre><code class="language-objc">// Start monitoringlocationManager.startMonitoringVisits()// Stop monitoring when no longer neededlocationManager.stopMonitoringVisits()
+<pre><code>// Start monitoringlocationManager.startMonitoringVisits()// Stop monitoring when no longer neededlocationManager.stopMonitoringVisits()
 </code></pre>
 <p>总的来说，不要轻易使用 startUpdatingLocation() 除非万不得已，尽快的使用 stopUpdatingLocation() 来结束定位还用户一个节能设备。</p>
 <h2 id="内存对于性能的影响">内存对于性能的影响</h2>
@@ -484,14 +484,14 @@ spaceNeeded -= cost;
 <p>打印堆栈整体思路是获取线程的信息得到线程的 state 从而得到线程里所有栈的指针，根据这些指针在 符号表里找到对应的描述即符号化解析，这样就能够展示出可读的堆栈信息。具体实现是怎样的呢？下面详细说说：</p>
 <h2 id="获取线程的信息">获取线程的信息</h2>
 <p>这里首先是要通过 task_threads 取到所有的线程，</p>
-<pre><code class="language-c">thread_act_array_t threads; //int 组成的数组比如 thread[1] = 5635
+<pre><code>thread_act_array_t threads; //int 组成的数组比如 thread[1] = 5635
 mach_msg_type_number_t thread_count = 0; //mach_msg_type_number_t 是 int 类型
 const task_t this_task = mach_task_self(); //int
 //根据当前 task 获取所有线程
 kern_return_t kr = task_threads(this_task, &amp;threads, &amp;thread_count);
 </code></pre>
 <p>遍历时通过 thread_info 获取各个线程的详细信息</p>
-<pre><code class="language-c">SMThreadInfoStruct threadInfoSt = {0};
+<pre><code>SMThreadInfoStruct threadInfoSt = {0};
 thread_info_data_t threadInfo;
 thread_basic_info_t threadBasicInfo;
 mach_msg_type_number_t threadInfoCount = THREAD_INFO_MAX;
@@ -510,13 +510,13 @@ NSMutableString *reStr = [NSMutableString stringWithFormat:@&quot;Stack of threa
 </code></pre>
 <h2 id="获取线程里所有栈的信息">获取线程里所有栈的信息</h2>
 <p>可以通过 thread_get_state 得到 machine context 里面包含了线程栈里所有的栈指针。</p>
-<pre><code class="language-c">_STRUCT_MCONTEXT machineContext; //线程栈里所有的栈指针
+<pre><code>_STRUCT_MCONTEXT machineContext; //线程栈里所有的栈指针
 //通过 thread_get_state 获取完整的 machineContext 信息，包含 thread 状态信息
 mach_msg_type_number_t state_count = smThreadStateCountByCPU();
 kern_return_t kr = thread_get_state(thread, smThreadStateByCPU(), (thread_state_t)&amp;machineContext.__ss, &amp;state_count);
 </code></pre>
 <p>创建一个栈结构体用来保存栈的数据</p>
-<pre><code class="language-c">//为通用回溯设计结构支持栈地址由小到大，地址里存储上个栈指针的地址
+<pre><code>//为通用回溯设计结构支持栈地址由小到大，地址里存储上个栈指针的地址
 typedef struct SMStackFrame {
     const struct SMStackFrame *const previous;
     const uintptr_t return_address;
@@ -537,7 +537,7 @@ for (; i &lt; 32; i++) {
 </code></pre>
 <h2 id="符号化">符号化</h2>
 <p>符号化主要思想就是通过栈指针地址减去 Slide 地址得到 ASLR 偏移量，通过这个偏移量可以在 __LINKEDIT segment 查找到字符串和符号表的位置。具体代码实现如下：</p>
-<pre><code class="language-c">info-&gt;dli_fname = NULL;
+<pre><code>info-&gt;dli_fname = NULL;
 info-&gt;dli_fbase = NULL;
 info-&gt;dli_sname = NULL;
 info-&gt;dli_saddr = NULL;
@@ -650,7 +650,7 @@ for (uint32_t iCmd = 0; iCmd &lt; machHeader-&gt;ncmds; iCmd++) {
 <p>hook c 函数可以使用 facebook 的 <a href="https://github.com/facebook/fishhook">fishhook</a>， 获取方法调用树状结构可以使用 <a href="https://github.com/DavidGoldman/InspectiveC">InspectiveC</a>，下面对于他们的实现详细介绍一下：</p>
 <h2 id="获取方法调用树结构">获取方法调用树结构</h2>
 <p>首先设计两个结构体，CallRecord 记录调用方法详细信息，包括 obj 和 SEL 等，ThreadCallStack 里面需要用 index 记录当前调用方法树的深度。有了 SEL 再通过 NSStringFromSelector 就能够取得方法名，有了 obj 通过 object_getClass 能够得到 Class 再用 NSStringFromClass 就能够获得类名。</p>
-<pre><code class="language-c">// Shared structures.
+<pre><code>// Shared structures.
 typedef struct CallRecord_ {
   id obj;   //通过 object_getClass 能够得到 Class 再通过 NSStringFromClass 能够得到类名
   SEL _cmd; //通过 NSStringFromSelector 方法能够得到方法名
@@ -674,7 +674,7 @@ typedef struct ThreadCallStack_ {
 </code></pre>
 <h2 id="存储读取-threadcallstack">存储读取 ThreadCallStack</h2>
 <p>pthread_setspecific() 可以将私有数据设置在指定线程上，pthread_getspecific() 用来读取这个私有数据，利用这个特性可以就可以将 ThreadCallStack 的数据和该线程绑定在一起，随时进行数据的存取。代码如下：</p>
-<pre><code class="language-c">static inline ThreadCallStack * getThreadCallStack() {
+<pre><code>static inline ThreadCallStack * getThreadCallStack() {
   ThreadCallStack *cs = (ThreadCallStack *)pthread_getspecific(threadKey); //读取
   if (cs == NULL) {
     cs = (ThreadCallStack *)malloc(sizeof(ThreadCallStack));
@@ -699,7 +699,7 @@ typedef struct ThreadCallStack_ {
 </code></pre>
 <h2 id="记录方法调用深度">记录方法调用深度</h2>
 <p>因为要记录深度，而一个方法的调用里会有更多的方法调用，所以方法的调用写两个方法分别记录开始 pushCallRecord 和记录结束的时刻 popCallRecord，这样才能够通过在开始时对深度加一在结束时减一。</p>
-<pre><code class="language-c">//开始时
+<pre><code>//开始时
 static inline void pushCallRecord(id obj, uintptr_t lr, SEL _cmd, ThreadCallStack *cs) {
   int nextIndex = (++cs-&gt;index); //增加深度
   if (nextIndex &gt;= cs-&gt;allocatedLength) {
@@ -723,7 +723,7 @@ static inline CallRecord * popCallRecord(ThreadCallStack *cs) {
 <h2 id="在-objc_msgsend-前后插入执行方法">在 objc_msgSend 前后插入执行方法</h2>
 <p>最后是 hook objc_msgSend 需要在调用前和调用后分别加入 pushCallRecord 和 popCallRecord。因为需要在调用后这个时机插入一个方法，而且不可能编写一个保留未知参数并跳转到 c 中任意函数指针的函数，那么这就需要用到汇编来做到。</p>
 <p>下面针对 arm64 进行分析，arm64 有31个64 bit 的整数型寄存器，用 x0 到 x30 表示，主要思路就是先入栈参数，参数寄存器是 x0 - x7，对于objc_msgSend方法来说 x0 第一个参数是传入对象，x1 第二个参数是选择器 _cmd。 syscall 的 number 会放到 x8 里。然后交换寄存器中，将用于返回的寄存器 lr 移到 x1 里。先让 pushCallRecord 能够执行，再执行原始的 objc_msgSend，保存返回值，最后让 popCallRecord 能执行。具体代码如下：</p>
-<pre><code class="language-c">static void replacementObjc_msgSend() {
+<pre><code>static void replacementObjc_msgSend() {
   __asm__ volatile (
     // sp 是堆栈寄存器，存放栈的偏移地址，每次都指向栈顶。
     // 保存 {q0-q7} 偏移地址到 sp 寄存器
@@ -795,25 +795,25 @@ static inline CallRecord * popCallRecord(ThreadCallStack *cs) {
 <h2 id="记录时间的方法">记录时间的方法</h2>
 <p>为了记录耗时，这样就需要在 pushCallRecord 和 popCallRecord 里记录下时间。下面列出一些计算一段代码开始到结束的时间的方法</p>
 <p>第一种： NSDate 微秒</p>
-<pre><code class="language-objc">NSDate* tmpStartData = [NSDate date];
+<pre><code>NSDate* tmpStartData = [NSDate date];
 //some code need caculate
 double deltaTime = [[NSDate date] timeIntervalSinceDate:tmpStartData];
 NSLog(@&quot;cost time: %f s&quot;, deltaTime);
 </code></pre>
 <p>第二种：clock_t 微秒clock_t计时所表示的是占用CPU的时钟单元</p>
-<pre><code class="language-objc">clock_t start = clock();
+<pre><code>clock_t start = clock();
 //some code need caculate
 clock_t end = clock();
 NSLog(@&quot;cost time: %f s&quot;, (double)(end - start)/CLOCKS_PER_SEC);
 </code></pre>
 <p>第三种：CFAbsoluteTime 微秒</p>
-<pre><code class="language-objc">CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+<pre><code>CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
 //some code need caculate
 CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
 NSLog(@&quot;cost time = %f s&quot;, end - start); //s
 </code></pre>
 <p>第四种：CFTimeInterval 纳秒</p>
-<pre><code class="language-objc">CFTimeInterval start = CACurrentMediaTime();
+<pre><code>CFTimeInterval start = CACurrentMediaTime();
 //some code need caculate
 CFTimeInterval end = CACurrentMediaTime();
 NSLog(@&quot;cost time: %f s&quot;, end - start);
@@ -830,7 +830,7 @@ NSDate 或 CFAbsoluteTimeGetCurrent() 返回的时钟时间将会会网络时间
 <p>那么 objc_msgSend 这个 c 方法是如何 hook 到的呢。首先了解下 dyld 是通过更新 Mach-O 二进制的 __DATA segment 特定的部分中的指针来邦定 lazy 和 non-lazy 符号，通过确认传递给 rebind_symbol 里每个符号名称更新的位置就可以找出对应替换来重新绑定这些符号。下面针对关键代码进行分析：</p>
 <h2 id="遍历-dyld">遍历 dyld</h2>
 <p>首先是遍历 dyld 里的所有的 image，取出 image header 和 slide。注意第一次调用时主要注册 callback。</p>
-<pre><code class="language-c">if (!_rebindings_head-&gt;next) {
+<pre><code>if (!_rebindings_head-&gt;next) {
     _dyld_register_func_for_add_image(_rebind_symbols_for_image);
 } else {
     uint32_t c = _dyld_image_count();
@@ -841,7 +841,7 @@ NSDate 或 CFAbsoluteTimeGetCurrent() 返回的时钟时间将会会网络时间
 </code></pre>
 <h2 id="找出符号表相关-command">找出符号表相关 Command</h2>
 <p>接下来需要找到符号表相关的 command，包括 linkedit segment command，symtab command 和 dysymtab command。方法如下：</p>
-<pre><code class="language-c">segment_command_t *cur_seg_cmd;
+<pre><code>segment_command_t *cur_seg_cmd;
 segment_command_t *linkedit_segment = NULL;
 struct symtab_command* symtab_cmd = NULL;
 struct dysymtab_command* dysymtab_cmd = NULL;
@@ -861,7 +861,7 @@ for (uint i = 0; i &lt; header-&gt;ncmds; i++, cur += cur_seg_cmd-&gt;cmdsize) {
 }
 </code></pre>
 <h2 id="获得-base-和-indirect-符号表">获得 base 和 indirect 符号表</h2>
-<pre><code class="language-c">// Find base symbol/string table addresses
+<pre><code>// Find base symbol/string table addresses
 uintptr_t linkedit_base = (uintptr_t)slide + linkedit_segment-&gt;vmaddr - linkedit_segment-&gt;fileoff;
 nlist_t *symtab = (nlist_t *)(linkedit_base + symtab_cmd-&gt;symoff);
 char *strtab = (char *)(linkedit_base + symtab_cmd-&gt;stroff);
@@ -871,7 +871,7 @@ uint32_t *indirect_symtab = (uint32_t *)(linkedit_base + dysymtab_cmd-&gt;indire
 </code></pre>
 <h2 id="进行方法替换">进行方法替换</h2>
 <p>有了符号表和传入的方法替换数组就可以进行符号表访问指针地址的替换，具体实现如下：</p>
-<pre><code class="language-c">uint32_t *indirect_symbol_indices = indirect_symtab + section-&gt;reserved1;
+<pre><code>uint32_t *indirect_symbol_indices = indirect_symtab + section-&gt;reserved1;
 void **indirect_symbol_bindings = (void **)((uintptr_t)slide + section-&gt;addr);
 for (uint i = 0; i &lt; section-&gt;size / sizeof(void *); i++) {
     uint32_t symtab_index = indirect_symbol_indices[i];
@@ -907,7 +907,7 @@ symbol_loop:;
 <p>接下来看看具体实现方式</p>
 <h2 id="设计方法调用频次记录的结构">设计方法调用频次记录的结构</h2>
 <p>在先前时间消耗的 model 基础上增加路径，频次等信息</p>
-<pre><code class="language-objc">@property (nonatomic, strong) NSString *className;       //类名
+<pre><code>@property (nonatomic, strong) NSString *className;       //类名
 @property (nonatomic, strong) NSString *methodName;      //方法名
 @property (nonatomic, assign) BOOL isClassMethod;        //是否是类方法
 @property (nonatomic, assign) NSTimeInterval timeCost;   //时间消耗
@@ -919,7 +919,7 @@ symbol_loop:;
 </code></pre>
 <h2 id="拼装方法路径">拼装方法路径</h2>
 <p>在遍历 SMCallTrace 记录的方法 model 和 遍历方法子方法时将路径拼装好，记录到数据库中</p>
-<pre><code class="language-objc">for (SMCallTraceTimeCostModel *model in arr) {
+<pre><code>for (SMCallTraceTimeCostModel *model in arr) {
     //记录方法路径
     model.path = [NSString stringWithFormat:@&quot;[%@ %@]&quot;,model.className,model.methodName];
     [self appendRecord:model to:mStr];
@@ -942,7 +942,7 @@ symbol_loop:;
 <h2 id="记录方法调用频次数据库">记录方法调用频次数据库</h2>
 <h3 id="创建数据库">创建数据库</h3>
 <p>这里的 lastcall 是记录是否是最后一个方法的调用，展示时只取最后一个方法即可，因为也会有完整路径可以知道父方法和来源方法。</p>
-<pre><code class="language-objc">_clsCallDBPath = [PATH_OF_DOCUMENT stringByAppendingPathComponent:@&quot;clsCall.sqlite&quot;];
+<pre><code>_clsCallDBPath = [PATH_OF_DOCUMENT stringByAppendingPathComponent:@&quot;clsCall.sqlite&quot;];
 if ([[NSFileManager defaultManager] fileExistsAtPath:_clsCallDBPath] == NO) {
     FMDatabase *db = [FMDatabase databaseWithPath:_clsCallDBPath];
     if ([db open]) {
@@ -964,7 +964,7 @@ if ([[NSFileManager defaultManager] fileExistsAtPath:_clsCallDBPath] == NO) {
 </code></pre>
 <h3 id="添加记录">添加记录</h3>
 <p>添加记录时需要先检查数据库里是否有相同路径的同一个方法调用，这样可以给 frequency 字段加一已达到记录频次的目的。</p>
-<pre><code class="language-objc">FMResultSet *rsl = [db executeQuery:@&quot;select cid,frequency from clscall where path = ?&quot;, model.path];
+<pre><code>FMResultSet *rsl = [db executeQuery:@&quot;select cid,frequency from clscall where path = ?&quot;, model.path];
 if ([rsl next]) {
     //有相同路径就更新路径访问频率
     int fq = [rsl intForColumn:@&quot;frequency&quot;] + 1;
@@ -983,7 +983,7 @@ if ([rsl next]) {
 </code></pre>
 <h3 id="检索记录">检索记录</h3>
 <p>检索时注意按照调用频次字段进行排序即可。</p>
-<pre><code class="language-objc">FMResultSet *rs = [db executeQuery:@&quot;select * from clscall where lastcall=? order by frequency desc limit ?, 50&quot;,@1, @(page * 50)];
+<pre><code>FMResultSet *rs = [db executeQuery:@&quot;select * from clscall where lastcall=? order by frequency desc limit ?, 50&quot;,@1, @(page * 50)];
 NSUInteger count = 0;
 NSMutableArray *arr = [NSMutableArray array];
 while ([rs next]) {
@@ -1003,7 +1003,7 @@ if (count &gt; 0) {
 <p>在前面检测卡顿打印的堆栈里提到使用 thread_info 能够获取到各个线程的 cpu 消耗，但是 cpu 不在主线程即使消耗很大也不一定会造成卡顿导致卡顿检测无法检测出更多 cpu 消耗的情况，所以只能通过轮询监控各线程里的 cpu 使用情况，对于超过标准值比如70%的进行记录来跟踪定位出耗电的那些方法。下图是列出 cpu 过载时的堆栈记录的展示效果：</p>
 <p><img src="https://github.com/ming1016/study/blob/master/pic/deeply-ios-performance-optimization08.PNG?raw=true" alt=""></p>
 <p>有了前面的基础，实现起来轻松多了</p>
-<pre><code class="language-objc">//轮询检查多个线程 cpu 情况
+<pre><code>//轮询检查多个线程 cpu 情况
 + (void)updateCPU {
     thread_act_array_t threads;
     mach_msg_type_number_t threadCount = 0;
@@ -1056,9 +1056,7 @@ if (count &gt; 0) {
 <li>WWDC 2017 238 writing energy efficient apps</li>
 <li>WWDC 2017 706 modernizing grand central dispatch usage</li>
 </ul>
-<blockquote>
 <p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
-</blockquote>
 
             </div>
           </article>

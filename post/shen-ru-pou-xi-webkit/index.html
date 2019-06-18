@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>深入剖析-WebKit | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -261,24 +261,28 @@ webFrameData::webFrameData
 Frame::create
 </code></pre>
 <h4 id="createview">createView</h4>
-<pre><code class="language-c++">void Frame::createView(const IntSize&amp; viewportSize, const Color&amp; backgroundColor, bool transparent,
+<pre><code>c++
+void Frame::createView(const IntSize&amp; viewportSize, const Color&amp; backgroundColor, bool transparent,
     const IntSize&amp; fixedLayoutSize, const IntRect&amp; fixedVisibleContentRect,
     bool useFixedLayout, ScrollbarMode horizontalScrollbarMode, bool horizontalLock,
     ScrollbarMode verticalScrollbarMode, bool verticalLock)
 </code></pre>
 <p>会创建出用于排版的 FrameView 对象。需要一些和排版相关的信息，比如初始 viewport 的大小，背景色，滚动条模式等，完成创建调用 Frame::setView 设置为当前 FrameView。
 调用顺序</p>
-<pre><code class="language-c++">FrameLoader::commitProvisionalLoad
+<pre><code>c++
+FrameLoader::commitProvisionalLoad
 FrameLoader::transitionToCommitted
 FrameLoaderClient::transitionToCommittedForNewPage
 Frame::createView
 </code></pre>
 <h4 id="setdocument">setDocument</h4>
-<pre><code class="language-c++">void Frame::setDocument(RefPtr&lt;Document&gt;&amp;&amp; newDocument)
+<pre><code>c++
+void Frame::setDocument(RefPtr&lt;Document&gt;&amp;&amp; newDocument)
 </code></pre>
 <p>用来关联 Frame 和 Document 对象
 Frame 初始化调用顺序</p>
-<pre><code class="language-c++">WebFrame::webFrame
+<pre><code>c++
+WebFrame::webFrame
 webFramePrivate::init
 Frame::init
 FrameLoader::init
@@ -286,7 +290,8 @@ DocumentWriter::begin
 Frame::setDocument
 </code></pre>
 <p>js 脚本更改数据时的调用顺序</p>
-<pre><code class="language-c++">DocumentLoader::receivedData
+<pre><code>c++
+DocumentLoader::receivedData
 DocumentLoader::commitLoad
 FrameLoaderClient::committedLoad
 DocumentLoader::commitData
@@ -459,7 +464,8 @@ protected:
 <p>上面可以看到 RefCounted 类定义有 RefCountedBase 类和 RefCounted 类，RefCounted 类会被大量继承，任何类如果想被 RefPtr 引用只需要继承 RefCounted<CLASS>即可。在 RefPtr.h 里可以看到 refIfNotNull 和 derefIfNotNull 定义了计数的增加和减少。</p>
 <h3 id="assert-断言的实现和应用">Assert 断言的实现和应用</h3>
 <p>断言在 WTF 里是这样定义的</p>
-<pre><code class="language-c++">#define ASSERT(assertion) do { \
+<pre><code>	c++
+#define ASSERT(assertion) do { \
     if (!(assertion)) { \
         //打印用
         WTFReportAssertionFailure(__FILE__, __LINE__, WTF_PRETTY_FUNCTION, #assertion); \
@@ -496,7 +502,8 @@ protected:
 </code></pre>
 <h3 id="内存管理">内存管理</h3>
 <p>WTF 提供的内存管理和 STL 类似，为容器和应用提供内存分配接口。先看 WTF_MAKE_FAST_ALLOCATED 这个宏</p>
-<pre><code class="language-c++">#define WTF_MAKE_FAST_ALLOCATED \
+<pre><code>	c++
+#define WTF_MAKE_FAST_ALLOCATED \
 public: \
     void* operator new(size_t, void* p) { return p; } \
     void* operator new[](size_t, void* p) { return p; } \
@@ -540,7 +547,8 @@ typedef int __thisIsHereToForceASemicolonAfterThisMacro
 <p>WTF 里很多的容器，比如 BlockStack，Deque，Vector 和 HashTable。</p>
 <h4 id="vector-动态数组">Vector 动态数组</h4>
 <p>WTF 里的 Vector 和 STL 里的 Vector 一样也是一种数据结构，相当于动态数组，当不知道需要的数组规模多大时可以达到最大节约空间的目的，那么看看 WTF 是如何实现 Vector 的吧，关键地方我在代码里做了注释说明。</p>
-<pre><code class="language-c++">template&lt;typename T, size_t inlineCapacity = 0, typename OverflowHandler = CrashOnOverflow, size_t minCapacity = 16, typename Malloc = FastMalloc&gt;
+<pre><code>	c++
+template&lt;typename T, size_t inlineCapacity = 0, typename OverflowHandler = CrashOnOverflow, size_t minCapacity = 16, typename Malloc = FastMalloc&gt;
 class Vector : private VectorBuffer&lt;T, inlineCapacity, Malloc&gt; {
     WTF_MAKE_FAST_ALLOCATED;
 private:
@@ -788,7 +796,8 @@ private:
 </code></pre>
 <h4 id="hashtable-哈希表">HashTable 哈希表</h4>
 <p>HashTable 实现代码如下：</p>
-<pre><code class="language-c++">    template&lt;typename Key, typename Value, typename Extractor, typename HashFunctions, typename Traits, typename KeyTraits&gt;
+<pre><code>	c++
+    template&lt;typename Key, typename Value, typename Extractor, typename HashFunctions, typename Traits, typename KeyTraits&gt;
     class HashTable {
     public:
         typedef HashTableIterator&lt;Key, Value, Extractor, HashFunctions, Traits, KeyTraits&gt; iterator;
@@ -997,7 +1006,8 @@ private:
 <p>完整具体的实现可以查看 WTF/Source/wtf/HashTable.h。这里需要注意的是 HashTable 是线性存储空间的起始地址是 bengin 和 end 来表示的，capacity 存储空间不足时会使用 doubleHash 的方法来扩容，将原空间大小变成两倍。调用 begin 或 end 时会创建 HashTable 的 const_iterator，它维持了一个指向 value_type 的指针，所以 iterator 的自增和自减就是指针的自增自减，这点比 STL 的 HashMap 采用数组加链表实现要简单。</p>
 <h3 id="线程">线程</h3>
 <p>WebKit 对线程的处理就是在一个 loop 循环里处理消息队列，在 WTF/Source/wtf/MessageQueue.h 里有对消息队列的定义：</p>
-<pre><code class="language-c++">// The queue takes ownership of messages and transfer it to the new owner
+<pre><code>	c++
+// The queue takes ownership of messages and transfer it to the new owner
 // when messages are fetched from the queue.
 // Essentially, MessageQueue acts as a queue of std::unique_ptr&lt;DataType&gt;.
 template&lt;typename DataType&gt;
@@ -1130,7 +1140,8 @@ FrameLoader::finishedParsing
 </code></pre>
 <h4 id="frameloaderloadframeloadrequest-request">FrameLoader::load(FrameLoadRequest&amp;&amp; request)</h4>
 <p>加载请求，将 Frame 相关的数据封装成 ResourceRequest 作为参数带入，这个接口会创建出 DocumentLoader。</p>
-<pre><code class="language-c++">//创建 DocumentLoader
+<pre><code>	c++
+//创建 DocumentLoader
 void FrameLoader::load(FrameLoadRequest&amp;&amp; request)
 {
     if (m_inStopAllLoaders)
@@ -1428,7 +1439,8 @@ public:
 <h4 id="mainresourceloader-的加载顺序">MainResourceLoader 的加载顺序</h4>
 <p>MainResourceLoader 加载的是 html 文本资源。
 <img src="https://ming1016.github.io/uploads/deeply-analyse-webkit/79.png" alt="79"></p>
-<pre><code class="language-c++">MainResourceLoader::load
+<pre><code>	c++
+MainResourceLoader::load
 MainResourceLoader::loadNow
 MainResourceLoader::willSendRequest
 ResourceLoader::willSendRequest //基类 ResourceLoader 会将回调通过 ResourceNotifier 传给 FrameLoaderClient 这样可以操作 ResourceRequest 来做些设置 request header 的操作。
@@ -1461,7 +1473,8 @@ HTMLDocumentParser::finish
 </code></pre>
 <p>在收到第一个响应包后会回调给 MainResourceLoader 的 didReceiveResponse 函数处理 Header 使用 PolicyChecker 的 checkContentPolicy 做校验，当 PolicyAction 为 PolicyUse 回调给 MainResourceLoader 的 continueAfterContentPolicy。结果 ResourceResponse 会通过 ResourceNotifier 通知给外部接受回调的不同平台的 FrameLoaderClient。</p>
 <p>在收到后面的带数据的响应包会回调给 MainResourceLoader 的 didReceiveData，通过 ResourceLoader 的 addDataOrBuffer 把收到的数据存到 m_resourceData 里。下面是 addDataOrBuffer 方法的实现代码：</p>
-<pre><code class="language-c++">void ResourceLoader::addDataOrBuffer(const char* data, unsigned length, SharedBuffer* buffer, DataPayloadType dataPayloadType)
+<pre><code>	c++
+void ResourceLoader::addDataOrBuffer(const char* data, unsigned length, SharedBuffer* buffer, DataPayloadType dataPayloadType)
 {
     if (m_options.dataBufferingPolicy == DoNotBufferData)
         return;
@@ -1481,7 +1494,8 @@ HTMLDocumentParser::finish
 }
 </code></pre>
 <p>接收到的 receiveData 会进入到 DocumentLoader 的 commitLoad 里</p>
-<pre><code class="language-c++">void DocumentLoader::commitLoad(const char* data, int length)
+<pre><code>	c++
+void DocumentLoader::commitLoad(const char* data, int length)
 {
     // Both unloading the old page and parsing the new page may execute JavaScript which destroys the datasource
     // by starting a new load, so retain temporarily.
@@ -1504,7 +1518,8 @@ HTMLDocumentParser::finish
 }
 </code></pre>
 <p>随后 DocumentLoader 执行 commitData 将前面的内容进行编码 encoding，这些数据会通过 DocumentParser 来解码，解码后的数据 会创建 HTMLDocument 和 Document 对象，后通过 DocumentWriter 传给 DocumentParser。这个过程会在 DocumentWriter 的 begin 方法里完成，具体实现代码如下：</p>
-<pre><code class="language-c++">void DocumentWriter::begin(const URL&amp; urlReference, bool dispatch, Document* ownerDocument)
+<pre><code>	c++
+void DocumentWriter::begin(const URL&amp; urlReference, bool dispatch, Document* ownerDocument)
 {
     // We grab a local copy of the URL because it's easy for callers to supply
     // a URL that will be deallocated during the execution of this function.
@@ -1577,7 +1592,8 @@ HTMLDocumentParser::finish
 }
 </code></pre>
 <p>Document 对象时 DOM 树的根节点，m_writer 在 addData 时会用 DocumentParser 来解码，这个解码是在 DecodedDataDocumentParser 的 appendBytes 里做的。代码如下：</p>
-<pre><code class="language-c++">void DecodedDataDocumentParser::appendBytes(DocumentWriter&amp; writer, const char* data, size_t length)
+<pre><code>	c++
+void DecodedDataDocumentParser::appendBytes(DocumentWriter&amp; writer, const char* data, size_t length)
 {
     if (!length)
         return;
@@ -1600,7 +1616,8 @@ decoder 的类图如下:
 <p>SubResourceLoader 加载的都是派生资源，加载派生资源的时序图如下：
 <img src="https://ming1016.github.io/uploads/deeply-analyse-webkit/81.png" alt="81"></p>
 <p>会在创建 HTMLElement 设置 src 属性时会判断 tagName 是否是 img，是的话就会触发 SubResourceLoader。设置属性和判断的代码在 HTMLConstructionSite 这个类里，具体实现代码如下：</p>
-<pre><code class="language-c++">RefPtr&lt;Element&gt; HTMLConstructionSite::createHTMLElementOrFindCustomElementInterface(AtomicHTMLToken&amp; token, JSCustomElementInterface** customElementInterface)
+<pre><code>	c++
+RefPtr&lt;Element&gt; HTMLConstructionSite::createHTMLElementOrFindCustomElementInterface(AtomicHTMLToken&amp; token, JSCustomElementInterface** customElementInterface)
 {
     auto&amp; localName = token.name();
     // FIXME: This can't use HTMLConstructionSite::createElement because we
@@ -1644,7 +1661,8 @@ decoder 的类图如下:
 }
 </code></pre>
 <p>在 HTMLImageElement 这个类里会用 parseAttribute 方法处理，在这个方法里判断到属性是 srcAttr 时会触发 selectImageSource 方法，方法实现如下：</p>
-<pre><code class="language-c++">void HTMLImageElement::selectImageSource()
+<pre><code>	c++
+void HTMLImageElement::selectImageSource()
 {
     // First look for the best fit source from our &lt;picture&gt; parent if we have one.
     ImageCandidate candidate = bestFitSourceFromPictureElement();
@@ -1672,7 +1690,8 @@ decoder 的类图如下:
     RevalidationPolicy determineRevalidationPolicy(CachedResource::Type, CachedResourceRequest&amp;, CachedResource* existingResource, ForPreload, DeferOption) const;
 </code></pre>
 <p>可以看到 RevalidationPolicy 有四种，Use，Revalidate，Reload 和 Load。Use 表示资源已经在缓存里可以直接使用。Revalidate 表示缓存资源已失效，需删除旧资源，重新在缓存里加新资源。Reload 表示已缓存但由于资源类型不同或者 Cache-control:no-cache 设置不用 Cache 的情况需要重新加载。Load 表示缓存里没有，需直接加载。这段逻辑处理在 CachedResourceLoader 里的 requestResource 里有实现，具体代码如下：</p>
-<pre><code class="language-c++">RevalidationPolicy policy = determineRevalidationPolicy(type, request, resource.get(), forPreload, defer);
+<pre><code>	c++
+RevalidationPolicy policy = determineRevalidationPolicy(type, request, resource.get(), forPreload, defer);
 switch (policy) {
 case Reload:
     memoryCache.remove(*resource);
@@ -1726,7 +1745,8 @@ CachedResource 实现了 RFC2616 <a href="https://www.w3.org/Protocols/rfc2616/r
 <img src="https://ming1016.github.io/uploads/deeply-analyse-webkit/35.png" alt="35"></p>
 <p>会有一个 CachedResourceClient 的集合 m_clients 来记录所有的 CachedResource，同时 CachedResourceClientWalker 这个接口可以遍历这个集合。 CacheResource 会通过 CachedResourceClient::notifyFinished 接口来在数据都到位后来进行通知。</p>
 <p>在 CachedResource 里 type 枚举定义了派生资源的类型，通过 defaultPriorityForResourceType 函数方法的返回可以看到各资源加载的优先级具体定义如下：</p>
-<pre><code class="language-c++">ResourceLoadPriority CachedResource::defaultPriorityForResourceType(Type type)
+<pre><code>	c++
+ResourceLoadPriority CachedResource::defaultPriorityForResourceType(Type type)
 {
     switch (type) {
     case CachedResource::MainResource:
@@ -1768,7 +1788,8 @@ CachedResource 实现了 RFC2616 <a href="https://www.w3.org/Protocols/rfc2616/r
 }
 </code></pre>
 <p>整个加载的安排是通过 WebResourceLoadScheduler 里的 scheduleLoad 通过上面返回的优先级来的。当然这些实现和平台是相关的会根据不同平台有不同的处理，具体处理如下：</p>
-<pre><code class="language-c++">void WebResourceLoadScheduler::scheduleLoad(ResourceLoader* resourceLoader)
+<pre><code>	c++
+void WebResourceLoadScheduler::scheduleLoad(ResourceLoader* resourceLoader)
 {
     ASSERT(resourceLoader);
 
@@ -1829,7 +1850,8 @@ CachedResource 实现了 RFC2616 <a href="https://www.w3.org/Protocols/rfc2616/r
 }
 </code></pre>
 <p>servePendingRequests 有两个重载实现，第一个会根据 host 来遍历，然后由第二个重载来具体实现，具体代码如下：</p>
-<pre><code class="language-c++">void WebResourceLoadScheduler::servePendingRequests(HostInformation* host, ResourceLoadPriority minimumPriority)
+<pre><code>	c++
+void WebResourceLoadScheduler::servePendingRequests(HostInformation* host, ResourceLoadPriority minimumPriority)
 {
     auto priority = ResourceLoadPriority::Highest;
     while (true) {
@@ -1863,7 +1885,8 @@ CachedResource 实现了 RFC2616 <a href="https://www.w3.org/Protocols/rfc2616/r
 }
 </code></pre>
 <p>加载完数据后，处理过程和 MainResource 类似，SubResourceLoader 会作为 ResourceHandle 的接受者，会接受 ResourceHandle 的回调，和 MainResource 不同的只是 Memeory Cache 部分，这部分的实现是在 SubResourceLoader 的 didReceiveData 里。实现代码如下：</p>
-<pre><code class="language-c++">void SubresourceLoader::didReceiveDataOrBuffer(const char* data, int length, RefPtr&lt;SharedBuffer&gt;&amp;&amp; buffer, long long encodedDataLength, DataPayloadType dataPayloadType)
+<pre><code>	c++
+void SubresourceLoader::didReceiveDataOrBuffer(const char* data, int length, RefPtr&lt;SharedBuffer&gt;&amp;&amp; buffer, long long encodedDataLength, DataPayloadType dataPayloadType)
 {
     ASSERT(m_resource);
 
@@ -1893,7 +1916,8 @@ CachedResource 实现了 RFC2616 <a href="https://www.w3.org/Protocols/rfc2616/r
 <p>CacheImage 的加载过程如下图：
 <img src="https://ming1016.github.io/uploads/deeply-analyse-webkit/82.png" alt="82"></p>
 <p>具体调用方法顺序如下：</p>
-<pre><code class="language-c++">HTMLImageElement::create //解析到 img 标签 会创建 HTMLImageElement 对象，里面包含 HTMLImageLoader 对象
+<pre><code>	c++
+HTMLImageElement::create //解析到 img 标签 会创建 HTMLImageElement 对象，里面包含 HTMLImageLoader 对象
 ImageLoader::updateFromElementIgnoringPreviousError //解析到 img 的 href 属性
 ImageLoader::updateFromElement
 CachedResourceLoader::requestImage
@@ -1934,7 +1958,8 @@ CachedImage::data //创建 Image 对象，进行解码
 <p>WebKit 主要有三种 Cache。</p>
 <h4 id="page-cache">Page Cache</h4>
 <p>对浏览页面的缓存用来使页面历史操作加速。单例模式，会有页面上限，会缓存 DOM Tree，Render Tree。在打开一个新页面的时候会在 FrameLoader 的 commitProvisionalLoad 方法里把前一个页面加入 Page Cache。截取相关代码如下：</p>
-<pre><code class="language-c++">if (!m_frame.tree().parent() &amp;&amp; history().currentItem()) {
+<pre><code>	c++
+if (!m_frame.tree().parent() &amp;&amp; history().currentItem()) {
     // Check to see if we need to cache the page we are navigating away from into the back/forward cache.
     // We are doing this here because we know for sure that a new page is about to be loaded.
     PageCache::singleton().addIfCacheable(*history().currentItem(), m_frame.page());
@@ -1943,7 +1968,8 @@ CachedImage::data //创建 Image 对象，进行解码
 }
 </code></pre>
 <p>PageCache 的 addIfCacheable 会对缓存进行管理，实现代码如下：</p>
-<pre><code class="language-c++">void PageCache::addIfCacheable(HistoryItem&amp; item, Page* page)
+<pre><code>	c++
+void PageCache::addIfCacheable(HistoryItem&amp; item, Page* page)
 {
     if (item.isInPageCache())
         return;
@@ -2005,7 +2031,8 @@ Memory Cache 有三个比较重要的属性。</p>
 <p>在 Tag open state 状态时如果碰到 / 字符那么就会创建 End tag token，同时状态变成 Tag name state。</p>
 <p>在 WebKit 中有两个类是专门做词法分析的，一个是做标记的 HTMLToken，另一个是词法解析器 HTMLTokenizer 类，解析任务就是要把字节流解析成一个个 HTMLToken 给语法解析器分析。在 html 解析中一个 element 对应 三个 HTMLToken，一个是起始标签，一个是 element 内容，一个是结束标签 HTMLToken。在 DOM 树上起始结束标签对应一个 element node，内容是另一个 node。</p>
 <p>HTMLToken 的所有类型定义在 HTMLToken.h 里</p>
-<pre><code class="language-c++">enum Type {
+<pre><code>	c++
+enum Type {
     Uninitialized, //默认类型
     DOCTYPE,       //文档类型
     StartTag,      //起始标签
@@ -2016,7 +2043,8 @@ Memory Cache 有三个比较重要的属性。</p>
 };
 </code></pre>
 <p>接下来看看 HTMLToken 的成员变量，HTMLTokenizer 类会解析出的这样的结构体。</p>
-<pre><code class="language-c++">private:
+<pre><code>	c++
+private:
     Type m_type;       //那种类型
 
     DataVector m_data; //根据类型来，不同类型内容不一样
@@ -2036,7 +2064,8 @@ Memory Cache 有三个比较重要的属性。</p>
 <p>在说 HTMLTokenizer 具体解析实现之前我们先了解下有限状态机。先看看数学模型
 <img src="https://ming1016.github.io/uploads/deeply-analyse-webkit/28.png" alt="28"></p>
 <p>HTMLTokenizer 里的 processToken 方法具体实现了整个状态机，实现主要是根据 w3c 的 tokenization 标准来实现的：<a href="https://dev.w3.org/html5/spec-preview/tokenization.html">https://dev.w3.org/html5/spec-preview/tokenization.html</a> 。html 的字符集合就是数学模型里的字母表，状态的非空集合都定义在 HTMLTokenizer.h 的 state 枚举里。state 枚举值 DataState 表示初始状态。processToken 里对不同 state 所做的 case 处理就是状态转移函数。下面是 HTMLTokenizer 里的 state 枚举：</p>
-<pre><code class="language-c++">//HTML 有限状态机的状态非空集合
+<pre><code>	c++
+//HTML 有限状态机的状态非空集合
 enum State {
     DataState, //初始状态，一般最开始和其它地方碰到 &gt; 符号为截止再次进入这个状态。碰到字母需要设置 HTMLToken 的 type 为 character
     CharacterReferenceInDataState,
@@ -2156,7 +2185,8 @@ enum State {
 </ul>
 <h3 id="element-属性设置">Element 属性设置</h3>
 <p>是通过 Element::parserSetAttributes 来设置的</p>
-<pre><code class="language-c++">void Element::parserSetAttributes(const Vector&lt;Attribute&gt;&amp; attributeVector)
+<pre><code>			c++
+void Element::parserSetAttributes(const Vector&lt;Attribute&gt;&amp; attributeVector)
 {
     ASSERT(!isConnected());
     ASSERT(!parentNode());

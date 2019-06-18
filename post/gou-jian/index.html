@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>构建iOS稳定应用架构时方案选择的思考 | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -214,7 +214,7 @@
 </table>
 <h1 id="代码规范">代码规范</h1>
 <p>这块最有权威的应该是苹果自己提出的<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html">https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html</a>，按照这套来肯定是没问题的，而且首先应该遵守。代码结构主要根据不同团队的经验来做。下面举个我常用的代码结构</p>
-<pre><code class="language-objective-c">@property
+<pre><code>@property
 ...
 #pragma mark - Life cycle
 生命周期，类似addSubview和Notification的监听和销毁都放在这里
@@ -233,9 +233,7 @@
 #pragma mark - Getters and Setters
 建议所有的Property都设置，这样修改配置会比较方便，看起来不会很混乱
 </code></pre>
-<blockquote>
 <p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
-</blockquote>
 
             </div>
           </article>

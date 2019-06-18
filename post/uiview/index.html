@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>UIView | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560826375532">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560860948169">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560826375532" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560860948169" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -125,7 +125,7 @@
 </ul>
 <h1 id="渲染">渲染</h1>
 <p>避免使用drawRect:在CPU上做渲染，如果希望使用GPU渲染就使用现有的视图构建自定义视图。如果要实现一个带边框的圆形头像</p>
-<pre><code class="language-objective-c">- (void)setupView
+<pre><code>- (void)setupView
 {
      self.clipsToBounds = YES;
      self.layer.cornerRadius = self.bounds.size.width / 2;
@@ -138,7 +138,7 @@
 <p>响应触摸，可以使用重写更加底层的touchesBegan，touchesMoved和touchesEnded方法。还可以使用其它不同的方法来解决比如target action，代理，block，KVO或通知</p>
 <h2 id="target-action">Target action：</h2>
 <p>最方便的做法，也是最学院派的。</p>
-<pre><code class="language-objective-c">[self sendActionsForControlEvents:UIControlEventValueChanged];
+<pre><code>[self sendActionsForControlEvents:UIControlEventValueChanged];
 
 //如果一个view controller管理这个视图
 - (void)setupPieChart
@@ -154,7 +154,7 @@
 }
 </code></pre>
 <h2 id="使用代理">使用代理</h2>
-<pre><code class="language-objective-c">[self.delegate pieChart:self didSelectSector:self.selectedSector];
+<pre><code>[self.delegate pieChart:self didSelectSector:self.selectedSector];
 
 //在view controller中代码
 @interface MyViewController &lt;PieChartDelegate&gt;
@@ -172,7 +172,7 @@
 }
 </code></pre>
 <h2 id="使用block">使用Block</h2>
-<pre><code class="language-objective-c">@interface PieChart : UIControl
+<pre><code>@interface PieChart : UIControl
 
 @property (nonatomic,copy) void(^selectionHandler)(PieChartSection* selectedSection);
 
@@ -199,7 +199,7 @@ self.pieChart.selectionHandler = ^(PieChartSection* section) {
 }
 </code></pre>
 <h2 id="使用kvo">使用KVO</h2>
-<pre><code class="language-objective-c">self.selectedSegment = theNewSelectedSegment;
+<pre><code>self.selectedSegment = theNewSelectedSegment;
 - (void)setupPieChart
 {
      [self.pieChart addObserver:self forKeyPath:@&quot;selectedSegment&quot; options:0 context:NULL];
@@ -214,7 +214,7 @@ self.pieChart.selectionHandler = ^(PieChartSection* section) {
 //在viewWillDisappear：或dealloc中移除观察者。
 </code></pre>
 <h2 id="使用通知">使用通知</h2>
-<pre><code class="language-objective-c">//头文件中
+<pre><code>//头文件中
 extern NSString* const SelectedSegmentChangedNotification;
 //实现的文件中
 NSString* const SelectedSegmentChangedNotification = @&quot;selectedSegmentChangedNotification&quot;;
@@ -241,9 +241,7 @@ NSString* const SelectedSegmentChangedNotification = @&quot;selectedSegmentChang
 }
 //注意在合适的地方退订通知
 </code></pre>
-<blockquote>
 <p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
-</blockquote>
 
             </div>
           </article>
