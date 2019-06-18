@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-18T02:11:04.373Z</updated>
+    <updated>2019-06-18T02:13:37.941Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -91,5 +91,329 @@
         <link href="https://policx.github.io/post/17-nian-hui">
         </link>
         <updated>2017-06-13T14:49:20.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2017]]></title>
+        <id>https://policx.github.io/post/2017</id>
+        <link href="https://policx.github.io/post/2017">
+        </link>
+        <updated>2017-06-04T16:50:49.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iPhone开发者选项]]></title>
+        <id>https://policx.github.io/post/iphone</id>
+        <link href="https://policx.github.io/post/iphone">
+        </link>
+        <updated>2017-03-28T12:03:14.000Z</updated>
+        <summary type="html"><![CDATA[<p>iOS上的开发者选项，这个功能从iOS系统刚开始时就已经存在了。想要打开这个功能，我们需要满足一定的条件，首先你需要将iPhone和一台Mac电脑相连接，然后在Mac上打开Xcode开发工具，此时你iPhone的设置里就会出现“开发者”这个选项了。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>iOS上的开发者选项，这个功能从iOS系统刚开始时就已经存在了。想要打开这个功能，我们需要满足一定的条件，首先你需要将iPhone和一台Mac电脑相连接，然后在Mac上打开Xcode开发工具，此时你iPhone的设置里就会出现“开发者”这个选项了。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[三周年]]></title>
+        <id>https://policx.github.io/post/3year</id>
+        <link href="https://policx.github.io/post/3year">
+        </link>
+        <updated>2017-03-19T15:29:12.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[下雪了]]></title>
+        <id>https://policx.github.io/post/xue</id>
+        <link href="https://policx.github.io/post/xue">
+        </link>
+        <updated>2017-02-21T13:46:58.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS 友盟分享笔记]]></title>
+        <id>https://policx.github.io/post/iosyoumeng</id>
+        <link href="https://policx.github.io/post/iosyoumeng">
+        </link>
+        <updated>2017-01-16T18:30:36.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[机械键盘]]></title>
+        <id>https://policx.github.io/post/jianpan</id>
+        <link href="https://policx.github.io/post/jianpan">
+        </link>
+        <updated>2016-12-01T14:18:25.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[programming]]></title>
+        <id>https://policx.github.io/post/programming</id>
+        <link href="https://policx.github.io/post/programming">
+        </link>
+        <updated>2016-10-23T15:38:08.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[搬家]]></title>
+        <id>https://policx.github.io/post/banjia</id>
+        <link href="https://policx.github.io/post/banjia">
+        </link>
+        <updated>2016-08-08T05:38:50.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS计算App缓存的大小以及清理]]></title>
+        <id>https://policx.github.io/post/ioshuancun</id>
+        <link href="https://policx.github.io/post/ioshuancun">
+        </link>
+        <updated>2016-08-01T18:24:04.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[深入剖析-JavaScriptCore]]></title>
+        <id>https://policx.github.io/post/shen-ru-pou-xi-javascriptcore</id>
+        <link href="https://policx.github.io/post/shen-ru-pou-xi-javascriptcore">
+        </link>
+        <updated>2016-06-18T02:03:39.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[深入剖析-WebKit]]></title>
+        <id>https://policx.github.io/post/shen-ru-pou-xi-webkit</id>
+        <link href="https://policx.github.io/post/shen-ru-pou-xi-webkit">
+        </link>
+        <updated>2016-06-18T02:00:59.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[深入剖析-iOS-编译-Clang---LLVM]]></title>
+        <id>https://policx.github.io/post/clang-llvm</id>
+        <link href="https://policx.github.io/post/clang-llvm">
+        </link>
+        <updated>2016-06-18T01:58:47.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS函数响应式编程以及ReactiveCocoa的使用]]></title>
+        <id>https://policx.github.io/post/ios-han</id>
+        <link href="https://policx.github.io/post/ios-han">
+        </link>
+        <updated>2016-06-18T01:55:45.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[GPU处理图像]]></title>
+        <id>https://policx.github.io/post/gpu-chu-li-tu-xiang</id>
+        <link href="https://policx.github.io/post/gpu-chu-li-tu-xiang">
+        </link>
+        <updated>2016-06-18T01:53:56.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Camera]]></title>
+        <id>https://policx.github.io/post/camera</id>
+        <link href="https://policx.github.io/post/camera">
+        </link>
+        <updated>2016-06-18T01:48:48.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[UICollectionView]]></title>
+        <id>https://policx.github.io/post/uicollectionview</id>
+        <link href="https://policx.github.io/post/uicollectionview">
+        </link>
+        <updated>2016-06-18T01:47:46.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[UIView]]></title>
+        <id>https://policx.github.io/post/uiview</id>
+        <link href="https://policx.github.io/post/uiview">
+        </link>
+        <updated>2016-06-18T01:46:55.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS字符串 ]]></title>
+        <id>https://policx.github.io/post/ios-zi-fu-chuan</id>
+        <link href="https://policx.github.io/post/ios-zi-fu-chuan">
+        </link>
+        <updated>2016-06-18T01:44:49.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[深入剖析 iOS 性能优化]]></title>
+        <id>https://policx.github.io/post/pou-xi</id>
+        <link href="https://policx.github.io/post/pou-xi">
+        </link>
+        <updated>2016-06-18T01:43:03.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[检测iOS的APP性能的一些方法]]></title>
+        <id>https://policx.github.io/post/jian-ce</id>
+        <link href="https://policx.github.io/post/jian-ce">
+        </link>
+        <updated>2016-06-18T01:39:59.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[构建iOS稳定应用架构时方案选择的思考]]></title>
+        <id>https://policx.github.io/post/gou-jian</id>
+        <link href="https://policx.github.io/post/gou-jian">
+        </link>
+        <updated>2016-06-18T01:38:01.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS性能优化]]></title>
+        <id>https://policx.github.io/post/ios-xing-neng-you-hua</id>
+        <link href="https://policx.github.io/post/ios-xing-neng-you-hua">
+        </link>
+        <updated>2016-06-18T01:36:32.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS设计模式]]></title>
+        <id>https://policx.github.io/post/ios-she-ji-mo-shi</id>
+        <link href="https://policx.github.io/post/ios-she-ji-mo-shi">
+        </link>
+        <updated>2016-06-18T01:35:39.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS Background Tasks]]></title>
+        <id>https://policx.github.io/post/ios-background-tasks</id>
+        <link href="https://policx.github.io/post/ios-background-tasks">
+        </link>
+        <updated>2016-06-18T01:34:46.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Block]]></title>
+        <id>https://policx.github.io/post/block</id>
+        <link href="https://policx.github.io/post/block">
+        </link>
+        <updated>2016-06-18T01:33:55.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Objc Runtime ]]></title>
+        <id>https://policx.github.io/post/objc-runtime</id>
+        <link href="https://policx.github.io/post/objc-runtime">
+        </link>
+        <updated>2016-06-18T01:31:09.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CFRunLoop ]]></title>
+        <id>https://policx.github.io/post/cfrunloop</id>
+        <link href="https://policx.github.io/post/cfrunloop">
+        </link>
+        <updated>2016-06-18T01:30:21.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[细说GCD（Grand Central Dispatch）如何用]]></title>
+        <id>https://policx.github.io/post/GCD</id>
+        <link href="https://policx.github.io/post/GCD">
+        </link>
+        <updated>2016-06-18T01:28:07.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS并发编程]]></title>
+        <id>https://policx.github.io/post/ios-bing-fa-bian-cheng</id>
+        <link href="https://policx.github.io/post/ios-bing-fa-bian-cheng">
+        </link>
+        <updated>2016-06-17T23:06:03.000Z</updated>
+        <summary type="html"><![CDATA[<p>包含GCD，Operation Queues，Run Loops，如何在后台绘制UI，后台I/O处理，最佳安全实践避免互斥锁死锁优先级反转等，以及如何使用GCD监视进程文件文件夹，并发测试的方案等。GDC队列，使用Barrier避免写死锁，dispatch_sync解决读死锁。两种GCD中Dispatch_groups发送通知的方法以及dispatch_block_cancel的使用示例。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>包含GCD，Operation Queues，Run Loops，如何在后台绘制UI，后台I/O处理，最佳安全实践避免互斥锁死锁优先级反转等，以及如何使用GCD监视进程文件文件夹，并发测试的方案等。GDC队列，使用Barrier避免写死锁，dispatch_sync解决读死锁。两种GCD中Dispatch_groups发送通知的方法以及dispatch_block_cancel的使用示例。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS基础集合类]]></title>
+        <id>https://policx.github.io/post/ji-chu-ji-he-lei</id>
+        <link href="https://policx.github.io/post/ji-chu-ji-he-lei">
+        </link>
+        <updated>2016-06-17T19:12:14.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2016]]></title>
+        <id>https://policx.github.io/post/2016</id>
+        <link href="https://policx.github.io/post/2016">
+        </link>
+        <updated>2016-06-13T16:43:27.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[16年会]]></title>
+        <id>https://policx.github.io/post/nianhui</id>
+        <link href="https://policx.github.io/post/nianhui">
+        </link>
+        <updated>2016-02-10T16:32:03.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS开发之用户登陆信息存储]]></title>
+        <id>https://policx.github.io/post/denglu</id>
+        <link href="https://policx.github.io/post/denglu">
+        </link>
+        <updated>2015-11-17T11:24:57.000Z</updated>
+        <summary type="html"><![CDATA[<p>我们开发App的时候,常常涉及到用户登陆,那么就会涉及到用户信息的存储和用户的登陆状态</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>我们开发App的时候,常常涉及到用户登陆,那么就会涉及到用户信息的存储和用户的登陆状态</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2015]]></title>
+        <id>https://policx.github.io/post/2015</id>
+        <link href="https://policx.github.io/post/2015">
+        </link>
+        <updated>2015-06-04T17:02:03.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[centos 6.5 网站建设]]></title>
+        <id>https://policx.github.io/post/centos</id>
+        <link href="https://policx.github.io/post/centos">
+        </link>
+        <updated>2014-11-10T08:10:27.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[告别]]></title>
+        <id>https://policx.github.io/post/juanshi</id>
+        <link href="https://policx.github.io/post/juanshi">
+        </link>
+        <updated>2014-09-29T06:07:26.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[小米]]></title>
+        <id>https://policx.github.io/post/xiaomi</id>
+        <link href="https://policx.github.io/post/xiaomi">
+        </link>
+        <updated>2014-09-20T12:51:35.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[石家庄]]></title>
+        <id>https://policx.github.io/post/sjz</id>
+        <link href="https://policx.github.io/post/sjz">
+        </link>
+        <updated>2014-09-20T12:47:53.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[望京西]]></title>
+        <id>https://policx.github.io/post/wang-jing-xi</id>
+        <link href="https://policx.github.io/post/wang-jing-xi">
+        </link>
+        <updated>2014-08-13T13:14:48.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS开发内存泄露修复]]></title>
+        <id>https://policx.github.io/post/ios-kai-fa-nei-cun-xie-lu-xiu-fu</id>
+        <link href="https://policx.github.io/post/ios-kai-fa-nei-cun-xie-lu-xiu-fu">
+        </link>
+        <updated>2014-06-07T08:22:37.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2014]]></title>
+        <id>https://policx.github.io/post/2014</id>
+        <link href="https://policx.github.io/post/2014">
+        </link>
+        <updated>2014-05-20T03:01:22.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[读书]]></title>
+        <id>https://policx.github.io/post/dushu</id>
+        <link href="https://policx.github.io/post/dushu">
+        </link>
+        <updated>2014-03-14T12:01:34.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[培训]]></title>
+        <id>https://policx.github.io/post/peixun</id>
+        <link href="https://policx.github.io/post/peixun">
+        </link>
+        <updated>2013-07-12T03:13:53.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[关于]]></title>
+        <id>https://policx.github.io/post/about</id>
+        <link href="https://policx.github.io/post/about">
+        </link>
+        <updated>2012-12-21T01:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p><a href="https://www.2345.com/?k.cn">一个对着手机微笑的女孩，我也会猜测她微笑，是恋人的密语，还是朋友的问候，或许是看一段笑话，总之，很美。我想坐过去，但她的目光投过来，我又低下了头，像个犯错的孩子。</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://www.2345.com/?k.cn">一个对着手机微笑的女孩，我也会猜测她微笑，是恋人的密语，还是朋友的问候，或许是看一段笑话，总之，很美。我想坐过去，但她的目光投过来，我又低下了头，像个犯错的孩子。</a></p>
+]]></content>
     </entry>
 </feed>
