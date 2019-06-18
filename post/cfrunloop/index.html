@@ -1,0 +1,323 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CFRunLoop  | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560823857081">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560823857081" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              CFRunLoop 
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2016-06-18 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://images.pexels.com/photos/34676/pexels-photo.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="简介">简介</h1>
+<p>简单的说run loop是事件驱动的一个大循环，如下代码所示</p>
+<pre><code class="language-objective-c">int main(int argc, char * argv[]) {
+     //程序一直运行状态
+     while (AppIsRunning) {
+          //睡眠状态，等待唤醒事件
+          id whoWakesMe = SleepForWakingUp();
+          //得到唤醒事件
+          id event = GetEvent(whoWakesMe);
+          //开始处理事件
+          HandleEvent(event);
+     }
+     return 0;
+}
+</code></pre>
+<h1 id="cocoa会涉及到run-loops的">Cocoa会涉及到Run Loops的</h1>
+<ul>
+<li>系统级：GCD，mach kernel，block，pthread</li>
+<li>应用层：NSTimer，UIEvent，Autorelease，NSObject(NSDelayedPerforming)，NSObject(NSThreadPerformAddition)，CADisplayLink，CATransition，CAAnimation，dispatch_get_main_queue()（GCD中dispatch到main queue的block会被dispatch到main RunLoop执行），NSPort，NSURLConnection，AFNetworking(这个第三方网络请求框架使用在开启新线程中添加自己的run loop监听事件)</li>
+</ul>
+<h1 id="在main-thread堆栈中所处位置">在Main thread堆栈中所处位置</h1>
+<p>堆栈最底层是start(dyld)，往上依次是main，UIApplication(main.m) -&gt; GSEventRunModal(Graphic Services) -&gt; RunLoop(包含CFRunLoopRunSpecific，__CFRunLoopRun，__CFRunLoopDoSouces0，<strong>CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION</strong>) -&gt; Handle Touch Event</p>
+<h1 id="runloop原理">RunLoop原理</h1>
+<p>CFRunLoop开源代码：<a href="http://opensource.apple.com/source/CF/CF-855.17/">http://opensource.apple.com/source/CF/CF-855.17/</a></p>
+<h2 id="执行顺序的伪代码">执行顺序的伪代码</h2>
+<pre><code class="language-objective-c">SetupThisRunLoopRunTimeoutTimer(); // by GCD timer
+do {
+     __CFRunLoopDoObservers(kCFRunLoopBeforeTimers);
+     __CFRunLoopDoObservers(kCFRunLoopBeforeSources);
+
+     __CFRunLoopDoBlocks();
+     __CFRunLoopDoSource0();
+
+     CheckIfExistMessagesInMainDispatchQueue(); // GCD
+
+     __CFRunLoopDoObservers(kCFRunLoopBeforeWaiting);
+     var wakeUpPort = SleepAndWaitForWakingUpPorts();
+     // mach_msg_trap
+     // Zzz...
+     // Received mach_msg, wake up
+     __CFRunLoopDoObservers(kCFRunLoopAfterWaiting);
+     // Handle msgs
+     if (wakeUpPort == timerPort) {
+          __CFRunLoopDoTimers();
+     } else if (wakeUpPort == mainDispatchQueuePort) {
+          // GCD
+          __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__()
+     } else {
+          __CFRunLoopDoSource1();
+     }
+     __CFRunLoopDoBlocks();
+} while (!stop &amp;&amp; !timeout);
+</code></pre>
+<h2 id="构成">构成</h2>
+<p>Thread包含一个CFRunLoop，一个CFRunLoop包含一种CFRunLoopMode，mode包含CFRunLoopSource，CFRunLoopTimer和CFRunLoopObserver。</p>
+<h3 id="cfrunloopmode">CFRunLoopMode</h3>
+<p>RunLoop只能运行在一种mode下，如果要换mode当前的loop也需要停下重启成新的。利用这个机制，ScrollView过程中NSDefaultRunLoopMode的mode会切换UITrackingRunLoopMode来保证ScrollView的流畅滑动不受只能在NSDefaultRunLoopMode时处理的事件影响滑动。同时mode还是可定制的。</p>
+<ul>
+<li>NSDefaultRunLoopMode：默认，空闲状态</li>
+<li>UITrackingRunLoopMode：ScrollView滑动时</li>
+<li>UIInitializationRunLoopMode：启动时</li>
+<li>NSRunLoopCommonModes：Mode集合
+Timer计时会被scrollView的滑动影响的问题可以通过将timer添加到NSRunLoopCommonModes来解决</li>
+</ul>
+<pre><code class="language-objective-c">//将timer添加到NSDefaultRunLoopMode中
+[NSTimer scheduledTimerWithTimeInterval:1.0
+     target:self
+     selector:@selector(timerTick:)
+     userInfo:nil
+     repeats:YES];
+//然后再添加到NSRunLoopCommonModes里
+NSTimer *timer = [NSTimer timerWithTimeInterval:1.0
+     target:self
+     selector:@selector(timerTick:)
+     userInfo:nil
+     repeats:YES];
+[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+</code></pre>
+<h3 id="cfrunlooptimer">CFRunLoopTimer</h3>
+<p>NSTimer是对RunLoopTimer的封装</p>
+<pre><code class="language-objective-c">+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti invocation:(NSInvocation *)invocation repeats:(BOOL)yesOrNo;
++ (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti invocation:(NSInvocation *)invocation repeats:(BOOL)yesOrNo;
+
+- (void)performSelector:(SEL)aSelector withObject:(id)anArgument afterDelay:(NSTimeInterval)delay inModes:(NSArray *)modes;
+
++ (CADisplayLink *)displayLinkWithTarget:(id)target selector:(SEL)sel;
+- (void)addToRunLoop:(NSRunLoop *)runloop forMode:(NSString *)mode;
+</code></pre>
+<h3 id="cfrunloopsource">CFRunLoopSource</h3>
+<ul>
+<li>source0：处理如UIEvent，CFSocket这样的事件</li>
+<li>source1：Mach port驱动，CFMachport，CFMessagePort</li>
+</ul>
+<h3 id="cfrunloopobserver">CFRunLoopObserver</h3>
+<p>Cocoa框架中很多机制比如CAAnimation等都是由RunLoopObserver触发的。observer到当前状态的变化进行通知。</p>
+<pre><code class="language-objective-c">typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
+     kCFRunLoopEntry = (1UL &lt;&lt; 0),
+     kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1),
+     kCFRunLoopBeforeSources = (1UL &lt;&lt; 2),
+     kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5),
+     kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6),
+     kCFRunLoopExit = (1UL &lt;&lt; 7),
+     kCFRunLoopAllActivities = 0x0FFFFFFFU
+};
+</code></pre>
+<h1 id="使用runloop的案例">使用RunLoop的案例</h1>
+<h2 id="afnetworking">AFNetworking</h2>
+<p>使用NSOperation+NSURLConnection并发模型都会面临NSURLConnection下载完成前线程退出导致NSOperation对象接收不到回调的问题。AFNetWorking解决这个问题的方法是按照官方的guid<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/Reference/Reference.html#//apple_ref/occ/instm/NSURLConnection/initWithRequest:delegate:startImmediately:">https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/Reference/Reference.html#//apple_ref/occ/instm/NSURLConnection/initWithRequest:delegate:startImmediately:</a>上写的NSURLConnection的delegate方法需要在connection发起的线程runloop中调用，于是AFNetWorking直接借鉴了Apple自己的一个Demo<a href="https://developer.apple.com/LIBRARY/IOS/samplecode/MVCNetworking/Introduction/Intro.html">https://developer.apple.com/LIBRARY/IOS/samplecode/MVCNetworking/Introduction/Intro.html</a>的实现方法单独起一个global thread，内置一个runloop，所有的connection都由这个runloop发起，回调也是它接收，不占用主线程，也不耗CPU资源。</p>
+<pre><code class="language-objective-c">+ (void)networkRequestThreadEntryPoint:(id)__unused object {
+     @autoreleasepool {
+          [[NSThread currentThread] setName:@&quot;AFNetworking&quot;];
+
+          NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+          [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+          [runLoop run];
+     }
+}
+
++ (NSThread *)networkRequestThread {
+     static NSThread *_networkRequestThread = nil;
+     static dispatch_once_t oncePredicate;
+     dispatch_once(&amp;oncePredicate, ^{
+          _networkRequestThread =
+          [[NSThread alloc] initWithTarget:self
+               selector:@selector(networkRequestThreadEntryPoint:)
+               object:nil];
+          [_networkRequestThread start];
+     });
+
+     return _networkRequestThread;
+}
+</code></pre>
+<p>类似的可以用这个方法创建一个常驻服务的线程。</p>
+<h2 id="tableview中实现平滑滚动延迟加载图片">TableView中实现平滑滚动延迟加载图片</h2>
+<p>利用CFRunLoopMode的特性，可以将图片的加载放到NSDefaultRunLoopMode的mode里，这样在滚动UITrackingRunLoopMode这个mode时不会被加载而影响到。</p>
+<pre><code class="language-objective-c">UIImage *downloadedImage = ...;
+[self.avatarImageView performSelector:@selector(setImage:)
+     withObject:downloadedImage
+     afterDelay:0
+     inModes:@[NSDefaultRunLoopMode]];
+</code></pre>
+<h2 id="接到程序崩溃时的信号进行自主处理例如弹出提示等">接到程序崩溃时的信号进行自主处理例如弹出提示等</h2>
+<pre><code class="language-objective-c">CFRunLoopRef runLoop = CFRunLoopGetCurrent();
+NSArray *allModes = CFBridgingRelease(CFRunLoopCopyAllModes(runLoop));
+while (1) {
+     for (NSString *mode in allModes) {
+          CFRunLoopRunInMode((CFStringRef)mode, 0.001, false);
+     }
+}
+</code></pre>
+<h2 id="异步测试">异步测试</h2>
+<pre><code class="language-objective-c">- (BOOL)runUntilBlock:(BOOL(^)())block timeout:(NSTimeInterval)timeout
+{
+     __block Boolean fulfilled = NO;
+     void (^beforeWaiting) (CFRunLoopObserverRef observer, CFRunLoopActivity activity) =
+     ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
+          fulfilled = block();
+          if (fulfilled) {
+               CFRunLoopStop(CFRunLoopGetCurrent());
+          }
+     };
+
+     CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(NULL, kCFRunLoopBeforeWaiting, true, 0, beforeWaiting);
+     CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);
+
+     // Run!
+     CFRunLoopRunInMode(kCFRunLoopDefaultMode, timeout, false);
+
+     CFRunLoopRemoveObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);
+     CFRelease(observer);
+
+     return fulfilled;
+}
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/GCD">
+              <h3 class="post-title">
+                细说GCD（Grand Central Dispatch）如何用
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

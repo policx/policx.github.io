@@ -1,0 +1,277 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UIView | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1560823857081">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1560823857081" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              UIView
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2016-06-18 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://images.pexels.com/photos/34676/pexels-photo.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="视图层级">视图层级</h1>
+<p>UIView有三个基类：UIResponder，UIView和UIControl。</p>
+<ul>
+<li>UIResponder：是UIView的父类。responder处理触摸，手势，远程控制事件。UIApplication和UIViewController也是UIResponder的子类。</li>
+<li>UIView：处理绘制和触摸时间。</li>
+<li>UIControl：有target/action模式。button，Date pickers，文本框都是。</li>
+</ul>
+<h1 id="渲染">渲染</h1>
+<p>避免使用drawRect:在CPU上做渲染，如果希望使用GPU渲染就使用现有的视图构建自定义视图。如果要实现一个带边框的圆形头像</p>
+<pre><code class="language-objective-c">- (void)setupView
+{
+     self.clipsToBounds = YES;
+     self.layer.cornerRadius = self.bounds.size.width / 2;
+     self.layer.borderWidth = 3;
+     self.layer.borderColor = [UIColor darkGrayColor].CGColor;
+}
+</code></pre>
+<p>渲染速度比较 OpenGL -&gt; Core Image -&gt; Core Graphics</p>
+<h1 id="自定义交互">自定义交互</h1>
+<p>响应触摸，可以使用重写更加底层的touchesBegan，touchesMoved和touchesEnded方法。还可以使用其它不同的方法来解决比如target action，代理，block，KVO或通知</p>
+<h2 id="target-action">Target action：</h2>
+<p>最方便的做法，也是最学院派的。</p>
+<pre><code class="language-objective-c">[self sendActionsForControlEvents:UIControlEventValueChanged];
+
+//如果一个view controller管理这个视图
+- (void)setupPieChart
+{
+     [self.pieChart addTarget:self
+          action:@selector(updateSelection:)
+          forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)updateSelection:(id)sender
+{
+     NSLog(@&quot;%@&quot;, self.pieChart.selectedSector);
+}
+</code></pre>
+<h2 id="使用代理">使用代理</h2>
+<pre><code class="language-objective-c">[self.delegate pieChart:self didSelectSector:self.selectedSector];
+
+//在view controller中代码
+@interface MyViewController &lt;PieChartDelegate&gt;
+
+...
+
+- (void)setupPieChart
+{
+     self.pieChart.delegate = self;
+}
+
+- (void)pieChart:(PieChart*)pieChart didSelectSector:(PieChartSector*)sector
+{
+     // 处理区块
+}
+</code></pre>
+<h2 id="使用block">使用Block</h2>
+<pre><code class="language-objective-c">@interface PieChart : UIControl
+
+@property (nonatomic,copy) void(^selectionHandler)(PieChartSection* selectedSection);
+
+@end
+
+//在执行之前检查下block是否被赋值，未被赋值的block会崩
+if (self.selectionHandler != NULL) {
+     self.selectionHandler(self.selectedSection);
+}
+
+//可以把相关的代码整合在view controller中
+- (void)setupPieChart
+{
+     self.pieChart.selectionHandler = ^(PieChartSection* section) {
+          // 处理区块
+     }
+}
+
+//避免引用循环
+__weak id weakSelf = self;
+self.pieChart.selectionHandler = ^(PieChartSection* section) {
+     MyViewController* strongSelf = weakSelf;
+     [strongSelf handleSectionChange:section];
+}
+</code></pre>
+<h2 id="使用kvo">使用KVO</h2>
+<pre><code class="language-objective-c">self.selectedSegment = theNewSelectedSegment;
+- (void)setupPieChart
+{
+     [self.pieChart addObserver:self forKeyPath:@&quot;selectedSegment&quot; options:0 context:NULL];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+     if(object == self.pieChart &amp;&amp; [keyPath isEqualToString:@&quot;selectedSegment&quot;]) {
+          // 处理改变
+     }
+}
+//在viewWillDisappear：或dealloc中移除观察者。
+</code></pre>
+<h2 id="使用通知">使用通知</h2>
+<pre><code class="language-objective-c">//头文件中
+extern NSString* const SelectedSegmentChangedNotification;
+//实现的文件中
+NSString* const SelectedSegmentChangedNotification = @&quot;selectedSegmentChangedNotification&quot;;
+
+...
+
+- (void)notifyAboutChanges
+{
+     [[NSNotificationCenter defaultCenter] postNotificationName:SelectedSegmentChangedNotification object:self];
+}
+//现在订阅通知，在view controller中实现
+- (void)setupPieChart
+{
+     [[NSNotificationCenter defaultCenter] addObserver:self
+          selector:@selector(segmentChanged:)
+          name:SelectedSegmentChangedNotification
+          object:self.pieChart];
+
+}
+...
+
+- (void)segmentChanged:(NSNotification*)note
+{
+}
+//注意在合适的地方退订通知
+</code></pre>
+<blockquote>
+<p><a href="https://github.com/ming1016/study/wiki">ming1016</a></p>
+</blockquote>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/ios-zi-fu-chuan">
+              <h3 class="post-title">
+                iOS字符串 
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
