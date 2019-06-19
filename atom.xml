@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-18T12:35:01.040Z</updated>
+    <updated>2019-06-19T03:06:38.212Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
-    <subtitle>&lt;a href=&quot;https://www.2345.com/?k.cn&quot; target=&quot;_blank&quot;&gt;江湖远，庙堂高&lt;/a&gt;</subtitle>
+    <subtitle>&lt;a href=&quot;https://www.2345.com/?k.cn&quot; target=&quot;_blank&quot;&gt;江湖远，庙堂高&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+&lt;script async src=&quot;https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: &quot;ca-pub-3671867345973568&quot;,
+    enable_page_level_ads: true
+  });
+&lt;/script&gt;</subtitle>
     <logo>https://policx.github.io/images/avatar.png</logo>
     <icon>https://policx.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 江湖</rights>
