@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-19T06:10:53.597Z</updated>
+    <updated>2019-06-19T20:44:17.855Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -84,6 +84,13 @@
         <link href="https://policx.github.io/post/chuangye">
         </link>
         <updated>2018-03-25T13:02:42.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[数据类型和变量]]></title>
+        <id>https://policx.github.io/post/python01</id>
+        <link href="https://policx.github.io/post/python01">
+        </link>
+        <updated>2018-02-28T20:28:19.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Nginx]]></title>
