@@ -1,0 +1,392 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MongoDB | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561105956873">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561105956873" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a><br><br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3671867345973568",
+    enable_page_level_ads: true
+  });
+</script>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              MongoDB
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2018-05-02 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('http://pic.baike.soso.com/ugc/baikepic2/25296/cut-20171023142713-876305289_jpg_577_462_14320.jpg/300')">
+              </div>
+            
+            <div class="post-content">
+              <p>MongoDB是一个跨平台，面向文档的数据库，提供高性能，高可用性和易于扩展。MongoDB是工作在集合和文档上一种概念。</p>
+<h3 id="数据库">数据库</h3>
+<blockquote>
+<p>数据库是一个集合的物理容器。每个数据库获取其自己设定在文件系统上的文件。一个单一的MongoDB服务器通常有多个数据库。</p>
+</blockquote>
+<h3 id="集合">集合</h3>
+<blockquote>
+<p>集合是一组MongoDB的文件。它与一个RDBMS表是等效的。一个集合存在于数据库中。集合不强制执行模式。集合中的文档可以有不同的字段。通常情况下，在一个集合中的所有文件都是类似或相关目的。</p>
+</blockquote>
+<h3 id="文档">文档</h3>
+<blockquote>
+<p>文档是一组键值对。文档具有动态模式。动态模式是指，在同一个集合的文件不必具有相同一组集合的文档字段或结构，并且相同的字段可以保持不同类型的数据。
+下面给出的示例显示了一个博客网站，仅仅是一个逗号分隔的键值对的文档结构。</p>
+</blockquote>
+<pre><code>{
+   _id: ObjectId(7df78ad8902c)
+   title: 'MongoDB Overview', 
+   description: 'MongoDB is no sql database',
+   by: 'yiibai tutorial',
+   url: 'http://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 100, 
+   comments: [	
+      {
+         user:'user1',
+         message: 'My first comment',
+         dateCreated: new Date(2011,1,20,2,15),
+         like: 0 
+      },
+      {
+         user:'user2',
+         message: 'My second comments',
+         dateCreated: new Date(2011,1,25,7,45),
+         like: 5
+      }
+   ]
+}
+</code></pre>
+<h3 id="创建数据库">创建数据库</h3>
+<blockquote>
+<p>MongoDB use DATABASE_NAME 用于创建数据库。该命令如果数据库不存在，将创建一个新的数据库， 否则将返回现有的数据库。</p>
+</blockquote>
+<h4 id="语法">语法</h4>
+<p>use DATABASE语句的基本语法如下：
+<code>use DATABASE_NAME</code></p>
+<h5 id="例子">例子：</h5>
+<pre><code>如果想创建一个数据库名称为 &lt;mydb&gt;, 那么 use DATABASE 语句应该如下：
+&gt;use mydb
+switched to db mydb
+
+要检查当前选择的数据库使用命令 db
+&gt;db
+mydb
+
+如果想查询数据库列表，那么使用命令 show dbs.
+&gt;show dbs
+local     0.78125GB
+test      0.23012GB
+
+所创建的数据库（mydb）不存在于列表中。要显示的数据库，需要至少插入一个文档进去。
+&gt;db.movie.insert({&quot;name&quot;:&quot;yiibai tutorials&quot;})
+&gt;show dbs
+local      0.78125GB
+mydb       0.23012GB
+test       0.23012GB
+</code></pre>
+<p>MongoDB的默认数据库是test。 如果没有创建任何数据库，那么集合将被保存在测试数据库。</p>
+<h4 id="删除数据库">删除数据库</h4>
+<p>MongoDB db.dropDatabase() 命令用于删除现有的数据库。</p>
+<blockquote>
+<p>语法
+dropDatabase()指令的基本语法如下：
+<code>db.dropDatabase()</code></p>
+</blockquote>
+<p>这将删除选定的数据库。如果没有选择任何数据库，那么它会删除默认的“test”数据库</p>
+<h5 id="例子-2">例子：</h5>
+<p>如果想删除新的数据库 <mydb>, 那么 dropDatabase() 命令将如下所示：</p>
+<pre><code>&gt;use mydb
+switched to db mydb
+&gt;db.dropDatabase()
+&gt;{ &quot;dropped&quot; : &quot;mydb&quot;, &quot;ok&quot; : 1 }
+&gt;
+</code></pre>
+<h4 id="创建集合">创建集合</h4>
+<p>MongoDB 的 db.createCollection(name, options) 用于创建集合。 在命令中, name 是要创建集合的名称。 Options 是一个文档，用于指定集合的配置</p>
+<p>参数 | 类型 | 描述
+--------- | -------------
+Name | String | 要创建的集合的名称
+Options | Document |（可选）指定有关内存大小和索引选项
+选项参数是可选的，所以需要指定集合的唯一名字。</p>
+<h3 id="语法-2">语法</h3>
+<p>createCollection()方法的基本语法如下</p>
+<pre><code>&gt;use test
+switched to db test
+&gt;db.createCollection(&quot;mycollection&quot;)
+{ &quot;ok&quot; : 1 }
+&gt;
+</code></pre>
+<p>可以通过使用 show collections 命令来检查创建的集合</p>
+<pre><code>&gt;show collections
+mycollection
+system.indexes
+</code></pre>
+<h3 id="选项列表">选项列表</h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>capped</td>
+<td>Boolean</td>
+<td>（可选）如果为true，它启用上限集合。上限集合是一个固定大小的集合，当它达到其最大尺寸会自动覆盖最老的条目。 如果指定true，则还需要指定参数的大小。</td>
+</tr>
+<tr>
+<td>autoIndexID</td>
+<td>Boolean</td>
+<td>（可选）如果为true，自动创建索引_id字段。默认的值是 false.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number</td>
+<td>（可选）指定的上限集合字节的最大尺寸。如果capped 是true，那么还需要指定这个字段。</td>
+</tr>
+<tr>
+<td>max</td>
+<td>number</td>
+<td>（可选）指定上限集合允许的最大文件数。</td>
+</tr>
+</tbody>
+</table>
+<p>尽管插入文档，MongoDB首先检查字段集合的上限大小，那么它会检查最大字段。</p>
+<h4 id="语法-3">语法 :</h4>
+<pre><code>&gt;db.createCollection(&quot;mycol&quot;, { capped : true, autoIndexID : true, size : 6142800, max : 10000 } )
+{ &quot;ok&quot; : 1 }
+&gt;
+</code></pre>
+<p>在MongoDB中并不需要创建集合。 当插入一些文档 MongoDB 会自动创建集合。</p>
+<pre><code>&gt;db.yiibai.insert({&quot;name&quot; : &quot;yiibai&quot;})
+&gt;show collections
+mycol
+mycollection
+system.indexes
+yiibai
+&gt;
+</code></pre>
+<h4 id="删除集合">删除集合</h4>
+<p>MongoDB 的 db.collection.drop() 用于从数据库中删除集合。</p>
+<h5 id="语法-4">语法</h5>
+<p>drop() 命令的基本语法如下
+<code>db.COLLECTION_NAME.drop()</code></p>
+<h5 id="例子-3">例子：</h5>
+<p>下面给出的例子将删除给定名称的集合：mycollection</p>
+<pre><code>&gt;use mydb
+switched to db mydb
+&gt;db.mycollection.drop()
+true
+&gt;
+</code></pre>
+<h4 id="插入文档">插入文档</h4>
+<p>将数据插入到MongoDB集合，需要使用MongoDB 的 insert() 方法。</p>
+<h5 id="语法-5">语法</h5>
+<p>insert()命令的基本语法如下：
+<code>&gt;db.COLLECTION_NAME.insert(document)</code></p>
+<h5 id="例子-4">例子</h5>
+<pre><code>&gt;db.mycol.insert({
+   _id: ObjectId(7df78ad8902c),
+   title: 'MongoDB Overview', 
+   description: 'MongoDB is no sql database',
+   by: 'yiibai tutorials',
+   url: 'http://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 100
+})
+</code></pre>
+<p>这里 mycol 是我们的集合名称，它是在之前的教程中创建。如果集合不存在于数据库中，那么MongoDB创建此集合，然后插入文档进去。</p>
+<p>在如果我们不指定_id参数插入的文档，那么 MongoDB 将为文档分配一个唯一的ObjectId。</p>
+<p>_id 是12个字节十六进制数在一个集合的每个文档是唯一的。 12个字节被划分如下：
+_id: ObjectId(4 bytes timestamp, 3 bytes machine id, 2 bytes process id, 3 bytes incrementer)</p>
+<p>要以单个查询插入多个文档，可以通过文档 insert() 命令的数组方式。</p>
+<h5 id="例子-5">例子</h5>
+<pre><code>&gt;db.post.insert([
+{
+   title: 'MongoDB Overview', 
+   description: 'MongoDB is no sql database',
+   by: 'yiibai tutorials',
+   url: 'http://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 100
+},
+{
+   title: 'NoSQL Database', 
+   description: 'NoSQL database doesn't have tables',
+   by: 'yiibai tutorials',
+   url: 'http://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 20, 
+   comments: [	
+      {
+         user:'user1',
+         message: 'My first comment',
+         dateCreated: new Date(2013,11,10,2,35),
+         like: 0 
+      }
+   ]
+}
+])
+</code></pre>
+<h4 id="查询文档">查询文档</h4>
+<p>要从集合查询MongoDB数据，需要使用MongoDB的 find()方法。</p>
+<h5 id="语法-6">语法</h5>
+<p>find()方法的基本语法如下
+<code>&gt;db.COLLECTION_NAME.find()</code>
+find() 方法将在非结构化的方式显示所有的文件。 如果显示结果是格式化的，那么可以用pretty() 方法。</p>
+<h5 id="语法-7">语法</h5>
+<p><code>&gt;db.mycol.find().pretty()</code></p>
+<h5 id="例子-6">例子</h5>
+<pre><code>&gt;db.mycol.find().pretty()
+{
+   &quot;_id&quot;: ObjectId(7df78ad8902c),
+   &quot;title&quot;: &quot;MongoDB Overview&quot;, 
+   &quot;description&quot;: &quot;MongoDB is no sql database&quot;,
+   &quot;by&quot;: &quot;yiibai tutorials&quot;,
+   &quot;url&quot;: &quot;http://www.yiibai.com&quot;,
+   &quot;tags&quot;: [&quot;mongodb&quot;, &quot;database&quot;, &quot;NoSQL&quot;],
+   &quot;likes&quot;: &quot;100&quot;
+}
+&gt;
+</code></pre>
+<p>除了find()方法还有findOne()方法，仅返回一个文档。</p>
+<p>RDBMS Where子句等效于MongoDB</p>
+<p><a href="https://www.yiibai.com/mongodb/mongodb_quick_guide.html">【易百教程】</a></p>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/PyMySQL">
+              <h3 class="post-title">
+                python3 与 MySQL 之间的交互
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
