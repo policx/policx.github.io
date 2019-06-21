@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-21T16:08:34.265Z</updated>
+    <updated>2019-06-21T18:38:04.634Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -66,6 +66,13 @@
         <link href="https://policx.github.io/post/hexo-github">
         </link>
         <updated>2018-05-20T02:41:19.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[python3 与 MongoDB 之间的交互]]></title>
+        <id>https://policx.github.io/post/python3-mongodb</id>
+        <link href="https://policx.github.io/post/python3-mongodb">
+        </link>
+        <updated>2018-05-02T07:27:47.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[MongoDB]]></title>
