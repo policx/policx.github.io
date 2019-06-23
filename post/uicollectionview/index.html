@@ -1,0 +1,276 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UICollectionView | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561293097055">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561293097055" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a><br><br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3671867345973568",
+    enable_page_level_ads: true
+  });
+</script>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              UICollectionView
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2016-06-18 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://images.pexels.com/photos/34676/pexels-photo.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="layout-objects">Layout Objects</h1>
+<p>使用UICollectionViewFlowLayout类进行具体的布局实现，类的官方文档说明：<a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewFlowLayout_class/Reference/Reference.html#//apple_ref/occ/cl/UICollectionViewFlowLayout">https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewFlowLayout_class/Reference/Reference.html#//apple_ref/occ/cl/UICollectionViewFlowLayout</a>,进一步定制可参考官方这个文档：<a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/UsingtheFlowLayout/UsingtheFlowLayout.html#//apple_ref/doc/uid/TP40012334-CH3-SW4">https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/UsingtheFlowLayout/UsingtheFlowLayout.html#//apple_ref/doc/uid/TP40012334-CH3-SW4</a></p>
+<h1 id="cells和其它view">Cells和其它View</h1>
+<p>collection view管理者cells，supplementary views和decoration views</p>
+<ul>
+<li>cells：和tableview的cell类似。</li>
+<li>Supplementary views：相当于tableview的section header和footer views，不同的是数量和位置由布局控制</li>
+<li>Decoration views：装饰用</li>
+</ul>
+<h1 id="基于内容的布局计算自定义布局">基于内容的布局计算自定义布局</h1>
+<p>子类重写的方法可以参考官方文档：<a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewLayout_class/Reference/Reference.html">https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewLayout_class/Reference/Reference.html</a></p>
+<h1 id="collectionviewcontentsize">collectionViewContentSize</h1>
+<pre><code>- (CGSize)collectionViewContentSize
+{
+     //不能水平滚动
+     CGFloat contentWidth = self.collectionView.bounds.size.width;
+
+     //垂直滚动显示完整数据
+     CGFloat contentHeight = DayHeaderHeight + (HeightPerHour * HoursPerDay);
+
+     CGSize contentSize = CGSizeMake(contentWidth, contentHeight);
+     return contentSize;
+}
+</code></pre>
+<h1 id="布局中最重要的方法layoutattributesforelementsinrect">布局中最重要的方法layoutAttributesForElementsInRect:</h1>
+<pre><code>- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
+{
+     NSMutableArray *layoutAttributes = [NSMutableArray array];
+     // Cells
+     // We call a custom helper method -indexPathsOfItemsInRect: here
+     // which computes the index paths of the cells that should be included
+     // in rect.
+     NSArray *visibleIndexPaths = [self indexPathsOfItemsInRect:rect];
+     for (NSIndexPath *indexPath in visibleIndexPaths) {
+          UICollectionViewLayoutAttributes *attributes =
+          [self layoutAttributesForItemAtIndexPath:indexPath];
+          [layoutAttributes addObject:attributes];
+     }
+
+     // Supplementary views
+     NSArray *dayHeaderViewIndexPaths = [self indexPathsOfDayHeaderViewsInRect:rect];
+     for (NSIndexPath *indexPath in dayHeaderViewIndexPaths) {
+          UICollectionViewLayoutAttributes *attributes =
+          [self layoutAttributesForSupplementaryViewOfKind:@“DayHeaderView&quot; atIndexPath:indexPath];
+     [layoutAttributes addObject:attributes];
+     }
+
+     NSArray *hourHeaderViewIndexPaths = [self indexPathsOfHourHeaderViewsInRect:rect];
+     for (NSIndexPath *indexPath in hourHeaderViewIndexPaths) {
+          UICollectionViewLayoutAttributes *attributes =
+          [self layoutAttributesForSupplementaryViewOfKind:@&quot;HourHeaderView&quot;
+atIndexPath:indexPath];
+          [layoutAttributes addObject:attributes];
+     }
+     return layoutAttributes;
+}
+</code></pre>
+<h1 id="layoutattributesforitematindexpath">layoutAttributesForItemAtIndexPath:</h1>
+<pre><code>- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+     CalendarDataSource *dataSource = self.collectionView.dataSource;
+     id event = [dataSource eventAtIndexPath:indexPath];
+     UICollectionViewLayoutAttributes *attributes =
+     [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+     attributes.frame = [self frameForEvent:event];
+     return attributes;
+}
+</code></pre>
+<h1 id="shouldinvalidatelayoutforboundschange">shouldInvalidateLayoutForBoundsChange:</h1>
+<pre><code>- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+     CGRect oldBounds = self.collectionView.bounds;
+     if (CGRectGetWidth(newBounds) != CGRectGetWidth(oldBounds)) {
+          return YES;
+     }
+     return NO;
+}
+</code></pre>
+<h1 id="插入删除和布局间切换的动画">插入，删除和布局间切换的动画</h1>
+<p>插入，删除</p>
+<ul>
+<li>initialLayoutAttributesForAppearingItemAtIndexPath:</li>
+<li>initialLayoutAttributesForAppearingSupplementaryElementOfKind:atIndexPath:</li>
+<li>initialLayoutAttributesForAppearingDecorationElementOfKind:atIndexPath:</li>
+<li>finalLayoutAttributesForDisappearingItemAtIndexPath:</li>
+<li>finalLayoutAttributesForDisappearingSupplementaryElementOfKind:atIndexPath:</li>
+<li>finalLayoutAttributesForDisappearingDecorationElementOfKind:atIndexPath:
+发送setCollectionViewLayout:animated:消息，collection view会为cells在新布局参数，动态将每个cell从旧变到新。</li>
+</ul>
+<h1 id="范例">范例</h1>
+<ul>
+<li>自定义布局范例：<a href="https://github.com/objcio/issue-3-collection-view-layouts">https://github.com/objcio/issue-3-collection-view-layouts</a></li>
+<li><a href="https://github.com/ming1016/study/wiki">ming1016</a></li>
+</ul>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/uiview">
+              <h3 class="post-title">
+                UIView
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '668d4c1dc3767af8dc3b',
+    clientSecret: '4f94ef2329aa2b4c333b9d884b9264b0d0656346',
+    repo: 'talk',
+    owner: 'policx',
+    admin: ['policx'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

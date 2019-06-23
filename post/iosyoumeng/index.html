@@ -1,0 +1,480 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>iOS 友盟分享笔记 | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561293097055">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561293097055" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a><br><br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3671867345973568",
+    enable_page_level_ads: true
+  });
+</script>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              iOS 友盟分享笔记
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2017-01-17 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=format%2Ccompress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500')">
+              </div>
+            
+            <div class="post-content">
+              <h4 id="1下载友盟分享sdk">1.下载友盟分享SDK</h4>
+<h4 id="2将-umsocial-文件拖入工程-注根据你需要分享的平台来添加umsocial-sociallibraries-删除你不需要的平台否则很占包体积比如我只需要-qqsinawechat">2.将 UMSocial 文件拖入工程 (注:根据你需要分享的平台来添加，UMSocial -&gt; SocialLibraries 删除你不需要的平台，否则很占包体积,比如我只需要 QQ，Sina，WeChat)</h4>
+<h4 id="3添加配置项目-build-setting-lingking-other-linker-flags-objc-如果没有设置所有环境配置好之后点击分享umshareui-弹出的将没有平台头像">3.添加配置项目  Build Setting -&gt; Lingking -&gt; Other Linker Flags  -ObjC  ！！！如果没有设置，所有环境配置好之后，点击分享，UMShareUI 弹出的将没有平台头像</h4>
+<h5 id="配置依赖库">配置依赖库</h5>
+<pre><code>1) SystemConfiguration.framework 
+    CoreTelephony.framework 
+    ImageIO.framework 
+    libsqlite3.tbd 
+    libz.tbd
+    libc++.tbd 
+</code></pre>
+<h4 id="4设置ats-找到infoplist-右键openas-sourcecode-添加一下分别是qq微信微博">4.设置ATS  找到Info.plist   右键，OpenAs SourceCode  添加一下(分别是，QQ，微信，微博)</h4>
+<pre><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+    &lt;dict&gt;
+        &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+        &lt;true/&gt;
+        &lt;key&gt;NSExceptionDomains&lt;/key&gt;
+        &lt;dict&gt;
+            &lt;key&gt;renren.com&lt;/key&gt;
+            &lt;dict&gt;
+                &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionAllowsInsecureHTTPLoads&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionRequiresForwardSecrecy&lt;/key&gt;
+                &lt;false/&gt;
+            &lt;/dict&gt;
+            &lt;key&gt;sina.cn&lt;/key&gt;
+            &lt;dict&gt;
+                &lt;key&gt;NSExceptionMinimumTLSVersion&lt;/key&gt;
+                &lt;string&gt;TLSv1.0&lt;/string&gt;
+                &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionRequiresForwardSecrecy&lt;/key&gt;
+                &lt;false/&gt;
+            &lt;/dict&gt;
+            &lt;key&gt;sina.com.cn&lt;/key&gt;
+            &lt;dict&gt;
+                &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionAllowsInsecureHTTPLoads&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionRequiresForwardSecrecy&lt;/key&gt;
+                &lt;false/&gt;
+            &lt;/dict&gt;
+            &lt;key&gt;sinaimg.cn&lt;/key&gt;
+            &lt;dict&gt;
+                &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionAllowsInsecureHTTPLoads&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionRequiresForwardSecrecy&lt;/key&gt;
+                &lt;false/&gt;
+            &lt;/dict&gt;
+            &lt;key&gt;sinajs.cn&lt;/key&gt;
+            &lt;dict&gt;
+                &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionAllowsInsecureHTTPLoads&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionRequiresForwardSecrecy&lt;/key&gt;
+                &lt;false/&gt;
+            &lt;/dict&gt;
+            &lt;key&gt;weibo.cn&lt;/key&gt;
+            &lt;dict&gt;
+                &lt;key&gt;NSExceptionMinimumTLSVersion&lt;/key&gt;
+                &lt;string&gt;TLSv1.0&lt;/string&gt;
+                &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionRequiresForwardSecrecy&lt;/key&gt;
+                &lt;false/&gt;
+            &lt;/dict&gt;
+            &lt;key&gt;weibo.com&lt;/key&gt;
+            &lt;dict&gt;
+                &lt;key&gt;NSExceptionMinimumTLSVersion&lt;/key&gt;
+                &lt;string&gt;TLSv1.0&lt;/string&gt;
+                &lt;key&gt;NSIncludesSubdomains&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionAllowsInsecureHTTPLoads&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;NSThirdPartyExceptionRequiresForwardSecrecy&lt;/key&gt;
+                &lt;false/&gt;
+            &lt;/dict&gt;
+        &lt;/dict&gt;
+    &lt;/dict&gt;
+</code></pre>
+<h4 id="5设置urltype-找到infoplist-右键openas-sourcecode-添加一下分别是qq微信微博">5.设置URLType  找到Info.plist   右键，OpenAs SourceCode  添加一下(分别是，QQ，微信，微博)</h4>
+<pre><code>
+&lt;key&gt;CFBundleURLTypes&lt;/key&gt;
+   &lt;array&gt;
+       &lt;dict&gt;
+           &lt;key&gt;CFBundleTypeRole&lt;/key&gt;
+           &lt;string&gt;Editor&lt;/string&gt;
+           &lt;key&gt;CFBundleURLName&lt;/key&gt;
+           &lt;string&gt;&lt;/string&gt;
+           &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+           &lt;array&gt;
+               &lt;string&gt;wb3921700954&lt;/string&gt;
+           &lt;/array&gt;
+       &lt;/dict&gt;
+       &lt;dict&gt;
+           &lt;key&gt;CFBundleTypeRole&lt;/key&gt;
+           &lt;string&gt;Editor&lt;/string&gt;
+           &lt;key&gt;CFBundleURLName&lt;/key&gt;
+           &lt;string&gt;weixin&lt;/string&gt;
+           &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+           &lt;array&gt;
+               &lt;string&gt;wxdc1e388c3822c80b&lt;/string&gt;
+           &lt;/array&gt;
+       &lt;/dict&gt;
+       &lt;dict&gt;
+           &lt;key&gt;CFBundleTypeRole&lt;/key&gt;
+           &lt;string&gt;Editor&lt;/string&gt;
+           &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+           &lt;array&gt;
+               &lt;string&gt;tencent1105860513&lt;/string&gt;
+           &lt;/array&gt;
+       &lt;/dict&gt;
+       &lt;dict&gt;
+           &lt;key&gt;CFBundleTypeRole&lt;/key&gt;
+           &lt;string&gt;Editor&lt;/string&gt;
+           &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+           &lt;array&gt;
+               &lt;string&gt;QQ0x41EA17A1&lt;/string&gt;
+           &lt;/array&gt;
+       &lt;/dict&gt;
+       &lt;dict&gt;
+           &lt;key&gt;CFBundleTypeRole&lt;/key&gt;
+           &lt;string&gt;Editor&lt;/string&gt;
+           &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;
+           &lt;array&gt;
+               &lt;string&gt;wendu.dsbridgedemo&lt;/string&gt;
+           &lt;/array&gt;
+       &lt;/dict&gt;
+   &lt;/array&gt;
+</code></pre>
+<h4 id="6设置urltype-找到infoplist-右键openas-sourcecode-添加一下">6.设置URLType  找到Info.plist   右键，OpenAs SourceCode  添加一下</h4>
+<pre><code>
+&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;
+  &lt;array&gt;
+      &lt;string&gt;linkedin&lt;/string&gt;
+      &lt;string&gt;linkedin-sdk2&lt;/string&gt;
+      &lt;string&gt;linkedin-sdk&lt;/string&gt;
+      &lt;string&gt;wechat&lt;/string&gt;
+      &lt;string&gt;weixin&lt;/string&gt;
+      &lt;string&gt;sinaweibohd&lt;/string&gt;
+      &lt;string&gt;sinaweibo&lt;/string&gt;
+      &lt;string&gt;sinaweibosso&lt;/string&gt;
+      &lt;string&gt;weibosdk&lt;/string&gt;
+      &lt;string&gt;weibosdk2.5&lt;/string&gt;
+      &lt;string&gt;mqqapi&lt;/string&gt;
+      &lt;string&gt;mqq&lt;/string&gt;
+      &lt;string&gt;mqqOpensdkSSoLogin&lt;/string&gt;
+      &lt;string&gt;mqqconnect&lt;/string&gt;
+      &lt;string&gt;mqqopensdkdataline&lt;/string&gt;
+      &lt;string&gt;mqqopensdkgrouptribeshare&lt;/string&gt;
+      &lt;string&gt;mqqopensdkfriend&lt;/string&gt;
+      &lt;string&gt;mqqopensdkapi&lt;/string&gt;
+      &lt;string&gt;mqqopensdkapiV2&lt;/string&gt;
+      &lt;string&gt;mqqopensdkapiV3&lt;/string&gt;
+      &lt;string&gt;mqqopensdkapiV4&lt;/string&gt;
+      &lt;string&gt;mqzoneopensdk&lt;/string&gt;
+      &lt;string&gt;wtloginmqq&lt;/string&gt;
+      &lt;string&gt;wtloginmqq2&lt;/string&gt;
+      &lt;string&gt;mqqwpa&lt;/string&gt;
+      &lt;string&gt;mqzone&lt;/string&gt;
+      &lt;string&gt;mqzonev2&lt;/string&gt;
+      &lt;string&gt;mqzoneshare&lt;/string&gt;
+      &lt;string&gt;wtloginqzone&lt;/string&gt;
+      &lt;string&gt;mqzonewx&lt;/string&gt;
+      &lt;string&gt;mqzoneopensdkapiV2&lt;/string&gt;
+      &lt;string&gt;mqzoneopensdkapi19&lt;/string&gt;
+      &lt;string&gt;mqzoneopensdkapi&lt;/string&gt;
+      &lt;string&gt;mqqbrowser&lt;/string&gt;
+      &lt;string&gt;mttbrowser&lt;/string&gt;
+      &lt;string&gt;TencentWeibo&lt;/string&gt;
+      &lt;string&gt;tencentweiboSdkv2&lt;/string&gt;
+      &lt;string&gt;alipay&lt;/string&gt;
+      &lt;string&gt;alipayshare&lt;/string&gt;
+      &lt;string&gt;renrenios&lt;/string&gt;
+      &lt;string&gt;renrenapi&lt;/string&gt;
+      &lt;string&gt;renren&lt;/string&gt;
+      &lt;string&gt;renreniphone&lt;/string&gt;
+      &lt;string&gt;laiwangsso&lt;/string&gt;
+      &lt;string&gt;yixin&lt;/string&gt;
+      &lt;string&gt;yixinopenapi&lt;/string&gt;
+      &lt;string&gt;yixinoauth&lt;/string&gt;
+      &lt;string&gt;yixinfav&lt;/string&gt;
+      &lt;string&gt;laiwangsso&lt;/string&gt;
+      &lt;string&gt;instagram&lt;/string&gt;
+      &lt;string&gt;whatsapp&lt;/string&gt;
+      &lt;string&gt;line&lt;/string&gt;
+      &lt;string&gt;tumblr&lt;/string&gt;
+      &lt;string&gt;fbapi&lt;/string&gt;
+      &lt;string&gt;fb-messenger-api&lt;/string&gt;
+      &lt;string&gt;fbauth2&lt;/string&gt;
+      &lt;string&gt;fbshareextension&lt;/string&gt;
+      &lt;string&gt;kakao6d5e4ca98ba3b944020c2c90953318e9&lt;/string&gt;
+      &lt;string&gt;kakaokompassauth&lt;/string&gt;
+      &lt;string&gt;storykompassauth&lt;/string&gt;
+      &lt;string&gt;kakaolink&lt;/string&gt;
+      &lt;string&gt;kakaotalk-4.5.0&lt;/string&gt;
+      &lt;string&gt;kakaostory-2.9.0&lt;/string&gt;
+      &lt;string&gt;pinterestsdk.v1&lt;/string&gt;
+      &lt;string&gt;dingtalk&lt;/string&gt;
+      &lt;string&gt;dingtalk-open&lt;/string&gt;
+      &lt;string&gt;evernote&lt;/string&gt;
+      &lt;string&gt;en&lt;/string&gt;
+      &lt;string&gt;enx&lt;/string&gt;
+      &lt;string&gt;evernotecid&lt;/string&gt;
+      &lt;string&gt;evernotemsg&lt;/string&gt;
+      &lt;string&gt;youdaonote&lt;/string&gt;
+      &lt;string&gt;ynotedictfav&lt;/string&gt;
+      &lt;string&gt;com.youdao.note.todayViewNote&lt;/string&gt;
+      &lt;string&gt;ynotesharesdk&lt;/string&gt;
+      &lt;string&gt;gplus&lt;/string&gt;
+      &lt;string&gt;pocket&lt;/string&gt;
+      &lt;string&gt;readitlater&lt;/string&gt;
+      &lt;string&gt;pocket-oauth-v1&lt;/string&gt;
+      &lt;string&gt;fb131450656879143&lt;/string&gt;
+      &lt;string&gt;en-readitlater-5776&lt;/string&gt;
+      &lt;string&gt;com.ideashower.ReadItLaterPro3&lt;/string&gt;
+      &lt;string&gt;com.ideashower.ReadItLaterPro&lt;/string&gt;
+      &lt;string&gt;com.ideashower.ReadItLaterProAlpha&lt;/string&gt;
+      &lt;string&gt;com.ideashower.ReadItLaterProEnterprise&lt;/string&gt;
+      &lt;string&gt;vk&lt;/string&gt;
+      &lt;string&gt;vk-share&lt;/string&gt;
+      &lt;string&gt;vkauthorize&lt;/string&gt;
+  &lt;/array&gt;
+</code></pre>
+<h4 id="接下来可以快乐的commond-b-了">接下来可以快乐的commond + b 了</h4>
+<h4 id="初始化-在appdelegatem中-导入头文件">初始化  在Appdelegate.m中  ，导入头文件</h4>
+<p><code>#import &lt;UMSocialCore/UMSocialCore.h&gt;</code></p>
+<pre><code>//建议抽成一个单独的方法，别在一个函数里面执行太多的东西
+- (void)initUMShareSdk
+{
+    //打开日志
+    [[UMSocialManager defaultManager] openLog:YES];
+    // 打开图片水印
+    //[UMSocialGlobal shareInstance].isUsingWaterMark = YES;
+    
+    // 获取友盟social版本号
+    UMSocialLogInfo(@&quot;UMeng social version: %@&quot;, [UMSocialGlobal umSocialSDKVersion]);
+    
+    //设置友盟appkey
+    [[UMSocialManager defaultManager] setUmSocialAppkey:@“your UMKey”];
+    
+    //设置微信的appKey和appSecret
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@&quot;wxdc1e388c3822c80b&quot; appSecret:@&quot;3baf1193c85774b3fd9d18447d76cab0&quot; redirectURL:@&quot;http://zhonfan.com&quot;];
+    /*
+     * 添加某一平台会加入平台下所有分享渠道，如微信：好友、朋友圈、收藏，QQ：QQ和QQ空间
+     * 以下接口可移除相应平台类型的分享，如微信收藏，对应类型可在枚举中查找
+     */
+    //[[UMSocialManager defaultManager] removePlatformProviderWithPlatformTypes:@[@(UMSocialPlatformType_WechatFavorite)]];
+    
+    // 设置分享到QQ互联的appID
+    // U-Share SDK为了兼容大部分平台命名，统一用appKey和appSecret进行参数设置，而QQ平台仅需将appID作为U-Share的appKey参数传进即可。
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@&quot;1105860513&quot;/*设置QQ平台的appID*/  appSecret:nil redirectURL:@&quot;http://zhonfan.com&quot;];
+    
+    //设置新浪的appKey和appSecret
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:@&quot;3921700954&quot;  appSecret:@&quot;04b48b094faeb16683c32669824ebdad&quot; redirectURL:@&quot;http://zhonfan.com&quot;];
+}
+//#define __IPHONE_10_0    100000
+#if __IPHONE_OS_VERSION_MAX_ALLOWED &gt; 100000
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary&lt;UIApplicationOpenURLOptionsKey, id&gt; *)options
+{
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
+    if (!result) {
+        // 其他如支付等SDK的回调
+    }
+    return result;
+}
+#endif
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
+    if (!result) {
+        // 其他如支付等SDK的回调
+    }
+    return result;
+}
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
+    if (!result) {
+        // 其他如支付等SDK的回调
+    }
+    return result;
+}
+</code></pre>
+<h4 id="ok-appdelegate设置完成接下来是如何调用">OK AppDelegate设置完成，接下来是如何调用</h4>
+<pre><code>/**
+ 分享
+ @param obj obj 可为本地图片(UIImage类型),网络图片,(NSString类型,因为只能上传https的图片，所以内部使用SDWebImageManager，SDWebImage第三方库的一个类，使用这类进行图片下载处理)
+ */
+- (void)shareWithObj:(id)obj;
+</code></pre>
+<p>使用这个分类进行处理，建议以后遇到类似的，继承或者分类，隔离一下</p>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/jianpan">
+              <h3 class="post-title">
+                机械键盘
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '668d4c1dc3767af8dc3b',
+    clientSecret: '4f94ef2329aa2b4c333b9d884b9264b0d0656346',
+    repo: 'talk',
+    owner: 'policx',
+    admin: ['policx'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

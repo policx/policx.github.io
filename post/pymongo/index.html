@@ -1,0 +1,326 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>python3 与 MongoDB 之间的交互 | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561293097055">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561293097055" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a><br><br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3671867345973568",
+    enable_page_level_ads: true
+  });
+</script>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              python3 与 MongoDB 之间的交互
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2018-05-02 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://i01picsos.sogoucdn.com/4dee6e9358819886')">
+              </div>
+            
+            <div class="post-content">
+              <p>MongoDB是由C++语言编写的非关系型数据库，是一个基于分布式文件存储的开源数据库系统，其内容存储形式类似JSON对象，它的字段值可以包含其他文档、数组及文档数组，非常灵活。在这一节中，我们就来看看Python 3下MongoDB的存储操作。</p>
+<h2 id="1-准备工作">1. 准备工作</h2>
+<p>在开始之前，请确保已经安装好了MongoDB并启动了其服务，并且安装好了Python的PyMongo库。</p>
+<h2 id="2-连接mongodb">2. 连接MongoDB</h2>
+<p>连接MongoDB时，我们需要使用PyMongo库里面的MongoClient。一般来说，传入MongoDB的IP及端口即可，其中第一个参数为地址host，第二个参数为端口port（如果不给它传递参数，默认是27017）：</p>
+<pre><code>import pymongo
+client = pymongo.MongoClient(host='localhost', port=27017)
+</code></pre>
+<p>这样就可以创建MongoDB的连接对象了。</p>
+<p>另外，MongoClient的第一个参数host还可以直接传入MongoDB的连接字符串，它以mongodb开头，例如：</p>
+<pre><code>client = MongoClient('mongodb://localhost:27017/')
+</code></pre>
+<p>这也可以达到同样的连接效果。</p>
+<h2 id="3-指定数据库">3. 指定数据库</h2>
+<p>MongoDB中可以建立多个数据库，接下来我们需要指定操作哪个数据库。这里我们以test数据库为例来说明，下一步需要在程序中指定要使用的数据库：</p>
+<pre><code>db = client.test
+</code></pre>
+<p>这里调用client的test属性即可返回test数据库。当然，我们也可以这样指定：</p>
+<pre><code>db = client['test']
+</code></pre>
+<p>这两种方式是等价的。</p>
+<h2 id="4-指定集合">4. 指定集合</h2>
+<p>MongoDB的每个数据库又包含许多集合（collection），它们类似于关系型数据库中的表。</p>
+<p>下一步需要指定要操作的集合，这里指定一个集合名称为students。与指定数据库类似，指定集合也有两种方式：
+<code>collection = db.students</code></p>
+<p><code>collection = db['students']</code>
+这样我们便声明了一个Collection对象。</p>
+<h2 id="5-插入数据">5. 插入数据</h2>
+<p>接下来，便可以插入数据了。对于students这个集合，新建一条学生数据，这条数据以字典形式表示：</p>
+<pre><code>student = {
+    'id': '20170101',
+    'name': 'Jordan',
+    'age': 20,
+    'gender': 'male'
+}
+</code></pre>
+<p>这里指定了学生的学号、姓名、年龄和性别。接下来，直接调用collection的insert()方法即可插入数据，代码如下：</p>
+<pre><code>result = collection.insert(student)
+print(result)
+</code></pre>
+<p>在MongoDB中，每条数据其实都有一个_id属性来唯一标识。如果没有显式指明该属性，MongoDB会自动产生一个ObjectId类型的_id属性。insert()方法会在执行后返回_id值。</p>
+<p>运行结果如下：</p>
+<pre><code>5932a68615c2606814c91f3d
+</code></pre>
+<p>当然，我们也可以同时插入多条数据，只需要以列表形式传递即可，示例如下：</p>
+<pre><code>student1 = {
+    'id': '20170101',
+    'name': 'Jordan',
+    'age': 20,
+    'gender': 'male'
+}
+
+student2 = {
+    'id': '20170202',
+    'name': 'Mike',
+    'age': 21,
+    'gender': 'male'
+}
+</code></pre>
+<pre><code>result = collection.insert([student1, student2])
+print(result)
+</code></pre>
+<p>返回结果是对应的_id的集合：</p>
+<p><code>[ObjectId('5932a80115c2606a59e8a048'), ObjectId('5932a80115c2606a59e8a049')]</code>
+实际上，在PyMongo 3.x版本中，官方已经不推荐使用insert()方法了。当然，继续使用也没有什么问题。官方推荐使用insert_one()和insert_many()方法来分别插入单条记录和多条记录，示例如下：</p>
+<pre><code>student = {
+    'id': '20170101',
+    'name': 'Jordan',
+    'age': 20,
+    'gender': 'male'
+}
+
+result = collection.insert_one(student)
+print(result)
+print(result.inserted_id)
+</code></pre>
+<p>运行结果如下：</p>
+<pre><code>&lt;pymongo.results.InsertOneResult object at 0x10d68b558&gt;
+5932ab0f15c2606f0c1cf6c5
+</code></pre>
+<p>与insert()方法不同，这次返回的是InsertOneResult对象，我们可以调用其inserted_id属性获取_id。</p>
+<p>对于insert_many()方法，我们可以将数据以列表形式传递，示例如下：</p>
+<pre><code>
+student1 = {
+    'id': '20170101',
+    'name': 'Jordan',
+    'age': 20,
+    'gender': 'male'
+}
+
+student2 = {
+    'id': '20170202',
+    'name': 'Mike',
+    'age': 21,
+    'gender': 'male'
+}
+</code></pre>
+<pre><code>result = collection.insert_many([student1, student2])
+print(result)
+print(result.inserted_ids)
+</code></pre>
+<p>运行结果如下：</p>
+<pre><code>&lt;pymongo.results.InsertManyResult object at 0x101dea558&gt;
+[ObjectId('5932abf415c2607083d3b2ac'), ObjectId('5932abf415c2607083d3b2ad')]
+</code></pre>
+<p>该方法返回的类型是InsertManyResult，调用inserted_ids属性可以获取插入数据的_id列表。</p>
+<h2 id="6-查询">6. 查询</h2>
+<p>插入数据后，我们可以利用find_one()或find()方法进行查询，其中find_one()查询得到的是单个结果，find()则返回一个生成器对象。示例如下：</p>
+<pre><code>result = collection.find_one({'name': 'Mike'})
+print(type(result))
+print(result)
+</code></pre>
+<p>这里我们查询name为Mike的数据，它的返回结果是字典类型，运行结果如下：</p>
+<pre><code>&lt;class 'dict'&gt;
+{'_id': ObjectId('5932a80115c2606a59e8a049'), 'id': '20170202', 'name': 'Mike', 'age': 21, 'gender': 'male'}
+</code></pre>
+<p>可以发现，它多了_id属性，这就是MongoDB在插入过程中自动添加的。</p>
+<p>此外，我们也可以根据ObjectId来查询，此时需要使用bson库里面的objectid：</p>
+<pre><code>from bson.objectid import ObjectId
+
+result = collection.find_one({'_id': ObjectId('593278c115c2602667ec6bae')})
+print(result)
+</code></pre>
+<p>其查询结果依然是字典类型，具体如下：</p>
+<p><code>{'_id': ObjectId('593278c115c2602667ec6bae'), 'id': '20170101', 'name': 'Jordan', 'age': 20, 'gender': 'male'}</code>
+当然，如果查询结果不存在，则会返回None。</p>
+<p>对于多条数据的查询，我们可以使用find()方法。例如，这里查找年龄为20的数据，示例如下：</p>
+<pre><code>results = collection.find({'age': 20})
+print(results)
+for result in results:
+    print(result)
+</code></pre>
+<p>运行结果如下：</p>
+<pre><code>&lt;pymongo.cursor.Cursor object at 0x1032d5128&gt;
+{'_id': ObjectId('593278c115c2602667ec6bae'), 'id': '20170101', 'name': 'Jordan', 'age': 20, 'gender': 'male'}
+{'_id': ObjectId('593278c815c2602678bb2b8d'), 'id': '20170102', 'name': 'Kevin', 'age': 20, 'gender': 'male'}
+{'_id': ObjectId('593278d815c260269d7645a8'), 'id': '20170103', 'name': 'Harden', 'age': 20, 'gender': 'male'}
+</code></pre>
+<p>返回结果是Cursor类型，它相当于一个生成器，我们需要遍历取到所有的结果，其中每个结果都是字典类型。</p>
+<p>如果要查询年龄大于20的数据，则写法如下：</p>
+<p><code>results = collection.find({'age': {'$gt': 20}})</code>
+这里查询的条件键值已经不是单纯的数字了，而是一个字典，其键名为比较符号$gt，意思是大于，键值为20。</p>
+<p>这里将比较符号归纳为下表。
+<a href="https://cloud.tencent.com/developer/article/1151814">腾讯云自媒体分享计划</a></p>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/mongodb">
+              <h3 class="post-title">
+                MongoDB
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '668d4c1dc3767af8dc3b',
+    clientSecret: '4f94ef2329aa2b4c333b9d884b9264b0d0656346',
+    repo: 'talk',
+    owner: 'policx',
+    admin: ['policx'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

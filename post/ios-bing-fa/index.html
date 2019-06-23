@@ -1,0 +1,1208 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>iOS并发编程 | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561293097055">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561293097055" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a><br><br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3671867345973568",
+    enable_page_level_ads: true
+  });
+</script>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              iOS并发编程
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2016-06-18 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://images.pexels.com/photos/34676/pexels-photo.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260')">
+              </div>
+            
+            <div class="post-content">
+              <h1 id="线程">线程</h1>
+<p>使用Instruments的CPU strategy view查看代码如何在多核CPU中执行。创建线程可以使用POSIX 线程API，或者NSThread（封装POSIX 线程API）。下面是并发4个线程在一百万个数字中找最小值和最大值的pthread例子：</p>
+<pre><code>#import &lt;pthread.h&gt;
+
+struct threadInfo {
+     uint32_t * inputValues;
+     size_t count;
+};
+
+struct threadResult {
+     uint32_t min;
+     uint32_t max;
+};
+
+void * findMinAndMax(void *arg)
+{
+     struct threadInfo const * const info = (struct threadInfo *) arg;
+     uint32_t min = UINT32_MAX;
+     uint32_t max = 0;
+     for (size_t i = 0; i &lt; info-&gt;count; ++i) {
+          uint32_t v = info-&gt;inputValues[i];
+          min = MIN(min, v);
+          max = MAX(max, v);
+     }
+     free(arg);
+     struct threadResult * const result = (struct threadResult *) malloc(sizeof(*result));
+     result-&gt;min = min;
+     result-&gt;max = max;
+     return result;
+}
+
+int main(int argc, const char * argv[])
+{
+     size_t const count = 1000000;
+     uint32_t inputValues[count];
+
+     // 使用随机数字填充 inputValues
+     for (size_t i = 0; i &lt; count; ++i) {
+          inputValues[i] = arc4random();
+     }
+
+     // 开始4个寻找最小值和最大值的线程
+     size_t const threadCount = 4;
+     pthread_t tid[threadCount];
+     for (size_t i = 0; i &lt; threadCount; ++i) {
+          struct threadInfo * const info = (struct threadInfo *) malloc(sizeof(*info));
+          size_t offset = (count / threadCount) * i;
+          info-&gt;inputValues = inputValues + offset;
+          info-&gt;count = MIN(count - offset, count / threadCount);
+          int err = pthread_create(tid + i, NULL, &amp;findMinAndMax, info);
+          NSCAssert(err == 0, @&quot;pthread_create() failed: %d&quot;, err);
+     }
+     // 等待线程退出
+     struct threadResult * results[threadCount];
+     for (size_t i = 0; i &lt; threadCount; ++i) {
+          int err = pthread_join(tid[i], (void **) &amp;(results[i]));
+          NSCAssert(err == 0, @&quot;pthread_join() failed: %d&quot;, err);
+     }
+     // 寻找 min 和 max
+     uint32_t min = UINT32_MAX;
+     uint32_t max = 0;
+     for (size_t i = 0; i &lt; threadCount; ++i) {
+          min = MIN(min, results[i]-&gt;min);
+          max = MAX(max, results[i]-&gt;max);
+          free(results[i]);
+          results[i] = NULL;
+     }
+
+     NSLog(@&quot;min = %u&quot;, min);
+     NSLog(@&quot;max = %u&quot;, max);
+     return 0;
+}
+</code></pre>
+<p>使用NSThread来写</p>
+<pre><code>@interface FindMinMaxThread : NSThread
+@property (nonatomic) NSUInteger min;
+@property (nonatomic) NSUInteger max;
+- (instancetype)initWithNumbers:(NSArray *)numbers;
+@end
+
+@implementation FindMinMaxThread {
+     NSArray *_numbers;
+}
+
+- (instancetype)initWithNumbers:(NSArray *)numbers
+{
+     self = [super init];
+     if (self) {
+          _numbers = numbers;
+     }
+     return self;
+}
+
+- (void)main
+{
+     NSUInteger min;
+     NSUInteger max;
+     // 进行相关数据的处理
+     self.min = min;
+     self.max = max;
+}
+@end
+
+//启动一个新的线程，创建一个线程对象
+NSMutableSet *threads = [NSMutableSet set];
+NSUInteger numberCount = self.numbers.count;
+NSUInteger threadCount = 4;
+for (NSUInteger i = 0; i &lt; threadCount; i++) {
+     NSUInteger offset = (count / threadCount) * i;
+     NSUInteger count = MIN(numberCount - offset, numberCount / threadCount);
+     NSRange range = NSMakeRange(offset, count);
+     NSArray *subset = [self.numbers subarrayWithRange:range];
+     FindMinMaxThread *thread = [[FindMinMaxThread alloc] initWithNumbers:subset];
+     [threads addObject:thread];
+     [thread start];
+}
+</code></pre>
+<h1 id="grand-central-dispatch">Grand Central Dispatch</h1>
+<p>GCD中的FIFO队列称为dispatch queue，用来保证先进来的任务先得到执行。</p>
+<p>dispatch queue分三种</p>
+<ul>
+<li>Serial：又叫private dispatch queues，同时只执行一个任务。Serial queue常用于同步访问特定的资源或数据。当你创建多个Serial queue时，虽然各自是同步，但serial queue之间是并发执行。</li>
+<li>Concurrent：又叫global dispatch queue，可以并发的执行多个任务，但执行完成顺序是随机的。</li>
+<li>Main dispatch queue：全局可用的serial queue，在应用程序主线程上执行任务。</li>
+</ul>
+<h2 id="gcd概要">GCD概要</h2>
+<ul>
+<li>和operation queue一样都是基于队列的并发编程API，他们通过集中管理大家协同使用的线程池。</li>
+<li>公开的5个不同队列：运行在主线程中的main queue，3个不同优先级的后台队列（High Priority Queue，Default Priority Queue，Low Priority Queue），以及一个优先级更低的后台队列Background Priority Queue（用于I/O）</li>
+<li>可创建自定义队列：串行或并列队列。自定义一般放在Default Priority Queue和Main Queue里。</li>
+</ul>
+<h2 id="dispatch_once用法">dispatch_once用法</h2>
+<pre><code>+ (UIColor *)boringColor;
+{
+     static UIColor *color;
+     //只运行一次
+     static dispatch_once_t onceToken;
+     dispatch_once(&amp;onceToken, ^{
+          color = [UIColor colorWithRed:0.380f green:0.376f blue:0.376f alpha:1.000f];
+     });
+     return color;
+}
+</code></pre>
+<h2 id="dispatch_async较常用">dispatch_async（较常用）</h2>
+<p>可以避免界面会被一些耗时的操作卡死，比如读取网络数据，大数据IO，还有大量数据的数据库读写，这时需要在另一个线程中处理，然后通知主线程更新界面，GCD使用起来比NSThread和NSOperation方法要简单方便。</p>
+<pre><code>//代码框架
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+     // 耗时的操作
+     dispatch_async(dispatch_get_main_queue(), ^{
+          // 更新界面
+     });
+});
+
+//下载图片的示例
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+     NSURL * url = [NSURL URLWithString:@&quot;http://avatar.csdn.net/2/C/D/1_totogo2010.jpg&quot;];
+     NSData * data = [[NSData alloc]initWithContentsOfURL:url];
+     UIImage *image = [[UIImage alloc]initWithData:data];
+     if (data != nil) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+               self.imageView.image = image;
+          });
+     }
+});
+</code></pre>
+<h2 id="dispatch_after延后执行">dispatch_after延后执行</h2>
+<pre><code>- (void)foo
+{
+     double delayInSeconds = 2.0;
+     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t) (delayInSeconds * NSEC_PER_SEC));
+     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+          [self bar];
+     });
+}
+</code></pre>
+<p>范例，实现一个推迟出现弹出框提示，比如说提示用户评价等功能。</p>
+<pre><code class="language-swift">func showOrHideNavPrompt() {
+     let delayInSeconds = 1.0
+     let popTime = dispatch_time(DISPATCH_TIME_NOW,
+          Int64(delayInSeconds * Double(NSEC_PER_SEC))) // 在这里声明推迟的时间
+     dispatch_after(popTime, GlobalMainQueue) { // 等待delayInSeconds将闭包异步到主队列
+          let count = PhotoManager.sharedManager.photos.count
+          if count &gt; 0 {
+               self.navigationItem.prompt = nil
+          } else {
+               self.navigationItem.prompt = &quot;Add photos with faces to Googlyify them!&quot;
+          }
+     }
+}
+</code></pre>
+<h2 id="gcd队列">GCD队列</h2>
+<p>队列默认是串行的，只能执行一个单独的block，队列也可以是并行的，同一时间执行多个block</p>
+<pre><code>- (id)init;
+{
+     self = [super init];
+     if (self != nil) {
+          NSString *label = [NSString stringWithFormat:@&quot;%@.isolation.%p&quot;, [self class], self];
+          self.isolationQueue = dispatch_queue_create([label UTF8String], 0);
+
+          label = [NSString stringWithFormat:@&quot;%@.work.%p&quot;, [self class], self];
+          self.workQueue = dispatch_queue_create([label UTF8String], 0);
+     }
+     return self;
+}
+</code></pre>
+<p>5种队列，主队列（main queue）,四种通用调度队列，自己定制的队列。四种通用调度队列为</p>
+<ul>
+<li>QOS_CLASS_USER_INTERACTIVE：user interactive等级表示任务需要被立即执行提供好的体验，用来更新UI，响应事件等。这个等级最好保持小规模。</li>
+<li>QOS_CLASS_USER_INITIATED：user initiated等级表示任务由UI发起异步执行。适用场景是需要及时结果同时又可以继续交互的时候。</li>
+<li>QOS_CLASS_UTILITY：utility等级表示需要长时间运行的任务，伴有用户可见进度指示器。经常会用来做计算，I/O，网络，持续的数据填充等任务。这个任务节能。</li>
+<li>QOS_CLASS_BACKGROUND：background等级表示用户不会察觉的任务，使用它来处理预加载，或者不需要用户交互和对时间不敏感的任务。</li>
+</ul>
+<p>示例：后台加载显示图片</p>
+<pre><code class="language-swift">override func viewDidLoad() {
+     super.viewDidLoad()
+
+     dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)) { // 将工作从主线程转移到全局队列中，这是dispatch_async调用，异步提交保证调用线程会继续执行下去，这样viewDidLoad在主线程上能够更早完成，
+          let overlayImage = self.faceOverlayImageFromImage(self.image)
+          dispatch_async(dispatch_get_main_queue()) { // 新图完成，把一个闭包加入主线程用来更新UIImageView，只有在主线程能操作UIKit。
+               self.fadeInNewImage(overlayImage) // 更新UI
+          }
+     }
+}
+</code></pre>
+<p>何时使用何种队列类型</p>
+<ul>
+<li>主队列（顺序）：队列中有任务完成需要更新UI时，dispatch_after在这种类型中使用。</li>
+<li>并发队列：用来执行与UI无关的后台任务，dispatch_sync放在这里，方便等待任务完成进行后续处理或和dispatch barrier同步。dispatch groups放在这里也不错。</li>
+<li>自定义顺序队列：顺序执行后台任务并追踪它时。这样做同时只有一个任务在执行可以防止资源竞争。dipatch barriers解决读写锁问题的放在这里处理。dispatch groups也是放在这里。</li>
+</ul>
+<p>可以使用下面的方法简化QoS等级参数的写法</p>
+<pre><code class="language-swift">var GlobalMainQueue: dispatch_queue_t {
+     return dispatch_get_main_queue()
+}
+var GlobalUserInteractiveQueue: dispatch_queue_t {
+     return dispatch_get_global_queue(Int(QOS_CLASS_USER_INTERACTIVE.value), 0)
+}
+var GlobalUserInitiatedQueue: dispatch_queue_t {
+     return dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)
+}
+var GlobalUtilityQueue: dispatch_queue_t {
+     return dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.value), 0)
+}
+var GlobalBackgroundQueue: dispatch_queue_t {
+     return dispatch_get_global_queue(Int(QOS_CLASS_BACKGROUND.value), 0)
+}
+
+//使用起来就是这样，易读而且容易看出在使用哪个队列
+dispatch_async(GlobalUserInitiatedQueue) {
+     let overlayImage = self.faceOverlayImageFromImage(self.image)
+     dispatch_async(GlobalMainQueue) {
+          self.fadeInNewImage(overlayImage)
+     }
+}
+</code></pre>
+<h2 id="使用barrier-task方法dispatch-barrier解决多线程并发读写同一个资源发生死锁">使用Barrier Task方法Dispatch Barrier解决多线程并发读写同一个资源发生死锁</h2>
+<p>Dispatch Barrier确保提交的闭包是指定队列中在特定时段唯一在执行的一个。在所有先于Dispatch Barrier的任务都完成的情况下这个闭包才开始执行。轮到这个闭包时barrier会执行这个闭包并且确保队列在此过程不会执行其它任务。闭包完成后队列恢复。</p>
+<pre><code>//创建队列
+self.isolationQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_CONCURRENT);
+//改变setter
+- (void)setCount:(NSUInteger)count forKey:(NSString *)key
+{
+     key = [key copy];
+     //确保所有barrier都是async异步的
+     dispatch_barrier_async(self.isolationQueue, ^(){
+          if (count == 0) {
+               [self.counts removeObjectForKey:key];
+          } else {
+               self.counts[key] = @(count);
+          }
+     });
+}
+</code></pre>
+<p>swift示例</p>
+<pre><code class="language-swift">//使用dispatch_queue_create初始化一个并发队列。第一个参数遵循反向DNS命名习惯，方便描述，第二个参数是指出是并发还是顺序。
+private let concurrentPhotoQueue = dispatch_queue_create(
+&quot;com.raywenderlich.GooglyPuff.photoQueue&quot;, DISPATCH_QUEUE_CONCURRENT)
+
+func addPhoto(photo: Photo) {
+     dispatch_barrier_async(concurrentPhotoQueue) { // 将写操作加入到自定义的队列。开始执行时这个就是队列中唯一的一个在执行的任务。
+          self._photos.append(photo) // barrier能够保障不会和其他任务同时进行。
+          dispatch_async(GlobalMainQueue) { // 涉及到UI所以这个通知应该在主线程中，所以分派另一个异步任务到主队列中。
+               self.postContentAddedNotification()
+          }
+     }
+}
+
+//上面是解决了写可能发生死锁，下面是使用dispatch_sync解决读时可能会发生的死锁。
+var photos: [Photo] {
+     var photosCopy: [Photo]!
+     dispatch_sync(concurrentPhotoQueue) { // 同步调度到concurrentPhotoQueue队列执行读操作
+          photosCopy = self._photos // 保存
+     }
+     return photosCopy
+}
+//这样读写问题都解决了。
+</code></pre>
+<p>都用异步处理避免死锁，异步的缺点在于调试不方便，但是比起同步容易产生死锁这个副作用还算小的。</p>
+<h2 id="异步api写法">异步API写法</h2>
+<p>设计一个异步的API调用dispatch_async()，这个调用放在API的方法或函数中做。让API的使用者设置一个回调处理队列</p>
+<pre><code>- (void)processImage:(UIImage *)image completionHandler:(void(^)(BOOL success))handler;
+{
+     dispatch_async(self.isolationQueue, ^(void){
+          // do actual processing here
+          dispatch_async(self.resultQueue, ^(void){
+               handler(YES);
+          });
+     });
+}
+</code></pre>
+<h2 id="dispatch_apply进行快速迭代">dispatch_apply进行快速迭代</h2>
+<pre><code>for (size_t y = 0; y &lt; height; ++y) {
+     for (size_t x = 0; x &lt; width; ++x) {
+          // Do something with x and y here
+     }
+}
+//使用dispatch_apply可以运行的更快
+dispatch_apply(height, dispatch_get_global_queue(0, 0), ^(size_t y) {
+     for (size_t x = 0; x &lt; width; x += 2) {
+          // Do something with x and y here
+     }
+});
+</code></pre>
+<p>示例：</p>
+<pre><code class="language-swift">func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+     var storedError: NSError!
+     var downloadGroup = dispatch_group_create()
+     let addresses = [OverlyAttachedGirlfriendURLString,
+          SuccessKidURLString,
+          LotsOfFacesURLString]
+
+     dispatch_apply(UInt(addresses.count), GlobalUserInitiatedQueue) {
+          i in
+          let index = Int(i)
+          let address = addresses[index]
+          let url = NSURL(string: address)
+          dispatch_group_enter(downloadGroup)
+          let photo = DownloadPhoto(url: url!) {
+               image, error in
+               if let error = error {
+                    storedError = error
+               }
+               dispatch_group_leave(downloadGroup)
+          }
+          PhotoManager.sharedManager.addPhoto(photo)
+     }
+
+     dispatch_group_notify(downloadGroup, GlobalMainQueue) {
+          if let completion = completion {
+               completion(error: storedError)
+          }
+     }
+}
+</code></pre>
+<h2 id="block组合dispatch_groups">Block组合Dispatch_groups</h2>
+<p>dispatch groups是专门用来监视多个异步任务。dispatch_group_t实例用来追踪不同队列中的不同任务。</p>
+<p>当group里所有事件都完成GCD API有两种方式发送通知，第一种是dispatch_group_wait，会阻塞当前进程，等所有任务都完成或等待超时。第二种方法是使用dispatch_group_notify，异步执行闭包，不会阻塞。</p>
+<p>第一种使用dispatch_group_wait的swift的例子：</p>
+<pre><code class="language-swift">func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+     dispatch_async(GlobalUserInitiatedQueue) { // 因为dispatch_group_wait会租塞当前进程，所以要使用dispatch_async将整个方法要放到后台队列才能够保证主线程不被阻塞
+          var storedError: NSError!
+          var downloadGroup = dispatch_group_create() // 创建一个dispatch group
+
+          for address in [OverlyAttachedGirlfriendURLString,
+               SuccessKidURLString,
+               LotsOfFacesURLString]
+          {
+               let url = NSURL(string: address)
+               dispatch_group_enter(downloadGroup) // dispatch_group_enter是通知dispatch group任务开始了，dispatch_group_enter和dispatch_group_leave是成对调用，不然程序就崩溃了。
+               let photo = DownloadPhoto(url: url!) {
+                    image, error in
+                    if let error = error {
+                         storedError = error
+                    }
+                    dispatch_group_leave(downloadGroup) // 保持和dispatch_group_enter配对。通知任务已经完成
+               }
+               PhotoManager.sharedManager.addPhoto(photo)
+          }
+
+          dispatch_group_wait(downloadGroup, DISPATCH_TIME_FOREVER) // dispatch_group_wait等待所有任务都完成直到超时。如果任务完成前就超时了，函数会返回一个非零值，可以通过返回值判断是否超时。也可以用DISPATCH_TIME_FOREVER表示一直等。
+          dispatch_async(GlobalMainQueue) { // 这里可以保证所有图片任务都完成，然后在main queue里加入完成后要处理的闭包，会在main queue里执行。
+               if let completion = completion { // 执行闭包内容
+                    completion(error: storedError)
+               }
+          }
+     }
+}
+</code></pre>
+<p>第二种使用dispatch_group_notify的swift的例子：</p>
+<pre><code class="language-swift">func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+     // 不用加dispatch_async，因为没有阻塞主进程
+     var storedError: NSError!
+     var downloadGroup = dispatch_group_create()
+
+     for address in [OverlyAttachedGirlfriendURLString,
+          SuccessKidURLString,
+          LotsOfFacesURLString]
+     {
+          let url = NSURL(string: address)
+          dispatch_group_enter(downloadGroup)
+          let photo = DownloadPhoto(url: url!) {
+               image, error in
+               if let error = error {
+                    storedError = error
+               }
+               dispatch_group_leave(downloadGroup)
+          }
+          PhotoManager.sharedManager.addPhoto(photo)
+     }
+
+     dispatch_group_notify(downloadGroup, GlobalMainQueue) { // dispatch_group_notify和dispatch_group_wait的区别就是是异步执行闭包的，当dispatch groups中没有剩余的任务时闭包才执行。这里是指明在主队列中执行。
+          if let completion = completion {
+               completion(error: storedError)
+          }
+     }
+}
+</code></pre>
+<pre><code>dispatch_group_t group = dispatch_group_create();
+
+dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+dispatch_group_async(group, queue, ^(){
+     // 会处理一会
+     [self doSomeFoo];
+     dispatch_group_async(group, dispatch_get_main_queue(), ^(){
+          self.foo = 42;
+     });
+});
+dispatch_group_async(group, queue, ^(){
+     // 处理一会儿
+     [self doSomeBar];
+     dispatch_group_async(group, dispatch_get_main_queue(), ^(){
+          self.bar = 1;
+     });
+});
+
+// 上面的都搞定后这里会执行一次
+dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+     NSLog(@&quot;foo: %d&quot;, self.foo);
+     NSLog(@&quot;bar: %d&quot;, self.bar);
+});
+</code></pre>
+<p>如何对现有API使用dispatch_group_t</p>
+<pre><code>//给Core Data的-performBlock:添加groups。组合完成任务后使用dispatch_group_notify来运行一个block即可。
+- (void)withGroup:(dispatch_group_t)group performBlock:(dispatch_block_t)block
+{
+     if (group == NULL) {
+          [self performBlock:block];
+     } else {
+          dispatch_group_enter(group);
+          [self performBlock:^(){
+               block();
+               dispatch_group_leave(group);
+          }];
+     }
+}
+
+//NSURLConnection也可以这样做
++ (void)withGroup:(dispatch_group_t)group
+     sendAsynchronousRequest:(NSURLRequest *)request
+     queue:(NSOperationQueue *)queue
+     completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler
+{
+     if (group == NULL) {
+          [self sendAsynchronousRequest:request
+               queue:queue
+               completionHandler:handler];
+     } else {
+          dispatch_group_enter(group);
+          [self sendAsynchronousRequest:request
+                    queue:queue
+                    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+               handler(response, data, error);
+               dispatch_group_leave(group);
+          }];
+     }
+}
+</code></pre>
+<p>注意事项</p>
+<ul>
+<li>dispatch_group_enter() 必须运行在 dispatch_group_leave() 之前。</li>
+<li>dispatch_group_enter() 和 dispatch_group_leave() 需要成对出现的</li>
+</ul>
+<h2 id="使用dispatch-block-object调度块在任务执行前进行取消">使用dispatch block object（调度块）在任务执行前进行取消</h2>
+<p>dispatch block object可以为队列中的对象设置
+示例，下载图片中途进行取消</p>
+<pre><code class="language-swift">func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+     var storedError: NSError!
+     let downloadGroup = dispatch_group_create()
+     var addresses = [OverlyAttachedGirlfriendURLString,
+          SuccessKidURLString,
+          LotsOfFacesURLString]
+     addresses += addresses + addresses // 扩展address数组，复制3份
+     var blocks: [dispatch_block_t] = [] // 一个保存block的数组
+
+     for i in 0 ..&lt; addresses.count {
+          dispatch_group_enter(downloadGroup)
+          let block = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS) { // 创建一个block，block的标志是DISPATCH_BLOCK_INHERIT_QOS_CLASS
+               let index = Int(i)
+               let address = addresses[index]
+               let url = NSURL(string: address)
+               let photo = DownloadPhoto(url: url!) {
+                    image, error in
+                    if let error = error {
+                         storedError = error
+                    }
+                    dispatch_group_leave(downloadGroup)
+               }
+               PhotoManager.sharedManager.addPhoto(photo)
+          }
+          blocks.append(block)
+          dispatch_async(GlobalMainQueue, block) // 把这个block放到GlobalMainQueue上异步调用。因为全局队列是一个顺序队列所以方便取消对象block，同时可以保证下载任务在downloadPhotosWithCompletion返回后才开始执行。
+     }
+
+     for block in blocks[3 ..&lt; blocks.count] { 
+          let cancel = arc4random_uniform(2) // 随机返回一个整数，会返回0或1
+          if cancel == 1 {
+               dispatch_block_cancel(block) // 如果是1就取消block，这个只能发生在block还在队列中并没有开始的情况下。因为把block已经放到了GlobalMainQueue中，所以这个地方会先执行，执行完了才会执行block。
+               dispatch_group_leave(downloadGroup) // 因为已经dispatch_group_enter了，所以取消时也要将其都leave掉。
+          }
+     }
+
+     dispatch_group_notify(downloadGroup, GlobalMainQueue) {
+          if let completion = completion {
+               completion(error: storedError)
+          }
+     }
+}
+</code></pre>
+<h2 id="用gcd监视进程">用GCD监视进程</h2>
+<pre><code>NSRunningApplication *mail = [NSRunningApplication runningApplicationsWithBundleIdentifier:@&quot;com.apple.mail&quot;];
+if (mail == nil) {
+     return;
+}
+pid_t const pid = mail.processIdentifier;
+self.source = dispatch_source_create(DISPATCH_SOURCE_TYPE_PROC, pid, DISPATCH_PROC_EXIT, DISPATCH_TARGET_QUEUE_DEFAULT);
+dispatch_source_set_event_handler(self.source, ^(){
+     NSLog(@&quot;Mail quit.&quot;);
+});
+//在事件源传到你的事件处理前需要调用dispatch_resume()这个方法
+dispatch_resume(self.source);
+</code></pre>
+<h2 id="监视文件夹内文件变化">监视文件夹内文件变化</h2>
+<pre><code>NSURL *directoryURL; // assume this is set to a directory
+int const fd = open([[directoryURL path] fileSystemRepresentation], O_EVTONLY);
+if (fd &lt; 0) {
+     char buffer[80];
+     strerror_r(errno, buffer, sizeof(buffer));
+     NSLog(@&quot;Unable to open \&quot;%@\&quot;: %s (%d)&quot;, [directoryURL path], buffer, errno);
+     return;
+}
+dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, fd,
+DISPATCH_VNODE_WRITE | DISPATCH_VNODE_DELETE, DISPATCH_TARGET_QUEUE_DEFAULT);
+dispatch_source_set_event_handler(source, ^(){
+     unsigned long const data = dispatch_source_get_data(source);
+     if (data &amp; DISPATCH_VNODE_WRITE) {
+          NSLog(@&quot;The directory changed.&quot;);
+     }
+     if (data &amp; DISPATCH_VNODE_DELETE) {
+          NSLog(@&quot;The directory has been deleted.&quot;);
+     }
+});
+dispatch_source_set_cancel_handler(source, ^(){
+     close(fd);
+});
+self.source = source;
+dispatch_resume(self.source);
+//还要注意需要用DISPATCH_VNODE_DELETE 去检查监视的文件或文件夹是否被删除，如果删除了就停止监听
+</code></pre>
+<h2 id="gcd版定时器">GCD版定时器</h2>
+<pre><code>dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
+dispatch_source_set_event_handler(source, ^(){
+     NSLog(@&quot;Time flies.&quot;);
+});
+dispatch_time_t start
+dispatch_source_set_timer(source, DISPATCH_TIME_NOW, 5ull * NSEC_PER_SEC,100ull * NSEC_PER_MSEC);
+self.source = source;
+dispatch_resume(self.source);
+</code></pre>
+<h2 id="gcd深入操作">GCD深入操作</h2>
+<ul>
+<li>缓冲区：dispatch_data_t基于零碎的内存区域，使用dispatch_data_apply来遍历，还可以用dispatch_data_create_subrange来创建一个不做任何拷贝的子区域</li>
+<li>I/O调度：使用GCD提供的dispatch_io_read，dispatch_io_write和dispatch_io_close</li>
+<li>测试：使用dispatch_benchmark小工具</li>
+<li>原子操作： libkern/OSAtomic.h里可以查看那些函数，用于底层多线程编程。</li>
+</ul>
+<h1 id="cocoa-nsoperation">Cocoa NSOperation</h1>
+<p>使用NSOperation的两种方式。一种用定义好的两个子类NSInvocationOperation和NSBlockOperation，另一个是继承NSOperation。</p>
+<p>NSOperation是设计用来扩展的，只需继承重写NSOperation的一个方法main，然后把NSOperation子类的对象放入NSOperationQueue队列中，该队列就会启动并开始处理它。</p>
+<p>NSInvocationOperation例子</p>
+<pre><code>#import &quot;ViewController.h&quot;
+#define kURL @&quot;http://avatar.csdn.net/2/C/D/1_totogo2010.jpg&quot;
+
+@interface ViewController ()
+@end
+
+@implementation ViewController
+- (void)viewDidLoad
+{
+     [super viewDidLoad];
+     NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self
+          selector:@selector(downloadImage:)
+          object:kURL];
+
+     NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+     [queue addOperation:operation]; //放进去就开始了
+     // Do any additional setup after loading the view, typically from a nib.
+}
+
+-(void)downloadImage:(NSString *)url{
+     NSLog(@&quot;url:%@&quot;, url);
+     NSURL *nsUrl = [NSURL URLWithString:url];
+     NSData *data = [[NSData alloc]initWithContentsOfURL:nsUrl];
+     UIImage * image = [[UIImage alloc]initWithData:data];
+     [self performSelectorOnMainThread:@selector(updateUI:) withObject:image waitUntilDone:YES];
+}
+-(void)updateUI:(UIImage*) image{
+     self.imageView.image = image;
+}
+</code></pre>
+<ul>
+<li>Operation Queue是在GCD上实现了一些方便的功能。优点是不需要关心线程管理，数据同步。Cocoa operation相关的类是NSOperation，NSOperationQueue。</li>
+<li>NSOperationQueue有主队列和自定义队列两种类型队列。主队列在主线程上运行，自定义队列在后台。</li>
+<li>重写main方法自定义自己的operations。较简单，不需要管理isExecuting和isFinished，main返回时operation就结束了。</li>
+</ul>
+<pre><code>@implementation YourOperation
+     - (void)main
+     {
+          // 进行处理 ...
+     }
+@end
+</code></pre>
+<ul>
+<li>重写start方法能够获得更多的控制权，还可以在一个操作中执行异步任务</li>
+</ul>
+<pre><code>@implementation YourOperation
+     - (void)start
+     {
+          self.isExecuting = YES;
+          self.isFinished = NO;
+          // 开始处理，在结束时应该调用 finished ...
+     }
+
+     - (void)finished
+     {
+          self.isExecuting = NO;
+          self.isFinished = YES;
+     }
+@end
+//使操作队列有取消功能，需要不断检查isCancelled属性
+- (void)main
+{
+     while (notDone &amp;&amp; !self.isCancelled) {
+          // 进行处理
+     }
+}
+</code></pre>
+<ul>
+<li>定义好operation类以后，将一个operation加到队列里：</li>
+</ul>
+<pre><code>NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+YourOperation *operation = [[YourOperation alloc] init];
+[queue addOperation:operation];
+</code></pre>
+<ul>
+<li>如果是在主队列中进行一个一次性任务，可以将block加到操作队列</li>
+</ul>
+<pre><code>[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+     // 代码...
+}];
+</code></pre>
+<ul>
+<li>通过maxConcurrentOperationCount属性控制一个特定队列中并发执行操作的数量。设置为1就是串行队列。</li>
+<li>对operation优先级排序，指定operation之间的依赖关系。</li>
+</ul>
+<pre><code>//确保operation1和operation2是在intermediateOperation和finishOperation之前执行
+[intermediateOperation addDependency:operation1];
+[intermediateOperation addDependency:operation2];
+[finishedOperation addDependency:intermediateOperation];
+</code></pre>
+<h1 id="nsthread">NSThread</h1>
+<p>NSThread抽象度最高，也是Apple所推荐的。缺点是需要自己管理线程的生命周期，线程同步。线程同步对数据加锁会有一定系统开销。NSThread实现的技术有三种</p>
+<ul>
+<li>Cocoa threads</li>
+<li>POSIX threads</li>
+<li>Multiprocessing Services</li>
+</ul>
+<h2 id="创建方式">创建方式</h2>
+<pre><code>- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)argument //实例方法
++ (void)detachNewThreadSelector:(SEL)aSelector toTarget:(id)aTarget withObject:(id)anArgument //类方法
+
+//直接创建线程并且运行
+1、[NSThread detachNewThreadSelector:@selector(doSomething:) toTarget:self withObject:nil];
+//先创建线程对象，再运行线程操作，运行前可以设置线程优先级等线程信息。
+2、NSThread* myThread = [[NSThread alloc] initWithTarget:self
+selector:@selector(doSomething:)
+object:nil];
+[myThread start];
+//不显式创建线程的方法，使用NSObject的类方法创建一个线程
+3、[Obj performSelectorInBackground:@selector(doSomething) withObject:nil];
+</code></pre>
+<p>示例</p>
+<pre><code>#import &quot;ViewController.h&quot;
+#define kURL @&quot;http://avatar.csdn.net/2/C/D/1_totogo2010.jpg&quot;
+@interface ViewController ()
+@end
+
+@implementation ViewController
+-(void)downloadImage:(NSString *) url{
+     NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:url]];
+     UIImage *image = [[UIImage alloc]initWithData:data];
+     if(image == nil){
+
+     }else{
+          //更新主线程外的数据使用performSelector:onThread:withObject:waitUntilDone:
+          [self performSelectorOnMainThread:@selector(updateUI:) withObject:image waitUntilDone:YES];
+     }
+}
+
+-(void)updateUI:(UIImage*) image{
+     self.imageView.image = image;
+}
+
+- (void)viewDidLoad
+{
+     [super viewDidLoad];
+
+// [NSThread detachNewThreadSelector:@selector(downloadImage:) toTarget:self withObject:kURL];
+     NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@selector(downloadImage:) object:kURL];
+     [thread start];
+}
+
+@end
+</code></pre>
+<h2 id="nsthread的线程同步使用nslock">NSThread的线程同步，使用NSLock</h2>
+<p>卖票的例子</p>
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+@class ViewController;
+@interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt;
+{
+     int tickets;
+     int count;
+     NSThread* ticketsThreadone;
+     NSThread* ticketsThreadtwo;
+     NSCondition* ticketsCondition;
+     NSLock *theLock;
+}
+@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) ViewController *viewController;
+@end
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+     tickets = 100;
+     count = 0;
+     theLock = [[NSLock alloc] init];
+     // 锁对象
+     ticketsCondition = [[NSCondition alloc] init];
+     ticketsThreadone = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];
+     [ticketsThreadone setName:@&quot;Thread-1&quot;];
+     [ticketsThreadone start];
+    
+     ticketsThreadtwo = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];
+     [ticketsThreadtwo setName:@&quot;Thread-2&quot;];
+     [ticketsThreadtwo start];
+
+     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+     // Override point for customization after application launch.
+     self.viewController = [[ViewController alloc] initWithNibName:@&quot;ViewController&quot; bundle:nil];
+     self.window.rootViewController = self.viewController;
+     [self.window makeKeyAndVisible];
+     return YES;
+}
+
+- (void)run{
+     while (TRUE) {
+          // 上锁
+          // [ticketsCondition lock];
+          [theLock lock];
+          if(tickets &gt;= 0){
+               [NSThread sleepForTimeInterval:0.09];
+               count = 100 - tickets;
+               NSLog(@&quot;当前票数是:%d,售出:%d,线程名:%@&quot;,tickets,count,[[NSThread currentThread] name]);
+               tickets--;
+          }else{
+               break;
+          }
+          [theLock unlock];
+          // [ticketsCondition unlock];
+     }
+}
+</code></pre>
+<p>没有线程同步lock,卖票数可能会是-1.加上能够保证数据的正确。</p>
+<h2 id="nsthread线程的顺序执行同步">NSThread线程的顺序执行同步</h2>
+<p>可以通过[NSCondition signal]的方式发送信号，在一个线程唤醒另一个线程等待</p>
+<pre><code>#import &quot;AppDelegate.h&quot;
+#import &quot;ViewController.h&quot;
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+     tickets = 100;
+     count = 0;
+     theLock = [[NSLock alloc] init];
+     // 锁对象
+     ticketsCondition = [[NSCondition alloc] init];
+     ticketsThreadone = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];
+     [ticketsThreadone setName:@&quot;Thread-1&quot;];
+     [ticketsThreadone start];
+
+     ticketsThreadtwo = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];
+     [ticketsThreadtwo setName:@&quot;Thread-2&quot;];
+     [ticketsThreadtwo start];
+
+     NSThread *ticketsThreadthree = [[NSThread alloc] initWithTarget:self selector:@selector(run3) object:nil];
+     [ticketsThreadthree setName:@&quot;Thread-3&quot;];
+     [ticketsThreadthree start];
+     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+     // Override point for customization after application launch.
+     self.viewController = [[ViewController alloc] initWithNibName:@&quot;ViewController&quot; bundle:nil];
+     self.window.rootViewController = self.viewController;
+     [self.window makeKeyAndVisible];
+     return YES;
+}
+
+-(void)run3{
+     while (YES) {
+          [ticketsCondition lock];
+          [NSThread sleepForTimeInterval:3];
+          [ticketsCondition signal];
+          [ticketsCondition unlock];
+     }
+}
+
+- (void)run{
+     while (TRUE) {
+          // 上锁
+          [ticketsCondition lock];
+          [ticketsCondition wait];
+          [theLock lock];
+          if(tickets &gt;= 0){
+               [NSThread sleepForTimeInterval:0.09];
+               count = 100 - tickets;
+               NSLog(@&quot;当前票数是:%d,售出:%d,线程名:%@&quot;,tickets,count,[[NSThread currentThread] name]);
+               tickets--;
+          }else{
+               break;
+          }
+          [theLock unlock];
+          [ticketsCondition unlock];
+     }
+}
+</code></pre>
+<p>wait是等待，假啊一个线程3去唤醒其它两个线程锁中的wait</p>
+<h2 id="其它同步">其它同步</h2>
+<p>可以使用@synchronized来简化NSLock使用，这样就不必显示编写创建NSLock加锁并解锁相关代码。</p>
+<pre><code>- (void)doSomeThing:(id)anObj
+{
+     @synchronized(anObj)
+     {
+          // Everything between the braces is protected by the @synchronized directive.
+     }
+}
+</code></pre>
+<p>还有些其它的锁对象，比如循环锁NSRecursiveLock，条件锁NSConditionLock，分布式锁NSDistributedLock等，可查阅官方文档。</p>
+<h1 id="run-loops">Run Loops</h1>
+<ul>
+<li>Run loop比GCD和操作队列要容易，不必处理并发中复杂情况就能异步执行。</li>
+<li>主线程配置main run loop，其它线程默认都没有配置run loop。一般都在主线程中调用后分配给其它队列。如果要在其它线程添加run loop至少添加一个input source，不然一运行就会退出。</li>
+</ul>
+<h1 id="在后台操作ui">在后台操作UI</h1>
+<h2 id="使用操作队列处理">使用操作队列处理</h2>
+<pre><code>//weak引用参照self避免循环引用，及block持有self，operationQueue retain了block，而self有retain了operationQueue。
+__weak id weakSelf = self;
+[self.operationQueue addOperationWithBlock:^{
+     NSNumber* result = findLargestMersennePrime();
+     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+          MyClass* strongSelf = weakSelf;
+          strongSelf.textLabel.text = [result stringValue];
+     }];
+}];
+</code></pre>
+<h2 id="drawrect在后台绘制">drawRect在后台绘制</h2>
+<p>drawRect:方法会影响性能，所以可以放到后台执行。</p>
+<pre><code>//使用UIGraphicsBeginImageContextWithOptions取代UIGraphicsGetCurrentContext:方法
+UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+// drawing code here
+UIImage *i = UIGraphicsGetImageFromCurrentImageContext();
+UIGraphicsEndImageContext();
+return i;
+</code></pre>
+<p>可以把这个方法运用到table view中，使table view的cell在滚出边界时能在didEndDisplayingCell委托方法中取消。WWDC中有讲解：Session 211 -- Building Concurrent User Interfaces on iOS <a href="https://developer.apple.com/videos/wwdc/2012/">https://developer.apple.com/videos/wwdc/2012/</a></p>
+<p>还有个使用CALayer里drawsAsynchronously属性的方法。不过有时work，有时不一定。</p>
+<h1 id="网络异步请求">网络异步请求</h1>
+<p>网络都要使用异步方式，但是不要直接使用dispatch_async，这样没法取消这个网络请求。dataWithContentsOfURL:的超时是30秒，那么这个线程需要干等到超时完。解决办法就是使用NSURLConnection的异步方法，把所有操作转化成operation来执行。NSURLConnection是通过run loop来发送事件的。AFNetworking是建立一个独立的线程设置一个非main run loop。下面是处理URL连接重写自定义operation子类里的start方法</p>
+<pre><code>- (void)start
+{
+     NSURLRequest* request = [NSURLRequest requestWithURL:self.url];
+     self.isExecuting = YES;
+     self.isFinished = NO;
+     [[NSOperationQueue mainQueue] addOperationWithBlock:^
+     {
+          self.connection = [NSURLConnectionconnectionWithRequest:request
+               delegate:self];
+     }];
+}
+</code></pre>
+<p>重写start方法需要管理isExecuting和isFinished状态。下面是取消操作的方法</p>
+<pre><code>- (void)cancel
+{
+     [super cancel];
+     [self.connection cancel];
+     self.isFinished = YES;
+     self.isExecuting = NO;
+}
+//连接完成发送回调
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+     self.data = self.buffer;
+     self.buffer = nil;
+     self.isExecuting = NO;
+     self.isFinished = YES;
+}
+</code></pre>
+<h1 id="后台处理io">后台处理I/O</h1>
+<p>异步处理文件可以使用NSInputStream。官方文档：<a href="http://developer.apple.com/library/ios/#documentation/FileManagement/Conceptual/FileSystemProgrammingGUide/TechniquesforReadingandWritingCustomFiles/TechniquesforReadingandWritingCustomFiles.html">http://developer.apple.com/library/ios/#documentation/FileManagement/Conceptual/FileSystemProgrammingGUide/TechniquesforReadingandWritingCustomFiles/TechniquesforReadingandWritingCustomFiles.html</a> 实例：<a href="https://github.com/objcio/issue-2-background-file-io">https://github.com/objcio/issue-2-background-file-io</a></p>
+<pre><code>@interface Reader : NSObject
+- (void)enumerateLines:(void (^)(NSString*))block
+     completion:(void (^)())completion;
+- (id)initWithFileAtPath:(NSString*)path;
+
+//采用main run loop的事件将数据发到后台操作线程去处理
+- (void)enumerateLines:(void (^)(NSString*))block
+completion:(void (^)())completion
+{
+     if (self.queue == nil) {
+          self.queue = [[NSOperationQueue alloc] init];
+          self.queue.maxConcurrentOperationCount = 1;
+     }
+     self.callback = block;
+     self.completion = completion;
+     self.inputStream = [NSInputStream inputStreamWithURL:self.fileURL];
+     self.inputStream.delegate = self;
+     [self.inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
+     forMode:NSDefaultRunLoopMode];
+          [self.inputStream open];
+     }
+@end
+
+//input stream在主线程中发送代理消息，接着就可以在操作队列加入block操作
+- (void)stream:(NSStream*)stream handleEvent:(NSStreamEvent)eventCode
+{
+     switch (eventCode) {
+          ...
+          case NSStreamEventHasBytesAvailable: {
+               NSMutableData *buffer = [NSMutableData dataWithLength:4 * 1024];
+               NSUInteger length = [self.inputStream read:[buffer mutableBytes]
+                    maxLength:[buffer length]];
+               if (0 &lt; length) {
+                    [buffer setLength:length];
+                    __weak id weakSelf = self;
+                    [self.queue addOperationWithBlock:^{
+                         [weakSelf processDataChunk:buffer];
+                    }];
+               }
+               break;
+          }
+          ...
+     }
+}
+
+//处理数据chunk，原理就是把数据切成很多小块，然后不断更新和处理buffer缓冲区，逐块读取和存入方式来处理大文件响应快而且内存开销也小。
+- (void)processDataChunk:(NSMutableData *)buffer;
+{
+     if (self.remainder != nil) {
+          [self.remainder appendData:buffer];
+     } else {
+          self.remainder = buffer;
+     }
+     [self.remainder obj_enumerateComponentsSeparatedBy:self.delimiter
+               usingBlock:^(NSData* component, BOOL last) {
+          if (!last) {
+               [self emitLineWithData:component];
+          } else if (0 &lt; [component length]) {
+               self.remainder = [component mutableCopy];
+          } else {
+               self.remainder = nil;
+          }
+     }];
+}
+</code></pre>
+<h1 id="并发开发会遇到的困难问题">并发开发会遇到的困难问题</h1>
+<h2 id="多个线程访问共享资源">多个线程访问共享资源</h2>
+<p>比如两个线程都会把计算结果写到一个整型数中。为了防止，需要一种互斥机制来访问共享资源</p>
+<h2 id="互斥锁">互斥锁</h2>
+<p>同一时刻只能有一个线程访问某个资源。某线程要访问某个共享资源先获得共享资源的互斥锁，完成操作再释放这个互斥锁，然后其它线程就能访问这个共享资源。</p>
+<p>还有需要解决无序执行问题，这时就需要引入内存屏障。</p>
+<p>在Objective-C中如果属性声明为atomic就能够支持互斥锁，但是因为加解锁会有性能代价，所以一般是声明noatomic的。</p>
+<h2 id="死锁">死锁</h2>
+<p>当多个线程在相互等待对方锁结束时就会发生死锁，程序可能会卡住。</p>
+<pre><code>void swap(A, B)
+{
+     lock(lockA);
+     lock(lockB);
+     int a = A;
+     int b = B;
+     A = b;
+     B = a;
+     unlock(lockB);
+     unlock(lockA);
+}
+//一般没问题，但是如果两个线程使用相反的值同时调用上面这个方法就可能会死锁。线程1获得X的一个锁，线程2获得Y的一个锁，它们会同时等待另一个锁的释放，但是却是没法等到的。
+swap(X, Y); // 线程 1
+swap(Y, X); // 线程 2
+</code></pre>
+<p>为了防止死锁，需要使用比简单读写锁更好的办法，比如write preference<a href="http://en.wikipedia.org/wiki/Readers%E2%80%93writer_lock">http://en.wikipedia.org/wiki/Readers–writer_lock</a>，或read-copy-update算法<a href="http://en.wikipedia.org/wiki/Read-copy-update">http://en.wikipedia.org/wiki/Read-copy-update</a></p>
+<h2 id="优先级反转">优先级反转</h2>
+<p>运行时低优先级任务由于先取得了释放了锁的共享资源而阻塞了高优先级任务，这种情况叫做优先级反转</p>
+<h2 id="最佳安全实践避免问题的方法">最佳安全实践避免问题的方法</h2>
+<p>从主线程中取到数据，利用一个操作队列在后台处理数据，完后返回后台队列中得到的数据到主队列中。这样的操作不会有任何锁操作。</p>
+<h2 id="并发测试">并发测试</h2>
+<ul>
+<li>使用SenTestingKit框架测试：<a href="https://github.com/nxtbgthng/SenTestingKitAsync">https://github.com/nxtbgthng/SenTestingKitAsync</a></li>
+<li>kiwi：<a href="https://github.com/allending/Kiwi">https://github.com/allending/Kiwi</a></li>
+<li>GHunit：<a href="https://github.com/gabriel/gh-unit/">https://github.com/gabriel/gh-unit/</a>
+<a href="https://github.com/ming1016/study/wiki">ming1016</a></li>
+</ul>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/ji-chu-ji-he-lei">
+              <h3 class="post-title">
+                iOS基础集合类
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '668d4c1dc3767af8dc3b',
+    clientSecret: '4f94ef2329aa2b4c333b9d884b9264b0d0656346',
+    repo: 'talk',
+    owner: 'policx',
+    admin: ['policx'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

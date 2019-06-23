@@ -1,0 +1,253 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>centos 6.5 网站建设 | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561293097055">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561293097055" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a><br><br>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3671867345973568",
+    enable_page_level_ads: true
+  });
+</script>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              centos 6.5 网站建设
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2014-11-10 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('http://static.oschina.net/uploads/img/201409/27214356_bxEI.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <h3 id="step-1-为centos配置rpmforge及epel源-centos官方的源其实也够用不过像php的一些扩展如-php-mcrypt在官方源中并没有">Step 1、为centos配置rpmforge及epel源。centos官方的源其实也够用，不过像php的一些扩展如 php-mcrypt在官方源中并没有。</h3>
+<pre><code>rpm -ivh http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-
+1.el7.rf.x86_64.rpm
+</code></pre>
+<pre><code>rpm -ivh http://mirrors.ustc.edu.cn/centos/6.5/extras/x86_64/Packages/epel-
+release-6-8.noarch.rpm
+</code></pre>
+<pre><code>rpm -ivh http://mirrors.163.com/centos/7/extras/x86_64/Packages/epel-release-
+7-2.noarch.rpm
+</code></pre>
+<h3 id="step-2-安装phpmysqlhttpd">Step 2. 安装php/mysql/httpd</h3>
+<h4 id="安装apache">安装apache</h4>
+<p><code>yum -y install httpd httpd-devel</code></p>
+<h4 id="安装mysql">安装mysql</h4>
+<p><code>yum -y install mysql mysql-devel mysql-server mysql-libs</code></p>
+<h4 id="安装php">安装php</h4>
+<p><code>yum -y install php</code></p>
+<h4 id="安装php扩展">安装php扩展</h4>
+<pre><code>yum -y install php-mysql php-gd php-imap php-ldap php-odbc php-mbstring php-
+devel php-soap php-cli php-pdo
+yum -y install php-mcrypt php-tidy php-xml php-xmlrpc php-pear
+</code></pre>
+<h4 id="其它不常用php扩展-wwwlinuxidccom-可不用安装">其它不常用php扩展, www.linuxidc.com 可不用安装</h4>
+<p><code>yum -y install php-pecl-memcache php-eaccelerator</code></p>
+<h4 id="安装phpmyadmin">安装phpmyadmin</h4>
+<p><code>yum -y install phpmyadmin</code></p>
+<h4 id="安装完成之后启动">安装完成之后，启动</h4>
+<pre><code>service httpd start
+service mysqld start
+</code></pre>
+<h3 id="step-3配置httpd-mysqld开机自启动">Step 3.配置httpd、mysqld开机自启动</h3>
+<pre><code>chkconfig mysqld on
+chkconfig httpd on
+</code></pre>
+<h3 id="step-4配置phpmyadmin">Step 4.配置phpmyadmin</h3>
+<p>修改/usr/share/phpmyadmin/config.inc.php
+将这里abcde文字修改为自己的字符，可任意
+<code>$cfg['blowfish_secret'] = 'abcde';</code></p>
+<h3 id="常见问题">常见问题</h3>
+<h4 id="1-phpmyadmin提示未开启php-mcrypt这是因为没有安装php-mrcrpt扩展-在官方源没有php-mrcrpt扩展请安装epel源后再">1. phpmyadmin提示未开启php-mcrypt,这是因为没有安装php-mrcrpt扩展。在官方源没有php-mrcrpt扩展，请安装epel源后再</h4>
+<p><code>yum install php-mcrypt</code></p>
+<h4 id="2-phpmyadmin无法访问">2. phpmyadmin无法访问</h4>
+<p>phpmyadmin默认只能使用 http://localhost/phpmyadmin 来访问，
+可以修改/etc/httpd/conf.d/phpmyadmin.conf中对应部分为</p>
+<pre><code>&lt;Directory &quot;/usr/share/phpmyadmin&quot;&gt;
+Order Deny,Allow
+Deny from all
+Allow from All
+&lt;/Directory&gt;
+</code></pre>
+<p>不过强烈不支持这么做的，把phpmyadmin暴露了不安全
+注意：
+apache解析php，修改httpd.conf文件，添加</p>
+<pre><code>Addtype application/x-httpd-php .php .phtml
+Addtype application/x-httpd-php-source .phps
+</code></pre>
+<p>myql可以远程登录
+设置mysql密码</p>
+<pre><code>mysql&gt;; USE mysql;
+mysql&gt;; UPDATE user SET Password=PASSWORD('newpassword') WHERE user='root';
+mysql&gt;; FLUSH PRIVILEGES;
+</code></pre>
+<p>1.2.3 允许远程登录</p>
+<pre><code>mysql -u root -p
+Enter Password: &lt;your new password&gt;
+mysql&gt;GRANT ALL PRIVILEGES ON *.* TO '用户名'@'%' IDENTIFIED BY '密码' WITH
+GRANT OPTION;
+</code></pre>
+<p>完成后就能用mysql-front远程管理mysql了。
+设为开机启动
+<code>chkconfig mysqld on</code></p>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/juanshi">
+              <h3 class="post-title">
+                告别
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '668d4c1dc3767af8dc3b',
+    clientSecret: '4f94ef2329aa2b4c333b9d884b9264b0d0656346',
+    repo: 'talk',
+    owner: 'policx',
+    admin: ['policx'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
