@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-23T23:16:23.270Z</updated>
+    <updated>2019-06-23T23:23:04.283Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -464,8 +464,8 @@ Markdown 的語法有個主要的目的：用來作為一種網路內容的<em>�
     </entry>
     <entry>
         <title type="html"><![CDATA[iOS开发之用户登陆信息存储]]></title>
-        <id>https://policx.github.io/post/denglu</id>
-        <link href="https://policx.github.io/post/denglu">
+        <id>https://policx.github.io/post/login</id>
+        <link href="https://policx.github.io/post/login">
         </link>
         <updated>2015-11-17T11:24:57.000Z</updated>
         <summary type="html"><![CDATA[<p>我们开发App的时候,常常涉及到用户登陆,那么就会涉及到用户信息的存储和用户的登陆状态</p>
