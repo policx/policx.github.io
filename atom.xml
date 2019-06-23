@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-23T01:25:08.435Z</updated>
+    <updated>2019-06-23T01:54:06.781Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -23,6 +23,10 @@
         <link href="https://policx.github.io/post/2019">
         </link>
         <updated>2019-06-02T17:06:39.000Z</updated>
+        <summary type="html"><![CDATA[<p>Your time is limited, so don't waste it living someone else's life.…Don't let the noise of others' opinions drown out your own inner voice。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Your time is limited, so don't waste it living someone else's life.…Don't let the noise of others' opinions drown out your own inner voice。</p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[git如何删除已经提交的文件夹]]></title>
@@ -59,6 +63,10 @@
         <link href="https://policx.github.io/post/2018">
         </link>
         <updated>2018-06-04T16:59:59.000Z</updated>
+        <summary type="html"><![CDATA[<p>Being the richest man in the cemetery doesn't matter to me ... Going to bed at night saying we've done something wonderful... that's what matters to me。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Being the richest man in the cemetery doesn't matter to me ... Going to bed at night saying we've done something wonderful... that's what matters to me。</p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[python3 与 MongoDB 之间的交互]]></title>
@@ -375,6 +383,10 @@ Markdown 的語法有個主要的目的：用來作為一種網路內容的<em>�
         <link href="https://policx.github.io/post/2016">
         </link>
         <updated>2016-06-13T16:43:27.000Z</updated>
+        <summary type="html"><![CDATA[<p>There's a phrase in Buddhism, 'Beginner's mind.' It's wonderful to have a beginner's mind.</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>There's a phrase in Buddhism, 'Beginner's mind.' It's wonderful to have a beginner's mind.</p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[16年会]]></title>
@@ -400,6 +412,12 @@ Markdown 的語法有個主要的目的：用來作為一種網路內容的<em>�
         <link href="https://policx.github.io/post/2015">
         </link>
         <updated>2015-06-04T17:02:03.000Z</updated>
+        <summary type="html"><![CDATA[<p>I think the greatest value of learning how to think.... I think everybody in this country should learn how to program a computer, should learn a computer language, because it teaches you how to think, it’s like going to law school, I don’t think anybody should be a lawyer, but I think going to law school may actually be useful coz it teaches you how to think in a certain way. In the same way the computer programming teaches you in a slightly different way how to think... And so … I view computer science as a liberal art. It should be something everybody takes in a year in their life, one of the courses they take is, you know learning how to program.
+-------- Steve Jobs</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>I think the greatest value of learning how to think.... I think everybody in this country should learn how to program a computer, should learn a computer language, because it teaches you how to think, it’s like going to law school, I don’t think anybody should be a lawyer, but I think going to law school may actually be useful coz it teaches you how to think in a certain way. In the same way the computer programming teaches you in a slightly different way how to think... And so … I view computer science as a liberal art. It should be something everybody takes in a year in their life, one of the courses they take is, you know learning how to program.
+-------- Steve Jobs</p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[centos 6.5 网站建设]]></title>
@@ -449,6 +467,10 @@ Markdown 的語法有個主要的目的：用來作為一種網路內容的<em>�
         <link href="https://policx.github.io/post/2014">
         </link>
         <updated>2014-05-20T03:01:22.000Z</updated>
+        <summary type="html"><![CDATA[<p>Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose。</p>
+]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[领信 APP]]></title>
