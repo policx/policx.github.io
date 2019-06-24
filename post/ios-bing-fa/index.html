@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>iOS并发编程 | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561336290815">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561337838558">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561336290815" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561337838558" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -292,7 +292,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 }
 </code></pre>
 <p>范例，实现一个推迟出现弹出框提示，比如说提示用户评价等功能。</p>
-<pre><code class="language-swift">func showOrHideNavPrompt() {
+<pre><code>func showOrHideNavPrompt() {
      let delayInSeconds = 1.0
      let popTime = dispatch_time(DISPATCH_TIME_NOW,
           Int64(delayInSeconds * Double(NSEC_PER_SEC))) // 在这里声明推迟的时间
@@ -329,7 +329,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <li>QOS_CLASS_BACKGROUND：background等级表示用户不会察觉的任务，使用它来处理预加载，或者不需要用户交互和对时间不敏感的任务。</li>
 </ul>
 <p>示例：后台加载显示图片</p>
-<pre><code class="language-swift">override func viewDidLoad() {
+<pre><code>override func viewDidLoad() {
      super.viewDidLoad()
 
      dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)) { // 将工作从主线程转移到全局队列中，这是dispatch_async调用，异步提交保证调用线程会继续执行下去，这样viewDidLoad在主线程上能够更早完成，
@@ -347,7 +347,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 <li>自定义顺序队列：顺序执行后台任务并追踪它时。这样做同时只有一个任务在执行可以防止资源竞争。dipatch barriers解决读写锁问题的放在这里处理。dispatch groups也是放在这里。</li>
 </ul>
 <p>可以使用下面的方法简化QoS等级参数的写法</p>
-<pre><code class="language-swift">var GlobalMainQueue: dispatch_queue_t {
+<pre><code>var GlobalMainQueue: dispatch_queue_t {
      return dispatch_get_main_queue()
 }
 var GlobalUserInteractiveQueue: dispatch_queue_t {
@@ -390,7 +390,7 @@ self.isolationQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_C
 }
 </code></pre>
 <p>swift示例</p>
-<pre><code class="language-swift">//使用dispatch_queue_create初始化一个并发队列。第一个参数遵循反向DNS命名习惯，方便描述，第二个参数是指出是并发还是顺序。
+<pre><code>//使用dispatch_queue_create初始化一个并发队列。第一个参数遵循反向DNS命名习惯，方便描述，第二个参数是指出是并发还是顺序。
 private let concurrentPhotoQueue = dispatch_queue_create(
 &quot;com.raywenderlich.GooglyPuff.photoQueue&quot;, DISPATCH_QUEUE_CONCURRENT)
 
@@ -440,7 +440,7 @@ dispatch_apply(height, dispatch_get_global_queue(0, 0), ^(size_t y) {
 });
 </code></pre>
 <p>示例：</p>
-<pre><code class="language-swift">func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+<pre><code>func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
      var storedError: NSError!
      var downloadGroup = dispatch_group_create()
      let addresses = [OverlyAttachedGirlfriendURLString,
@@ -474,7 +474,7 @@ dispatch_apply(height, dispatch_get_global_queue(0, 0), ^(size_t y) {
 <p>dispatch groups是专门用来监视多个异步任务。dispatch_group_t实例用来追踪不同队列中的不同任务。</p>
 <p>当group里所有事件都完成GCD API有两种方式发送通知，第一种是dispatch_group_wait，会阻塞当前进程，等所有任务都完成或等待超时。第二种方法是使用dispatch_group_notify，异步执行闭包，不会阻塞。</p>
 <p>第一种使用dispatch_group_wait的swift的例子：</p>
-<pre><code class="language-swift">func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+<pre><code>func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
      dispatch_async(GlobalUserInitiatedQueue) { // 因为dispatch_group_wait会租塞当前进程，所以要使用dispatch_async将整个方法要放到后台队列才能够保证主线程不被阻塞
           var storedError: NSError!
           var downloadGroup = dispatch_group_create() // 创建一个dispatch group
@@ -505,7 +505,7 @@ dispatch_apply(height, dispatch_get_global_queue(0, 0), ^(size_t y) {
 }
 </code></pre>
 <p>第二种使用dispatch_group_notify的swift的例子：</p>
-<pre><code class="language-swift">func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+<pre><code>func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
      // 不用加dispatch_async，因为没有阻塞主进程
      var storedError: NSError!
      var downloadGroup = dispatch_group_create()
@@ -601,7 +601,7 @@ dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
 <h2 id="使用dispatch-block-object调度块在任务执行前进行取消">使用dispatch block object（调度块）在任务执行前进行取消</h2>
 <p>dispatch block object可以为队列中的对象设置
 示例，下载图片中途进行取消</p>
-<pre><code class="language-swift">func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+<pre><code>func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
      var storedError: NSError!
      let downloadGroup = dispatch_group_create()
      var addresses = [OverlyAttachedGirlfriendURLString,

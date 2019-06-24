@@ -4,7 +4,7 @@
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>深入剖析-iOS-编译-Clang---LLVM | 江湖</title>
-<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561336290815">
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561337838558">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://policx.github.io/styles/main.css">
@@ -29,7 +29,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://policx.github.io">
-  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561336290815" alt="">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561337838558" alt="">
   </a>
   <h1 class="site-title">
     江湖
@@ -452,7 +452,7 @@ debug.ViewExplodedGraph         View Exploded Graphs using GraphViz
 <p>clang static analyzer 提供了很多辅助方法，比如 SVal.dump()，MemRegion.getString 以及 Stmt 和 Dcel 提供的 dump 方法。Clang 抽象语法树 Clang AST 常见的 API 有 Stmt，Decl，Expr 和 QualType。在编写 checker 时会遇到 AST 的层级检查，这时有个很好的接口 StmtVisitor，这个接口类似 RecursiveASTVisitor。</p>
 <p>整个 clang static analyzer 的入口是 AnalysisConsumer，接着会调 HandleTranslationUnit() 方法进行 AST 层级进行分析或者进行 path-sensitive 分析。默认会按照 inline 的 path-sensitive 分析，构建 CallGraph，从顶层 caller 按照调用的关系来分析，具体是使用的 WorkList 算法，从 EntryBlock 开始一步步的模拟，这个过程叫做 intra-procedural analysis（IPA）。这个模拟过程还需要对内存进行模拟，clang static analyzer 的内存模型是基于《A Memory Model for Static Analysis of C Programs》这篇论文而来，pdf地址：http://lcs.ios.ac.cn/~xuzb/canalyze/memmodel.pdf 在clang里的具体实现代码可以查看这两个文件 <a href="https://code.woboq.org/llvm/clang/include/clang/StaticAnalyzer/Core/PathSensitive/MemRegion.h.html">MemRegion.h</a>和 <a href="https://code.woboq.org/llvm/clang/lib/StaticAnalyzer/Core/RegionStore.cpp.html">RegionStore.cpp</a> 。</p>
 <p>下面举个简单例子看看 clang static  analyzer 是如何对源码进行模拟的。</p>
-<pre><code class="language-c">int main()
+<pre><code>int main()
 {
     int a;
     int b = 10;
@@ -605,7 +605,7 @@ attributes #3 = { nounwind }
 <h2 id="llvm-ir-优化">LLVM IR 优化</h2>
 <p>使用 O2，O3 这样的优化会调用对应的 Pass 来进行处理，有比如类似死代码清理，内联化，表达式重组，循环变量移动这样的 Pass。可以通过 llvm-opt 调用 LLVM 优化相关的库。</p>
 <p>可能直接这么说不太直观，我们可以更改下原 c 代码举个小例子看看这些 Pass 会做哪些优化。当我们加上</p>
-<pre><code class="language-c">int i = 0;
+<pre><code>int i = 0;
 while (i &lt; 10) {
     i++;
     printf(&quot;%d&quot;,i);
@@ -672,10 +672,10 @@ while.end:                                        ; preds = %while.body
 %add = add nsw i32 %3, %2
 </code></pre>
 <p>加法对应的指令是</p>
-<pre><code class="language-c++">BinaryOperator::CreateAdd(Value *V1, Value *V2, const Twine &amp;Name)
+<pre><code>BinaryOperator::CreateAdd(Value *V1, Value *V2, const Twine &amp;Name)
 </code></pre>
 <p>两个输入 V1 和 V2 的 def-use 是如何的呢，看看如下代码</p>
-<pre><code class="language-c++">class Value {
+<pre><code>class Value {
   void addUse(Use &amp;U) { U.addToList(&amp;UseList); }
 
   // ...
@@ -778,7 +778,7 @@ BinaryOperator *BinaryOperator::Create(BinaryOps Op, Value *S1, Value *S2,
 <h2 id="libclang">libclang</h2>
 <p>libclang 会让你觉得 clang 不仅仅只是一个伟大的编译器。下面从解析源码来说下</p>
 <p>先写个 libclang 的程序来解析源码</p>
-<pre><code class="language-c">int main(int argc, char *argv[]) {
+<pre><code>int main(int argc, char *argv[]) {
     CXIndex Index = clang_createIndex(0, 0);
     CXTranslationUnit TU = clang_parseTranslationUnit(Index, 0,
                                                       argv, argc, 0, 0, CXTranslationUnit_None); for (unsigned I = 0, N = clang_getNumDiagnostics(TU); I != N; ++I) {
@@ -793,7 +793,7 @@ BinaryOperator *BinaryOperator::Create(BinaryOps Op, Value *S1, Value *S2,
 }
 </code></pre>
 <p>再写个有问题的 c 程序</p>
-<pre><code class="language-c">struct List { /**/ };int sum(union List *L) { /* ... */ }
+<pre><code>struct List { /**/ };int sum(union List *L) { /* ... */ }
 </code></pre>
 <p>运行了语法检查后会出现提示信息</p>
 <pre><code class="language-bash">list.c:2:9: error: use of 'List' with tag type that does not match
@@ -816,7 +816,7 @@ struct List {
 <li>unsigned clang_getDiagnosticNumFixIts(CXDiagnostic Diag);* CXString clang_getDiagnosticFixIt(CXDiagnostic Diag, unsigned FixIt,CXSourceRange *ReplacementRange);</li>
 </ul>
 <p>我们先遍历语法树的节点。源 c 程序如下</p>
-<pre><code class="language-c">struct List {
+<pre><code>struct List {
     int Data;
     struct List *Next;
 };
@@ -836,13 +836,13 @@ int sum(struct List *Node) {
 <li>子节点</li>
 </ul>
 <p>举个 CXCursor 分析例子</p>
-<pre><code class="language-c">struct List {
+<pre><code>struct List {
     int Data;
     struct List *Next;
 };
 </code></pre>
 <p>CXCursor 的处理过程如下</p>
-<pre><code class="language-c">//Top-level cursor C
+<pre><code>//Top-level cursor C
 clang_getCursorKind(C) == CXCursor_StructDecl
 clang_getCursorSpelling(C) == &quot;List&quot; //获取名字字符串
 clang_getCursorLocation(C) //位置
@@ -861,7 +861,7 @@ clang_getCursorReferenced(R) == C //指向C
 <p>Driver 是 Clang 面对用户的接口，用来解析 Option 设置，判断决定调用的工具链，最终完成整个编译过程。</p>
 <p>相关源代码在这里：clang/tools/driver/driver.cpp</p>
 <p>整个 Driver 源码的入口函数就是 driver.cpp 里的 main() 函数。从这里可以作为入口看看整个  driver 是如何工作的，这样更利于我们以后轻松动手驾驭 LLVM。</p>
-<pre><code class="language-c++">int main(int argc_, const char **argv_) {
+<pre><code>int main(int argc_, const char **argv_) {
   llvm::sys::PrintStackTraceOnErrorSignal(argv_[0]);
   llvm::PrettyStackTraceProgram X(argc_, argv_);
   llvm::llvm_shutdown_obj Y; // Call llvm_shutdown() on exit.
@@ -896,7 +896,7 @@ clang_getCursorReferenced(R) == C //指向C
 </code></pre>
 <h2 id="driver-的工作流程图">Driver 的工作流程图</h2>
 <p>在 driver.cpp 的 main 函数里有 Driver 的初始化。我们来看看和 driver 相关的代码</p>
-<pre><code class="language-c++">  Driver TheDriver(Path, llvm::sys::getDefaultTargetTriple(), Diags);
+<pre><code>  Driver TheDriver(Path, llvm::sys::getDefaultTargetTriple(), Diags);
   SetInstallDir(argv, TheDriver, CanonicalPrefixes);
 
   insertTargetAndModeArgs(TargetAndMode.first, TargetAndMode.second, argv,
@@ -942,10 +942,10 @@ clang_getCursorReferenced(R) == C //指向C
   }
 </code></pre>
 <p>可以看到初始化 Driver 后 driver 会调用 BuildCompilation 生成 Compilation。Compilation 字面意思是合集的意思，通过 driver.cpp 的 include 可以看到</p>
-<pre><code class="language-c++">#include &quot;clang/Driver/Compilation.h&quot;
+<pre><code>#include &quot;clang/Driver/Compilation.h&quot;
 </code></pre>
 <p>根据此路径可以细看下 Compilation 这个为了 driver 设置的一组任务的类。通过这个类我们提取里面这个阶段比较关键的几个信息出来</p>
-<pre><code class="language-c++">class Compilation {
+<pre><code>class Compilation {
     /// The original (untranslated) input argument list.
   llvm::opt::InputArgList *Args;
 
@@ -1016,7 +1016,7 @@ public:
 <p>那么 clang++ 和 clang 命令的区别就在于会加载 C++ 库，其实 clang++ 最终还是会调用 Clang，那么手动指定加载库就好了何必还要多个 clang++ 命令呢，这主要是为了能够在这个命令里去加载更多的库，除了标准库以外，还有些非 C++ 标准库，辅助库等等。这样只要是 C++ 的程序用 clang++ 够了。</p>
 <p>只有加上 -cc1 这个 option 才能进入到 Clang driver 比如 emit-obj 这个 option 就需要先加上 -cc1。</p>
 <p>这点可以通过  driver.cpp 源码来看，在 main()  函数里可以看到在做了些多平台的兼容处理后就开始进行对入参判断第一个是不是 -cc1。</p>
-<pre><code class="language-c++">if (MarkEOLs &amp;&amp; argv.size() &gt; 1 &amp;&amp; StringRef(argv[1]).startswith(&quot;-cc1&quot;))
+<pre><code>if (MarkEOLs &amp;&amp; argv.size() &gt; 1 &amp;&amp; StringRef(argv[1]).startswith(&quot;-cc1&quot;))
     MarkEOLs = false;
   llvm::cl::ExpandResponseFiles(Saver, Tokenizer, argv, MarkEOLs);
 
@@ -1033,7 +1033,7 @@ public:
   }
 </code></pre>
 <p>如果是 -cc1 的话会调用 ExecuteCC1Tool 这个函数，先看看这个函数</p>
-<pre><code class="language-c++">static int ExecuteCC1Tool(ArrayRef&lt;const char *&gt; argv, StringRef Tool) {
+<pre><code>static int ExecuteCC1Tool(ArrayRef&lt;const char *&gt; argv, StringRef Tool) {
   void *GetExecutablePathVP = (void *)(intptr_t) GetExecutablePath;
   if (Tool == &quot;&quot;)
     return cc1_main(argv.slice(2), argv[0], GetExecutablePathVP);
@@ -1067,7 +1067,7 @@ public:
 <p>在 Clang 的 Pipeline 中很多实际行为都有对应的 Action，比如 preprocessor 时提供文件的 InputAction 和用于绑定机器架构的 BindArchAction。</p>
 <p>使用 clang main.c -arch i386 -arch x86_64 -o main 然后 file main 能够看到这时 BindArchAction 这个 Action 起到了作用，编译链接了两次同时创建了一个库既能够支持32位也能够支持64位用 lipo 打包。</p>
 <h2 id="action">Action</h2>
-<pre><code class="language-c++">/// BuildActions - Construct the list of actions to perform for the
+<pre><code>/// BuildActions - Construct the list of actions to perform for the
   /// given arguments, which are only done for a single architecture.
   ///
   /// \param C - The compilation that is being built.
@@ -1085,7 +1085,7 @@ public:
                              const InputList &amp;BAInputs) const;
 </code></pre>
 <p>上面两个方法中 BuildUniversalActions 最后也会走 BuildActions。BuildActions 了，进入这个方法</p>
-<pre><code class="language-c++">void Driver::BuildActions(Compilation &amp;C, DerivedArgList &amp;Args,
+<pre><code>void Driver::BuildActions(Compilation &amp;C, DerivedArgList &amp;Args,
                           const InputList &amp;Inputs, ActionList &amp;Actions) const {
   llvm::PrettyStackTraceString CrashInfo(&quot;Building compilation actions&quot;);
 
@@ -1098,7 +1098,7 @@ public:
   phases::ID FinalPhase = getFinalPhase(Args, &amp;FinalPhaseArg);
 </code></pre>
 <p>接着跟 getFinalPhase 这个方法。</p>
-<pre><code class="language-c++">// -{E,EP,P,M,MM} only run the preprocessor.
+<pre><code>// -{E,EP,P,M,MM} only run the preprocessor.
   if (CCCIsCPP() || (PhaseArg = DAL.getLastArg(options::OPT_E)) ||
       (PhaseArg = DAL.getLastArg(options::OPT__SLASH_EP)) ||
       (PhaseArg = DAL.getLastArg(options::OPT_M, options::OPT_MM)) ||
@@ -1158,7 +1158,7 @@ public:
 <p>Translate 就是把相关的参数对应到不同平台上不同的工具。</p>
 <h2 id="jobs">Jobs</h2>
 <p>从创建 Jobs 的方法</p>
-<pre><code class="language-c++">/// BuildJobsForAction - Construct the jobs to perform for the action \p A and
+<pre><code>/// BuildJobsForAction - Construct the jobs to perform for the action \p A and
   /// return an InputInfo for the result of running \p A.  Will only construct
   /// jobs for a given (Action, ToolChain, BoundArch, DeviceKind) tuple once.
   InputInfo
@@ -1172,7 +1172,7 @@ public:
 <p>可以看出 Jobs 需要前面的 Compilation，Action，ToolChain 等，那么 Jobs 就是将前面获取的信息进行组合分组给后面的 Execute 做万全准备。</p>
 <h2 id="execute">Execute</h2>
 <p>在 driver.cpp 的 main 函数里的 ExecuteCompilation 方法里可以看到如下代码：</p>
-<pre><code class="language-c++"> // Set up response file names for each command, if necessary
+<pre><code> // Set up response file names for each command, if necessary
   for (auto &amp;Job : C.getJobs())
     setUpResponseFiles(C, Job);
 
@@ -1331,7 +1331,7 @@ print asciitree.draw_tree(translation_unit.cursor,
 + (instancetype)observerWithTarget:(id)target action:(SEL)selector;
 @end
 </code></pre>
-<pre><code class="language-C++">//查找消息表达式，observer 作为接受者，observerWithTarget:action: 作为 selector，检查 target 中是否存在相应的方法。
+<pre><code>//查找消息表达式，observer 作为接受者，observerWithTarget:action: 作为 selector，检查 target 中是否存在相应的方法。
 virtual bool VisitObjCMessageExpr(ObjCMessageExpr *E) {
   if (E-&gt;getReceiverKind() == ObjCMessageExpr::Class) {
     QualType ReceiverType = E-&gt;getClassReceiver();
@@ -1478,7 +1478,7 @@ symbolicatecrash appName.crash appName.app &gt; appName.log
 <pre><code>touch test.c
 </code></pre>
 <p>编辑里面的内容</p>
-<pre><code class="language-c">vi test.c
+<pre><code>vi test.c
 
 #include &lt;stdio.h&gt;
 int main(int argc, char *argv[])
@@ -1640,7 +1640,7 @@ _main:
 MH_MAGIC_64  X86_64        ALL LIB64     EXECUTE    15       1200   NOUNDEFS DYLDLINK TWOLEVEL PIE
 </code></pre>
 <p>mach_header 结构体</p>
-<pre><code class="language-c">struct mach_header {
+<pre><code>struct mach_header {
   uint32_t      magic;
   cpu_type_t    cputype;
   cpu_subtype_t cpusubtype;
@@ -1654,7 +1654,7 @@ MH_MAGIC_64  X86_64        ALL LIB64     EXECUTE    15       1200   NOUNDEFS DYL
 <pre><code>otool -v -l a.out | open -f
 </code></pre>
 <p>加载命令结构体</p>
-<pre><code class="language-c">struct segment_command {
+<pre><code>struct segment_command {
   uint32_t  cmd;
   uint32_t  cmdsize;
   char      segname[16];
