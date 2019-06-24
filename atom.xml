@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-24T10:07:54.128Z</updated>
+    <updated>2019-06-24T11:38:26.838Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -2125,8 +2125,8 @@ __这些文字会生成`&lt;strong&gt;`__
 </code></pre>
 <p>效果如下：</p>
 <ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-5309049"> 任务一 未做任务 <label class="task-list-item-label" for="task-item-5309049"> 任务一 未做任务 `- + 空格 + [ ]`</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-6075481"> 任务二 已做任务 <label class="task-list-item-label" for="task-item-6075481"> 任务二 已做任务 `- + 空格 + [x]`</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-5622685"> 任务一 未做任务 <label class="task-list-item-label" for="task-item-5622685"> 任务一 未做任务 `- + 空格 + [ ]`</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-3719109"> 任务二 已做任务 <label class="task-list-item-label" for="task-item-3719109"> 任务二 已做任务 `- + 空格 + [x]`</label></li>
 </ul>
 <h2 id="图片">图片</h2>
 <p>Markdown 语法：</p>
@@ -2570,6 +2570,100 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 ]]></content>
     </entry>
     <entry>
+        <title type="html"><![CDATA[大话Socket]]></title>
+        <id>https://policx.github.io/post/socket</id>
+        <link href="https://policx.github.io/post/socket">
+        </link>
+        <updated>2018-02-06T10:30:55.000Z</updated>
+        <content type="html"><![CDATA[<p>要了解Socket首先要了解 TCP，他们两个的关系可以说是：</p>
+<p>Socket 是抽象出来的使用 TCP/UDP 的概念模型，屏蔽掉了晦涩的底层协议的实现，是一个接口。</p>
+<p>最近看到了一张如此详细的 TCP 三次握手和四次挥手，打印一张放工位！摘自《图解网络硬件》249页 图5-11 《TCP的三次握手》
+<img src="https://camo.githubusercontent.com/23dfbddfdd1d08dfda64dc13436030d947ebd62b/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f36346466643834396a7731663275646676363638706a32306d30306e6d343463" alt="">
+<img src="https://camo.githubusercontent.com/dc8cf3d1737ae2148250573fae94d2eea4eaba3d/687474703a2f2f7777312e73696e61696d672e636e2f6c617267652f36356534663165366a773166377532786a6f6361746a32306a383064627134362e6a7067" alt="">
+所谓的X、X+1、Y、Y+1
+对应于你收到了没、我收到了、你收到'我收到'没、我收到了不用回了,为什么用+1表示呢？那是因为前两个指的是一个人，后两个指的是一个人。
+四组是三个连接，每个连接的序号依次是X、Y、Z。</p>
+<p>TCP的连接过程就像两个人的对话：</p>
+<p>想象一下，每次这俩儿人聊天，都要像下面这样一来一回三次，接下来他们才能【好好聊天了。。。】真是有点“作”。。。</p>
+<p>我是客户端，树懒是服务端，演示三次握手、数据传输步骤
+<img src="https://camo.githubusercontent.com/83074c55d42ddfa4775100aed25d906410581346/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f36346466643834396a77316632756467393761796d6a32306d38316d636b316c" alt="">
+其实有个问题，为什么连接的时候是三次握手，关闭的时候却是四次挥手？</p>
+<p>因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，”你发的FIN报文我收到了”。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。</p>
+<p>而这一设计，主要是因为“服务器不是你想关就能关”。。。</p>
+<p>比如说两个热恋中的人正在QQ上发送一个传mp4格式的文件，</p>
+<p>A说，我要下QQ了，</p>
+<p>B说：我知道了，你下吧。</p>
+<p>A说，那我关了，（想关）</p>
+<p>但是当A尝试关闭QQ的时候，QQ弹窗说“正在传输文件，传输完成后自动关闭QQ？”</p>
+<p>这时候A对B说，呀，正在传东西，等传完了，我就关吧。（不能关）</p>
+<p>B说：行。既然关不掉，不行再聊会儿呗？</p>
+<p>A：聊吧。。。传完了啊，下了啊（传输结束了--能关）</p>
+<p>B：下吧。我也下了。。。</p>
+<p>就是多了一个Finish报文。</p>
+<p>或者简单点表示是这样的：
+<img src="https://camo.githubusercontent.com/770f483cf985366a20e6dafde1e355bc691f2041/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f36346466643834396a77316632756a7067346235716a32307969317063716470" alt="">
+图片演示了四次挥手，与三次握手相比，只多了一个被动方确认自身任务Finish的动作。
+<img src="https://camo.githubusercontent.com/101010aedc39b107a8615e6c26281e2e848dbbb1/687474703a2f2f7777322e73696e61696d672e636e2f6c617267652f36356534663165366a773166377532786a73676e386a32306a3630646b7461682e6a7067" alt="">
+总结下相关的函数：</p>
+<p>创建套接字</p>
+<pre><code>   Socket(af,type,protocol)
+</code></pre>
+<p>建立地址和套接字的联系</p>
+<pre><code>   bind(sockid, local addr, addrlen)
+</code></pre>
+<p>服务器端侦听客户端的请求</p>
+<pre><code>   listen( Sockid ,quenlen)
+</code></pre>
+<p>建立服务器/客户端的连接 (面向连接TCP）</p>
+<p>客户端请求连接</p>
+<pre><code>    Connect(sockid, destaddr, addrlen)
+</code></pre>
+<p>服务器端等待从编号为Sockid的Socket上接收客户连接请求</p>
+<pre><code>    newsockid=accept(Sockid，Clientaddr, paddrlen)
+</code></pre>
+<p>发送/接收数据</p>
+<p>面向连接：</p>
+<pre><code>    send(sockid, buff, bufflen) 
+    recv( )
+</code></pre>
+<p>面向无连接：</p>
+<pre><code>    sendto(sockid,buff,…,addrlen) 
+    recvfrom( )
+</code></pre>
+<p>释放套接字</p>
+<pre><code>    close(sockid)
+</code></pre>
+<p>至于为什么是三次握手，而不是二次握手，还有四次握手，可以看看下面的类比：</p>
+<table>
+<thead>
+<tr>
+<th>三次握手</th>
+<th>二次握手</th>
+<th>四次握手</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://camo.githubusercontent.com/9bf301327a629211d40aadd6e8ec65c80e242511/687474703a2f2f7777322e73696e61696d672e636e2f6c617267652f36356534663165366a77316637753536776678687a6a32307969317063337a762e6a7067" alt=""></td>
+<td><img src="https://camo.githubusercontent.com/a6d5cce9b79a51f18b7c2f14b149f5416c1d5e3a/687474703a2f2f7777332e73696e61696d672e636e2f6c617267652f36356534663165366a7731663775347a6433306e706a323079693170637161642e6a7067" alt=""></td>
+<td><img src="https://camo.githubusercontent.com/8f98f53f7acc4a9a8954c11b885a58f7a0d71a90/687474703a2f2f7777342e73696e61696d672e636e2f6c617267652f36356534663165366a7731663775347861736d61306a323079693170636163622e6a7067" alt=""></td>
+</tr>
+</tbody>
+</table>
+<p>参考：<a href="http://zhihu.com/question/24853633/answer/114872771">知乎</a></p>
+<p>三次握手的对话，也挺像这个的，哈哈：</p>
+<ul>
+<li>A: How are you?</li>
+<li>B: I'm fine, thanks,and you?</li>
+<li>A: I'm fine too.</li>
+</ul>
+<hr>
+<p>Posted by <a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a><br>
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></p>
+<p align="center"><a href="http://weibo.com/u/1692391497?s=6uyXnP" target="_blank"><img border="0" src="http://service.t.sina.com.cn/widget/qmd/1692391497/b46c844b/1.png"/></a></a>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[HTTP状态码汇总]]></title>
         <id>https://policx.github.io/post/http</id>
         <link href="https://policx.github.io/post/http">
@@ -2595,7 +2689,7 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>1️⃣❌❌</td>
 <td>🔴🔴🔴</td>
-<td>1xx消息 这一类型的状态码，代表请求已被接受，需要继续处理。这类响应是临时响应，只包含状态行和某些可选的响应头信息，并以空行结束。由于HTTP/1.0协议中没有定义任何1xx状态码，所以除非在某些试验条件下，服务器禁止向此类客户端发送1xx响应。 这些状态码代表的响应都是信息性的，标示客户应该采取的其他行动。</td>
+<td>1xx消息 </p> 这一类型的状态码，代表请求已被接受，需要继续处理。这类响应是临时响应，只包含状态行和某些可选的响应头信息，并以空行结束。由于HTTP/1.0协议中没有定义任何1xx状态码，所以除非在某些试验条件下，服务器禁止向此类客户端发送1xx响应。 这些状态码代表的响应都是信息性的，标示客户应该采取的其他行动。</td>
 </tr>
 <tr>
 <td>100</td>
@@ -2640,17 +2734,17 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>204</td>
 <td>No Content</td>
-<td>服务器成功处理了请求，但不需要返回任何实体内容，并且希望返回更新了的元信息。响应可能通过实体头部的形式，返回新的或更新后的元信息。如果存在这些头部信息，则应当与所请求的变量相呼应。如果客户端是浏览器的话，那么用户浏览器应保留发送了该请求的页面，而不产生任何文档视图上的变化，即使按照规范新的或更新后的元信息应当被应用到用户浏览器活动视图中的文档。由于204响应被禁止包含任何消息体，因此它始终以消息头后的第一个空行结尾。</td>
+<td>服务器成功处理了请求，但不需要返回任何实体内容，并且希望返回更新了的元信息。响应可能通过实体头部的形式，返回新的或更新后的元信息。如果存在这些头部信息，则应当与所请求的变量相呼应。</p>    如果客户端是浏览器的话，那么用户浏览器应保留发送了该请求的页面，而不产生任何文档视图上的变化，即使按照规范新的或更新后的元信息应当被应用到用户浏览器活动视图中的文档。</p>    由于204响应被禁止包含任何消息体，因此它始终以消息头后的第一个空行结尾。</td>
 </tr>
 <tr>
 <td>205</td>
 <td>Reset Content</td>
-<td>服务器成功处理了请求，且没有返回任何内容。但是与204响应不同，返回此状态码的响应要求请求者重置文档视图。该响应主要是被用于接受用户输入后，立即重置表单，以便用户能够轻松地开始另一次输入。与204响应一样，该响应也被禁止包含任何消息体，且以消息头后的第一个空行结束。</td>
+<td>服务器成功处理了请求，且没有返回任何内容。但是与204响应不同，返回此状态码的响应要求请求者重置文档视图。该响应主要是被用于接受用户输入后，立即重置表单，以便用户能够轻松地开始另一次输入。</p>    与204响应一样，该响应也被禁止包含任何消息体，且以消息头后的第一个空行结束。</td>
 </tr>
 <tr>
 <td>206</td>
 <td>Partial Content</td>
-<td>服务器已经成功处理了部分GET请求。类似于FlashGet或者迅雷这类的HTTP 下载工具都是使用此类响应实现断点续传或者将一个大文档分解为多个下载段同时下载。该请求必须包含Range头信息来指示客户端希望得到的内容范围，并且可能包含If-Range来作为请求条件。响应必须包含如下的头部域：Content-Range用以指示本次响应中返回的内容的范围；如果是Content-Type为multipart/byteranges的多段下载，则每一multipart段中都应包含Content-Range域用以指示本段的内容范围。假如响应中包含Content-Length，那么它的数值必须匹配它返回的内容范围的真实字节数。Date ETag和／或Content-Location，假如同样的请求本应该返回200响应。Expires, Cache-Control，和／或Vary，假如其值可能与之前相同变量的其他响应对应的值不同的话。假如本响应请求使用了If-Range强缓存验证，那么本次响应不应该包含其他实体头；假如本响应的请求使用了If-Range弱缓存验证，那么本次响应禁止包含其他实体头；这避免了缓存的实体内容和更新了的实体头信息之间的不一致。否则，本响应就应当包含所有本应该返回200响应中应当返回的所有实体头部域。假如ETag或Last-Modified头部不能精确匹配的话，则客户端缓存应禁止将206响应返回的内容与之前任何缓存过的内容组合在一起。任何不支持Range以及Content-Range头的缓存都禁止缓存206响应返回的内容。</td>
+<td>服务器已经成功处理了部分GET请求。类似于FlashGet或者迅雷这类的HTTP 下载工具都是使用此类响应实现断点续传或者将一个大文档分解为多个下载段同时下载。</p>    该请求必须包含Range头信息来指示客户端希望得到的内容范围，并且可能包含If-Range来作为请求条件。</p>    响应必须包含如下的头部域：</p>        Content-Range用以指示本次响应中返回的内容的范围；如果是Content-Type为multipart/byteranges的多段下载，则每一multipart段中都应包含Content-Range域用以指示本段的内容范围。假如响应中包含Content-Length，那么它的数值必须匹配它返回的内容范围的真实字节数。</p>        Date ETag和／或Content-Location，假如同样的请求本应该返回200响应。</p>        Expires, Cache-Control，和／或Vary，假如其值可能与之前相同变量的其他响应对应的值不同的话。</p>    假如本响应请求使用了If-Range强缓存验证，那么本次响应不应该包含其他实体头；假如本响应的请求使用了If-Range弱缓存验证，那么本次响应禁止包含其他实体头；这避免了缓存的实体内容和更新了的实体头信息之间的不一致。否则，本响应就应当包含所有本应该返回200响应中应当返回的所有实体头部域。</p>    假如ETag或Last-Modified头部不能精确匹配的话，则客户端缓存应禁止将206响应返回的内容与之前任何缓存过的内容组合在一起。</p>    任何不支持Range以及Content-Range头的缓存都禁止缓存206响应返回的内容。</td>
 </tr>
 <tr>
 <td>207</td>
@@ -2660,37 +2754,37 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>3️⃣❌❌</td>
 <td>🔴🔴🔴</td>
-<td>3xx重定向,这类状态码代表需要客户端采取进一步的操作才能完成请求。通常，这些状态码用来重定向，后续的请求地址（重定向目标）在本次响应的Location域中指明。当且仅当后续的请求所使用的方法是GET或者HEAD时，用户浏览器才可以在没有用户介入的情况下自动提交所需要的后续请求。客户端应当自动监测无限循环重定向（例如：A→B→C→……→A或A→A），因为这会导致服务器和客户端大量不必要的资源消耗。按照HTTP/1.0版规范的建议，浏览器不应自动访问超过5次的重定向。</td>
+<td>3xx重定向 </p>这类状态码代表需要客户端采取进一步的操作才能完成请求。通常，这些状态码用来重定向，后续的请求地址（重定向目标）在本次响应的Location域中指明。</p>当且仅当后续的请求所使用的方法是GET或者HEAD时，用户浏览器才可以在没有用户介入的情况下自动提交所需要的后续请求。客户端应当自动监测无限循环重定向（例如：A→B→C→……→A或A→A），因为这会导致服务器和客户端大量不必要的资源消耗。按照HTTP/1.0版规范的建议，浏览器不应自动访问超过5次的重定向。</td>
 </tr>
 <tr>
 <td>300</td>
 <td>Multiple Choices</td>
-<td>被请求的资源有一系列可供选择的回馈信息，每个都有自己特定的地址和浏览器驱动的商议信息。用户或浏览器能够自行选择一个首选的地址进行重定向。除非这是一个HEAD请求，否则该响应应当包括一个资源特性及地址的列表的实体，以便用户或浏览器从中选择最合适的重定向地址。这个实体的格式由Content-Type定义的格式所决定。浏览器可能根据响应的格式以及浏览器自身能力，自动作出最合适的选择。当然，RFC 2616规范并没有规定这样的自动选择该如何进行。如果服务器本身已经有了首选的回馈选择，那么在Location中应当指明这个回馈的URI；浏览器可能会将这个Location值作为自动重定向的地址。此外，除非额外指定，否则这个响应也是可缓存的。</td>
+<td>被请求的资源有一系列可供选择的回馈信息，每个都有自己特定的地址和浏览器驱动的商议信息。用户或浏览器能够自行选择一个首选的地址进行重定向。</p>    除非这是一个HEAD请求，否则该响应应当包括一个资源特性及地址的列表的实体，以便用户或浏览器从中选择最合适的重定向地址。这个实体的格式由Content-Type定义的格式所决定。浏览器可能根据响应的格式以及浏览器自身能力，自动作出最合适的选择。当然，RFC 2616规范并没有规定这样的自动选择该如何进行。</p>    如果服务器本身已经有了首选的回馈选择，那么在Location中应当指明这个回馈的URI；浏览器可能会将这个Location值作为自动重定向的地址。此外，除非额外指定，否则这个响应也是可缓存的。</td>
 </tr>
 <tr>
 <td>301</td>
 <td>Moved Permanently</td>
-<td>被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。除非额外指定，否则这个响应也是可缓存的。新的永久性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。如果这不是一个GET或者HEAD请求，因此浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。注意：对于某些使用HTTP/1.0协议的浏览器，当它们发送的POST请求得到了一个301响应的话，接下来的重定向请求将会变成GET方式。</td>
+<td>被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个URI之一。如果可能，拥有链接编辑功能的客户端应当自动把请求的地址修改为从服务器反馈回来的地址。除非额外指定，否则这个响应也是可缓存的。</p>    新的永久性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</p>    如果这不是一个GET或者HEAD请求，因此浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</p>    注意：对于某些使用HTTP/1.0协议的浏览器，当它们发送的POST请求得到了一个301响应的话，接下来的重定向请求将会变成GET方式。</td>
 </tr>
 <tr>
 <td>302</td>
 <td>Found</td>
-<td>1.请求的资源现在临时从不同的URI响应请求。由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。2.新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。3.如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。4.注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用GET方式访问在Location中规定的URI，而无视原先请求的方法。状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。</td>
+<td>请求的资源现在临时从不同的URI响应请求。由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。</p>    新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</p>    如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</p>    注意：虽然RFC 1945和RFC 2068规范不允许客户端在重定向时改变请求的方法，但是很多现存的浏览器将302响应视作为303响应，并且使用GET方式访问在Location中规定的URI，而无视原先请求的方法。状态码303和307被添加了进来，用以明确服务器期待客户端进行何种反应。</td>
 </tr>
 <tr>
 <td>303</td>
 <td>See Other</td>
-<td>1.对应当前请求的响应可以在另一个URI上被找到，而且客户端应当采用GET的方式访问那个资源。这个方法的存在主要是为了允许由脚本激活的POST请求输出重定向到一个新的资源。这个新的URI不是原始资源的替代引用。同时，303响应禁止被缓存。当然，第二个请求（重定向）可能被缓存。    2.新的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。    3.注意：许多HTTP/1.1版以前的浏览器不能正确理解303状态。如果需要考虑与这些浏览器之间的互动，302状态码应该可以胜任，因为大多数的浏览器处理302响应时的方式恰恰就是上述规范要求客户端处理303响应时应当做的。</td>
+<td>对应当前请求的响应可以在另一个URI上被找到，而且客户端应当采用GET的方式访问那个资源。这个方法的存在主要是为了允许由脚本激活的POST请求输出重定向到一个新的资源。这个新的URI不是原始资源的替代引用。同时，303响应禁止被缓存。当然，第二个请求（重定向）可能被缓存。</p>    新的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。</p>    注意：许多HTTP/1.1版以前的浏览器不能正确理解303状态。如果需要考虑与这些浏览器之间的互动，302状态码应该可以胜任，因为大多数的浏览器处理302响应时的方式恰恰就是上述规范要求客户端处理303响应时应当做的。</td>
 </tr>
 <tr>
 <td>304</td>
 <td>Not Modified</td>
-<td>1.如果客户端发送了一个带条件的GET请求且该请求已被允许，而文档的内容（自上次访问以来或者根据请求的条件）并没有改变，则服务器应当返回这个状态码。304响应禁止包含消息体，因此始终以消息头后的第一个空行结尾。2.该响应必须包含以下的头信息：Date，除非这个服务器没有时钟。假如没有时钟的服务器也遵守这些规则，那么代理服务器以及客户端可以自行将Date字段添加到接收到的响应头中去（正如RFC 2068中规定的一样），缓存机制将会正常工作。ETag和／或Content-Location，假如同样的请求本应返回200响应。Expires, Cache-Control，和／或Vary，假如其值可能与之前相同变量的其他响应对应的值不同的话。假如本响应请求使用了强缓存验证，那么本次响应不应该包含其他实体头；否则（例如，某个带条件的GET请求使用了弱缓存验证），本次响应禁止包含其他实体头；这避免了缓存了的实体内容和更新了的实体头信息之间的不一致。假如某个304响应指明了当前某个实体没有缓存，那么缓存系统必须忽视这个响应，并且重复发送不包含限制条件的请求。假如接收到一个要求更新某个缓存条目的304响应，那么缓存系统必须更新整个条目以反映所有在响应中被更新的字段的值。</td>
+<td>如果客户端发送了一个带条件的GET请求且该请求已被允许，而文档的内容（自上次访问以来或者根据请求的条件）并没有改变，则服务器应当返回这个状态码。304响应禁止包含消息体，因此始终以消息头后的第一个空行结尾。</p>    该响应必须包含以下的头信息：</p>        Date，除非这个服务器没有时钟。假如没有时钟的服务器也遵守这些规则，那么代理服务器以及客户端可以自行将Date字段添加到接收到的响应头中去（正如RFC 2068中规定的一样），缓存机制将会正常工作。</p>        ETag和／或Content-Location，假如同样的请求本应返回200响应。</p>        Expires, Cache-Control，和／或Vary，假如其值可能与之前相同变量的其他响应对应的值不同的话。</p>    假如本响应请求使用了强缓存验证，那么本次响应不应该包含其他实体头；否则（例如，某个带条件的GET请求使用了弱缓存验证），本次响应禁止包含其他实体头；这避免了缓存了的实体内容和更新了的实体头信息之间的不一致。</p>    假如某个304响应指明了当前某个实体没有缓存，那么缓存系统必须忽视这个响应，并且重复发送不包含限制条件的请求。</p>    假如接收到一个要求更新某个缓存条目的304响应，那么缓存系统必须更新整个条目以反映所有在响应中被更新的字段的值。</td>
 </tr>
 <tr>
 <td>305</td>
 <td>Use Proxy</td>
-<td>被请求的资源必须通过指定的代理才能被访问。Location域中将给出指定的代理所在的URI信息，接收者需要重复发送一个单独的请求，通过这个代理才能访问相应资源。只有原始服务器才能创建305响应。注意：RFC 2068中没有明确305响应是为了重定向一个单独的请求，而且只能被原始服务器创建。忽视这些限制可能导致严重的安全后果。</td>
+<td>被请求的资源必须通过指定的代理才能被访问。Location域中将给出指定的代理所在的URI信息，接收者需要重复发送一个单独的请求，通过这个代理才能访问相应资源。只有原始服务器才能创建305响应。</p>    注意：RFC 2068中没有明确305响应是为了重定向一个单独的请求，而且只能被原始服务器创建。忽视这些限制可能导致严重的安全后果。</td>
 </tr>
 <tr>
 <td>306</td>
@@ -2700,12 +2794,12 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>307</td>
 <td>Temporary Redirect</td>
-<td>请求的资源现在临时从不同的URI响应请求。由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。因为部分浏览器不能识别307响应，因此需要添加上述必要信息以便用户能够理解并向新的URI发出访问请求。如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</td>
+<td>请求的资源现在临时从不同的URI响应请求。由于这样的重定向是临时的，客户端应当继续向原有地址发送以后的请求。只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的。</p>    新的临时性的URI应当在响应的Location域中返回。除非这是一个HEAD请求，否则响应的实体中应当包含指向新的URI的超链接及简短说明。因为部分浏览器不能识别307响应，因此需要添加上述必要信息以便用户能够理解并向新的URI发出访问请求。</p>    如果这不是一个GET或者HEAD请求，那么浏览器禁止自动进行重定向，除非得到用户的确认，因为请求的条件可能因此发生变化。</td>
 </tr>
 <tr>
 <td>4️⃣❌❌</td>
 <td>🔴🔴🔴</td>
-<td>4xx客户端错误,这类的状态码代表了客户端看起来可能发生了错误，妨碍了服务器的处理。除非响应的是一个HEAD请求，否则服务器就应该返回一个解释当前错误状况的实体，以及这是临时的还是永久性的状况。这些状态码适用于任何请求方法。浏览器应当向用户显示任何包含在此类错误响应中的实体内容。如果错误发生时客户端正在传送数据，那么使用TCP的服务器实现应当仔细确保在关闭客户端与服务器之间的连接之前，客户端已经收到了包含错误信息的数据包。如果客户端在收到错误信息后继续向服务器发送数据，服务器的TCP栈将向客户端发送一个重置数据包，以清除该客户端所有还未识别的输入缓冲，以免这些数据被服务器上的应用程序读取并干扰后者。</td>
+<td>4xx客户端错误</p>这类的状态码代表了客户端看起来可能发生了错误，妨碍了服务器的处理。除非响应的是一个HEAD请求，否则服务器就应该返回一个解释当前错误状况的实体，以及这是临时的还是永久性的状况。这些状态码适用于任何请求方法。浏览器应当向用户显示任何包含在此类错误响应中的实体内容。</p>如果错误发生时客户端正在传送数据，那么使用TCP的服务器实现应当仔细确保在关闭客户端与服务器之间的连接之前，客户端已经收到了包含错误信息的数据包。如果客户端在收到错误信息后继续向服务器发送数据，服务器的TCP栈将向客户端发送一个重置数据包，以清除该客户端所有还未识别的输入缓冲，以免这些数据被服务器上的应用程序读取并干扰后者。</td>
 </tr>
 <tr>
 <td>400</td>
@@ -2735,12 +2829,12 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>405</td>
 <td>Method Not Allowed</td>
-<td>请求行中指定的请求方法不能被用于请求相应的资源。该响应必须返回一个Allow头信息用以表示出当前资源能够接受的请求方法的列表。鉴于PUT，DELETE方法会对服务器上的资源进行写操作，因而绝大部分的网页服务器都不支持或者在默认配置下不允许上述请求方法，对于此类请求均会返回405错误。</td>
+<td>请求行中指定的请求方法不能被用于请求相应的资源。该响应必须返回一个Allow头信息用以表示出当前资源能够接受的请求方法的列表。</p>    鉴于PUT，DELETE方法会对服务器上的资源进行写操作，因而绝大部分的网页服务器都不支持或者在默认配置下不允许上述请求方法，对于此类请求均会返回405错误。</td>
 </tr>
 <tr>
 <td>406</td>
 <td>Not Acceptable</td>
-<td>请求的资源的内容特性无法满足请求头中的条件，因而无法生成响应实体。除非这是一个HEAD请求，否则该响应就应当返回一个包含可以让用户或者浏览器从中选择最合适的实体特性以及地址列表的实体。实体的格式由Content-Type头中定义的媒体类型决定。浏览器可以根据格式及自身能力自行作出最佳选择。但是，规范中并没有定义任何作出此类自动选择的标准。</td>
+<td>请求的资源的内容特性无法满足请求头中的条件，因而无法生成响应实体。</p>    除非这是一个HEAD请求，否则该响应就应当返回一个包含可以让用户或者浏览器从中选择最合适的实体特性以及地址列表的实体。实体的格式由Content-Type头中定义的媒体类型决定。浏览器可以根据格式及自身能力自行作出最佳选择。但是，规范中并没有定义任何作出此类自动选择的标准。</td>
 </tr>
 <tr>
 <td>407</td>
@@ -2755,12 +2849,12 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>409</td>
 <td>Conflict</td>
-<td>由于和被请求的资源的当前状态之间存在冲突，请求无法完成。这个代码只允许用在这样的情况下才能被使用：用户被认为能够解决冲突，并且会重新提交新的请求。该响应应当包含足够的信息以便用户发现冲突的源头。冲突通常发生于对PUT请求的处理中。例如，在采用版本检查的环境下，某次PUT提交的对特定资源的修改请求所附带的版本信息与之前的某个（第三方）请求向冲突，那么此时服务器就应该返回一个409错误，告知用户请求无法完成。此时，响应实体中很可能会包含两个冲突版本之间的差异比较，以便用户重新提交归并以后的新版本。</td>
+<td>由于和被请求的资源的当前状态之间存在冲突，请求无法完成。这个代码只允许用在这样的情况下才能被使用：用户被认为能够解决冲突，并且会重新提交新的请求。该响应应当包含足够的信息以便用户发现冲突的源头。</p>    冲突通常发生于对PUT请求的处理中。例如，在采用版本检查的环境下，某次PUT提交的对特定资源的修改请求所附带的版本信息与之前的某个（第三方）请求向冲突，那么此时服务器就应该返回一个409错误，告知用户请求无法完成。此时，响应实体中很可能会包含两个冲突版本之间的差异比较，以便用户重新提交归并以后的新版本。</td>
 </tr>
 <tr>
 <td>410</td>
 <td>Gone</td>
-<td>被请求的资源在服务器上已经不再可用，而且没有任何已知的转发地址。这样的状况应当被认为是永久性的。如果可能，拥有链接编辑功能的客户端应当在获得用户许可后删除所有指向这个地址的引用。如果服务器不知道或者无法确定这个状况是否是永久的，那么就应该使用404状态码。除非额外说明，否则这个响应是可缓存的。410响应的目的主要是帮助网站管理员维护网站，通知用户该资源已经不再可用，并且服务器拥有者希望所有指向这个资源的远端连接也被删除。这类事件在限时、增值服务中很普遍。同样，410响应也被用于通知客户端在当前服务器站点上，原本属于某个个人的资源已经不再可用。当然，是否需要把所有永久不可用的资源标记为'410 Gone'，以及是否需要保持此标记多长时间，完全取决于服务器拥有者。</td>
+<td>被请求的资源在服务器上已经不再可用，而且没有任何已知的转发地址。这样的状况应当被认为是永久性的。如果可能，拥有链接编辑功能的客户端应当在获得用户许可后删除所有指向这个地址的引用。如果服务器不知道或者无法确定这个状况是否是永久的，那么就应该使用404状态码。除非额外说明，否则这个响应是可缓存的。</p>	410响应的目的主要是帮助网站管理员维护网站，通知用户该资源已经不再可用，并且服务器拥有者希望所有指向这个资源的远端连接也被删除。这类事件在限时、增值服务中很普遍。同样，410响应也被用于通知客户端在当前服务器站点上，原本属于某个个人的资源已经不再可用。当然，是否需要把所有永久不可用的资源标记为'410 Gone'，以及是否需要保持此标记多长时间，完全取决于服务器拥有者。</td>
 </tr>
 <tr>
 <td>411</td>
@@ -2775,12 +2869,12 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>413</td>
 <td>Request Entity Too Large</td>
-<td>服务器拒绝处理当前请求，因为该请求提交的实体数据大小超过了服务器愿意或者能够处理的范围。此种情况下，服务器可以关闭连接以免客户端继续发送此请求。如果这个状况是临时的，服务器应当返回一个Retry-After的响应头，以告知客户端可以在多少时间以后重新尝试。</td>
+<td>服务器拒绝处理当前请求，因为该请求提交的实体数据大小超过了服务器愿意或者能够处理的范围。此种情况下，服务器可以关闭连接以免客户端继续发送此请求。</p>    如果这个状况是临时的，服务器应当返回一个Retry-After的响应头，以告知客户端可以在多少时间以后重新尝试。</td>
 </tr>
 <tr>
 <td>414</td>
 <td>Request-URI Too Long</td>
-<td>请求的URI长度超过了服务器能够解释的长度，因此服务器拒绝对该请求提供服务。这比较少见，通常的情况包括：本应使用POST方法的表单提交变成了GET方法，导致查询字符串（Query String）过长。重定向URI“黑洞”，例如每次重定向把旧的URI作为新的URI的一部分，导致在若干次重定向后URI超长。客户端正在尝试利用某些服务器中存在的安全漏洞攻击服务器。这类服务器使用固定长度的缓冲读取或操作请求的URI，当GET后的参数超过某个数值后，可能会产生缓冲区溢出，导致任意代码被执行[1]。没有此类漏洞的服务器，应当返回414状态码。</td>
+<td>请求的URI长度超过了服务器能够解释的长度，因此服务器拒绝对该请求提供服务。这比较少见，通常的情况包括：</p>        本应使用POST方法的表单提交变成了GET方法，导致查询字符串（Query String）过长。</p>        重定向URI“黑洞”，例如每次重定向把旧的URI作为新的URI的一部分，导致在若干次重定向后URI超长。</p>        客户端正在尝试利用某些服务器中存在的安全漏洞攻击服务器。这类服务器使用固定长度的缓冲读取或操作请求的URI，当GET后的参数超过某个数值后，可能会产生缓冲区溢出，导致任意代码被执行[1]。没有此类漏洞的服务器，应当返回414状态码。</td>
 </tr>
 <tr>
 <td>415</td>
@@ -2790,7 +2884,7 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>416</td>
 <td>Requested Range Not Satisfiable</td>
-<td>如果请求中包含了Range请求头，并且Range中指定的任何数据范围都与当前资源的可用范围不重合，同时请求中又没有定义If-Range请求头，那么服务器就应当返回416状态码。假如Range使用的是字节范围，那么这种情况就是指请求指定的所有数据范围的首字节位置都超过了当前资源的长度。服务器也应当在返回416状态码的同时，包含一个Content-Range实体头，用以指明当前资源的长度。这个响应也被禁止使用multipart/byteranges作为其Content-Type。</td>
+<td>如果请求中包含了Range请求头，并且Range中指定的任何数据范围都与当前资源的可用范围不重合，同时请求中又没有定义If-Range请求头，那么服务器就应当返回416状态码。</p>    假如Range使用的是字节范围，那么这种情况就是指请求指定的所有数据范围的首字节位置都超过了当前资源的长度。服务器也应当在返回416状态码的同时，包含一个Content-Range实体头，用以指明当前资源的长度。这个响应也被禁止使用multipart/byteranges作为其Content-Type。</td>
 </tr>
 <tr>
 <td>417</td>
@@ -2840,7 +2934,7 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>5️⃣❌❌</td>
 <td>🔴🔴🔴</td>
-<td>5xx服务器错误,这类状态码代表了服务器在处理请求的过程中有错误或者异常状态发生，也有可能是服务器意识到以当前的软硬件资源无法完成对请求的处理。除非这是一个HEAD请求，否则服务器应当包含一个解释当前错误状态以及这个状况是临时的还是永久的解释信息实体。浏览器应当向用户展示任何在当前响应中被包含的实体。这些状态码适用于任何响应方法。</td>
+<td>5xx服务器错误 </p>这类状态码代表了服务器在处理请求的过程中有错误或者异常状态发生，也有可能是服务器意识到以当前的软硬件资源无法完成对请求的处理。除非这是一个HEAD请求，否则服务器应当包含一个解释当前错误状态以及这个状况是临时的还是永久的解释信息实体。浏览器应当向用户展示任何在当前响应中被包含的实体。</p>这些状态码适用于任何响应方法。</td>
 </tr>
 <tr>
 <td>500</td>
@@ -2865,12 +2959,12 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 <tr>
 <td>504</td>
 <td>Gateway Timeout</td>
-<td>作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。 注意：某些代理服务器在DNS查询超时时会返回400或者500错误</td>
+<td>作为网关或者代理工作的服务器尝试执行请求时，未能及时从上游服务器（URI标识出的服务器，例如HTTP、FTP、LDAP）或者辅助服务器（例如DNS）收到响应。    注意：某些代理服务器在DNS查询超时时会返回400或者500错误</td>
 </tr>
 <tr>
 <td>505</td>
 <td>HTTP Version Not Supported</td>
-<td>服务器不支持，或者拒绝支持在请求中使用的HTTP版本。这暗示着服务器不能或不愿使用与客户端相同的版本。响应中应当包含一个描述了为何版本不被支持以及服务器支持哪些协议的实体</td>
+<td>服务器不支持，或者拒绝支持在请求中使用的HTTP版本。这暗示着服务器不能或不愿使用与客户端相同的版本。响应中应当包含一个描述了为何版本不被支持以及服务器支持哪些协议的实体。</td>
 </tr>
 <tr>
 <td>506</td>
@@ -2894,10 +2988,10 @@ print(dict(eval(string_2)), end='字典\n')  # 把字符串转化为字典后打
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p><a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a></p>
-</blockquote>
-]]></content>
+<hr>
+<p>Posted by <a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a><br>
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></p>
+<p align="center"><a href="http://weibo.com/u/1692391497?s=6uyXnP" target="_blank"><img border="0" src="http://service.t.sina.com.cn/widget/qmd/1692391497/b46c844b/1.png"/></a></a>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[移动端网络请求优化之 IP 测速排序方案]]></title>
@@ -3014,10 +3108,10 @@ B. 当连接出错时，套接口描述符变成既可读又可写。</li>
 }
 </code></pre>
 <p>注意：当出现错误的时候测试结果是速度是0，所以排序时不能简单地按照值大小排序，可以先删除速度为0的结果，或者将速度为零重置为超时时间，比如上面的 CYL_SOCKET_CONNECT_TIMEOUT_RTT 。避免错误IP为0，结果排序后排在前面。</p>
-<blockquote>
-<p><a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a></p>
-</blockquote>
-]]></content>
+<hr>
+<p>Posted by <a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a><br>
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></p>
+<p align="center"><a href="http://weibo.com/u/1692391497?s=6uyXnP" target="_blank"><img border="0" src="http://service.t.sina.com.cn/widget/qmd/1692391497/b46c844b/1.png"/></a></a>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[KVO crash 自修复技术实现与原理解析]]></title>
@@ -3206,9 +3300,10 @@ libc++abi.dylib: terminating with uncaught exception of type NSException
 </code></pre>
 <p>之后我们就可以模拟dealloc中不写removeObserver，同时也可以写，
 同时也可以多次 addObserver、removeObserver 这样就完全不干扰我们平时的代码书写逻辑了。</p>
-<blockquote>
-<p><a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a></p>
-</blockquote>
+<hr>
+<p>Posted by <a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a><br>
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></p>
+<p align="center"><a href="http://weibo.com/u/1692391497?s=6uyXnP" target="_blank"><img border="0" src="http://service.t.sina.com.cn/widget/qmd/1692391497/b46c844b/1.png"/></a></a>
 ]]></content>
     </entry>
     <entry>
@@ -3773,9 +3868,10 @@ crash（n-1）次，正常流程，计数+1，变成n次，
 2018-01-18 16:25:52.226234+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setIsNormalChecking:{0}
 2018-01-18 16:25:52.226595+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setisFixingCrash:{0}
 </code></pre>
-<blockquote>
-<p><a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a></p>
-</blockquote>
+<hr>
+<p>Posted by <a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a><br>
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></p>
+<p align="center"><a href="http://weibo.com/u/1692391497?s=6uyXnP" target="_blank"><img border="0" src="http://service.t.sina.com.cn/widget/qmd/1692391497/b46c844b/1.png"/></a></a>
 ]]></content>
     </entry>
     <entry>
@@ -3888,6 +3984,298 @@ https反向代理配置</p>
 ]]></content>
     </entry>
     <entry>
+        <title type="html"><![CDATA[避免使用 GCD Global队列创建Runloop常驻线程]]></title>
+        <id>https://policx.github.io/post/GCD-Global</id>
+        <link href="https://policx.github.io/post/GCD-Global">
+        </link>
+        <updated>2017-09-06T11:30:00.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="避免使用-gcd-global队列创建runloop常驻线程">避免使用 GCD Global队列创建Runloop常驻线程</h1>
+<p>本文对应 Demo 以及 Markdown 文件在<a href="https://github.com/ChenYilong/iOSBlog/tree/master/Tips/%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8GCD-Global%E9%98%9F%E5%88%97%E5%88%9B%E5%BB%BARunloop%E5%B8%B8%E9%A9%BB%E7%BA%BF%E7%A8%8B">仓库中</a>，文中的错误可以提 PR 到这个文件，我会及时更改。</p>
+<h2 id="目录">目录</h2>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<ul>
+<li><a href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8-gcd-global%E9%98%9F%E5%88%97%E5%88%9B%E5%BB%BArunloop%E5%B8%B8%E9%A9%BB%E7%BA%BF%E7%A8%8B">避免使用 GCD Global队列创建Runloop常驻线程</a>
+<ul>
+<li><a href="#gcd-global%E9%98%9F%E5%88%97%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E8%BF%9B%E8%A1%8C%E8%80%97%E6%97%B6%E6%93%8D%E4%BD%9C%E7%9A%84%E9%A3%8E%E9%99%A9">GCD Global队列创建线程进行耗时操作的风险</a></li>
+<li><a href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8-gcd-global-%E9%98%9F%E5%88%97%E5%88%9B%E5%BB%BA-runloop-%E5%B8%B8%E9%A9%BB%E7%BA%BF%E7%A8%8B">避免使用 GCD Global 队列创建 Runloop 常驻线程</a>
+<ul>
+<li><a href="#%E5%8D%95%E4%B8%80-runloop-%E5%B8%B8%E9%A9%BB%E7%BA%BF%E7%A8%8B">单一 Runloop 常驻线程</a></li>
+<li><a href="#%E5%A4%9A%E4%B8%AA-runloop-%E5%B8%B8%E9%A9%BB%E7%BA%BF%E7%A8%8B">多个 Runloop 常驻线程</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h2 id="gcd-global队列创建线程进行耗时操作的风险">GCD Global队列创建线程进行耗时操作的风险</h2>
+<p>先思考下如下几个问题：</p>
+<ul>
+<li>新建线程的方式有哪些？各自的优缺点是什么？</li>
+<li>dispatch_async 函数分发到全局队列一定会新建线程执行任务么？</li>
+<li>如果全局队列对应的线程池如果满了，后续的派发的任务会怎么处置？有什么风险？</li>
+</ul>
+<p>答案大致是这样的：dispatch_async 函数分发到全局队列不一定会新建线程执行任务，全局队列底层有一个的线程池，如果线程池满了，那么后续的任务会被 block 住，等待前面的任务执行完成，才会继续执行。如果线程池中的线程长时间不结束，后续堆积的任务会越来越多，此时就会存在 APP crash的风险。</p>
+<p>比如：</p>
+<pre><code class="language-objective-c">- (void)dispatchTest1 {
+    for (NSInteger i = 0; i&lt; 10000 ; i++) {
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self dispatchTask:i];
+        });
+    }
+}
+
+- (void)dispatchTask:(NSInteger)index {
+        //模拟耗时操作，比如DB,网络，文件读写等等
+        sleep(30);
+        NSLog(@&quot;----:%ld&quot;,index);
+}
+</code></pre>
+<p>以上逻辑用真机测试会有卡死的几率，并非每次都会发生，但多尝试几次就会复现，伴随前后台切换，crash几率增大。</p>
+<p>下面做一下分析：</p>
+<p>参看 GCD 源码我们可以看到全局队列的相关源码如下：</p>
+<pre><code class="language-c">DISPATCH_NOINLINE
+static void
+_dispatch_queue_wakeup_global_slow(dispatch_queue_t dq, unsigned int n)
+{
+   dispatch_root_queue_context_t qc = dq-&gt;do_ctxt;
+   uint32_t i = n;
+   int r;
+
+   _dispatch_debug_root_queue(dq, __func__);
+   dispatch_once_f(&amp;_dispatch_root_queues_pred, NULL,
+   		_dispatch_root_queues_init);
+
+#if HAVE_PTHREAD_WORKQUEUES
+#if DISPATCH_USE_PTHREAD_POOL
+   if (qc-&gt;dgq_kworkqueue != (void*)(~0ul))
+#endif
+   {
+   	_dispatch_root_queue_debug(&quot;requesting new worker thread for global &quot;
+   			&quot;queue: %p&quot;, dq);
+#if DISPATCH_USE_LEGACY_WORKQUEUE_FALLBACK
+   	if (qc-&gt;dgq_kworkqueue) {
+   		pthread_workitem_handle_t wh;
+   		unsigned int gen_cnt;
+   		do {
+   			r = pthread_workqueue_additem_np(qc-&gt;dgq_kworkqueue,
+   					_dispatch_worker_thread4, dq, &amp;wh, &amp;gen_cnt);
+   			(void)dispatch_assume_zero(r);
+   		} while (--i);
+   		return;
+   	}
+#endif // DISPATCH_USE_LEGACY_WORKQUEUE_FALLBACK
+#if HAVE_PTHREAD_WORKQUEUE_SETDISPATCH_NP
+   	if (!dq-&gt;dq_priority) {
+   		r = pthread_workqueue_addthreads_np(qc-&gt;dgq_wq_priority,
+   				qc-&gt;dgq_wq_options, (int)i);
+   		(void)dispatch_assume_zero(r);
+   		return;
+   	}
+#endif
+#if HAVE_PTHREAD_WORKQUEUE_QOS
+   	r = _pthread_workqueue_addthreads((int)i, dq-&gt;dq_priority);
+   	(void)dispatch_assume_zero(r);
+#endif
+   	return;
+   }
+#endif // HAVE_PTHREAD_WORKQUEUES
+#if DISPATCH_USE_PTHREAD_POOL
+   dispatch_pthread_root_queue_context_t pqc = qc-&gt;dgq_ctxt;
+   if (fastpath(pqc-&gt;dpq_thread_mediator.do_vtable)) {
+   	while (dispatch_semaphore_signal(&amp;pqc-&gt;dpq_thread_mediator)) {
+   		if (!--i) {
+   			return;
+   		}
+   	}
+   }
+   uint32_t j, t_count;
+   // seq_cst with atomic store to tail &lt;rdar://problem/16932833&gt;
+   t_count = dispatch_atomic_load2o(qc, dgq_thread_pool_size, seq_cst);
+   do {
+   	if (!t_count) {
+   		_dispatch_root_queue_debug(&quot;pthread pool is full for root queue: &quot;
+   				&quot;%p&quot;, dq);
+   		return;
+   	}
+   	j = i &gt; t_count ? t_count : i;
+   } while (!dispatch_atomic_cmpxchgvw2o(qc, dgq_thread_pool_size, t_count,
+   		t_count - j, &amp;t_count, acquire));
+
+   pthread_attr_t *attr = &amp;pqc-&gt;dpq_thread_attr;
+   pthread_t tid, *pthr = &amp;tid;
+#if DISPATCH_ENABLE_PTHREAD_ROOT_QUEUES
+   if (slowpath(dq == &amp;_dispatch_mgr_root_queue)) {
+   	pthr = _dispatch_mgr_root_queue_init();
+   }
+#endif
+   do {
+   	_dispatch_retain(dq);
+   	while ((r = pthread_create(pthr, attr, _dispatch_worker_thread, dq))) {
+   		if (r != EAGAIN) {
+   			(void)dispatch_assume_zero(r);
+   		}
+   		_dispatch_temporary_resource_shortage();
+   	}
+   } while (--j);
+#endif // DISPATCH_USE_PTHREAD_POOL
+}
+
+</code></pre>
+<p>对于执行的任务来说，所执行的线程具体是哪个线程，则是通过 GCD 的线程池（Thread Pool）来进行调度，正如<a href="https://www.objc.io/issues/2-concurrency/concurrency-apis-and-pitfalls/">Concurrent Programming: APIs and Challenges</a>文章里给的示意图所示：</p>
+<p><img src="https://ww3.sinaimg.cn/large/006tNbRwly1fghg0f8vb6j30yw0k6wep.jpg" alt=""></p>
+<p>上面贴的源码，我们关注如下的部分：</p>
+<p>其中有一个用来记录线程池大小的字段 <code>dgq_thread_pool_size</code>。这个字段标记着GCD线程池的大小。摘录上面源码的一部分：</p>
+<pre><code class="language-c">uint32_t j, t_count;
+  // seq_cst with atomic store to tail &lt;rdar://problem/16932833&gt;
+  t_count = dispatch_atomic_load2o(qc, dgq_thread_pool_size, seq_cst);
+  do {
+  	if (!t_count) {
+  		_dispatch_root_queue_debug(&quot;pthread pool is full for root queue: &quot;
+  				&quot;%p&quot;, dq);
+  		return;
+  	}
+  	j = i &gt; t_count ? t_count : i;
+  } while (!dispatch_atomic_cmpxchgvw2o(qc, dgq_thread_pool_size, t_count,
+  		t_count - j, &amp;t_count, acquire));
+
+</code></pre>
+<p>从源码中我们可以对应到<a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW5">官方文档 ：Getting the Global Concurrent Dispatch Queues</a>里的说法：</p>
+<blockquote>
+<p>A concurrent dispatch queue is useful when you have multiple tasks that can run in parallel. A concurrent queue is still a queue in that it dequeues tasks in a first-in, first-out order; however, a concurrent queue may dequeue additional tasks before any previous tasks finish. The actual number of tasks executed by a concurrent queue at any given moment is variable and can change dynamically as conditions in your application change. Many factors affect the number of tasks executed by the concurrent queues, including the number of available cores, the amount of work being done by other processes, and the number and priority of tasks in other serial dispatch queues.</p>
+</blockquote>
+<p>也就是说：</p>
+<p>全局队列的底层是一个线程池，向全局队列中提交的 block，都会被放到这个线程池中执行，如果线程池已满，后续再提交 block 就不会再重新创建线程。这就是为什么 Demo 会造成卡顿甚至冻屏的原因。</p>
+<h2 id="避免使用-gcd-global-队列创建-runloop-常驻线程">避免使用 GCD Global 队列创建 Runloop 常驻线程</h2>
+<p>在做网路请求时我们常常创建一个 Runloop 常驻线程用来接收、响应后续的服务端回执，比如NSURLConnection、AFNetworking等等，我们可以称这种线程为 Runloop 常驻线程。</p>
+<p>正如上文所述，用 GCD Global 队列创建线程进行耗时操作是存在风险的。那么我们可以试想下，如果这个耗时操作变成了 runloop 常驻线程，会是什么结果？下面做一下分析：</p>
+<p>先介绍下 Runloop 常驻线程的原理，在开发中一般有两种用法：</p>
+<ul>
+<li>单一 Runloop 常驻线程：在 APP 的生命周期中开启了唯一的常驻线程来进行网络请求，常用于网络库，或者有维持长连接需求的库，比如： AFNetworking 、 <a href="https://github.com/facebook/SocketRocket">SocketRocket</a>。</li>
+<li>多个 Runloop 常驻线程：每进行一次网络请求就开启一条 Runloop 常驻线程，这条线程的生命周期的起点是网络请求开始，终点是网络请求结束，或者网络请求超时。</li>
+</ul>
+<h3 id="单一-runloop-常驻线程">单一 Runloop 常驻线程</h3>
+<p>先说第一种用法：</p>
+<p>以 AFNetworking 为例，<a href="https://github.com/AFNetworking/AFNetworking/blob/master/AFNetworking%2FAFURLConnectionOperation.m">AFURLConnectionOperation</a> 这个类是基于 NSURLConnection 构建的，其希望能在后台线程接收 Delegate 回调。为此 AFNetworking 单独创建了一个线程，并在这个线程中启动了一个 RunLoop：</p>
+<pre><code class="language-objective-c">+ (void)networkRequestThreadEntryPoint:(id)__unused object {
+    @autoreleasepool {
+        [[NSThread currentThread] setName:@&quot;AFNetworking&quot;];
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        [runLoop run];
+    }
+}
+ 
++ (NSThread *)networkRequestThread {
+    static NSThread *_networkRequestThread = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&amp;oncePredicate, ^{
+        _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];
+        [_networkRequestThread start];
+    });
+    return _networkRequestThread;
+}
+</code></pre>
+<h3 id="多个-runloop-常驻线程">多个 Runloop 常驻线程</h3>
+<p>第二种用法，我写了一个小 Demo 来模拟这种场景，</p>
+<p>我们模拟了一个场景：假设所有的网络请求全部超时，或者服务端根本不响应，然后网络库超时检测机制的做法：</p>
+<pre><code class="language-objective-c">#import &quot;Foo.h&quot;
+
+@interface Foo()  {
+    NSRunLoop *_runloop;
+    NSTimer *_timeoutTimer;
+    NSTimeInterval _timeoutInterval;
+    dispatch_semaphore_t _sem;
+}
+@end
+
+@implementation Foo
+
+- (instancetype)init {
+    if (!(self = [super init])) {
+        return nil;
+    }
+    _timeoutInterval = 1 ;
+    _sem = dispatch_semaphore_create(0);
+    // Do any additional setup after loading the view, typically from a nib.
+    return self;
+}
+
+- (id)test {
+    // 第一种方式：
+    // NSThread *networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint0:) object:nil];
+    // [networkRequestThread start];
+    //第二种方式:
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        [self networkRequestThreadEntryPoint0:nil];
+    });
+    dispatch_semaphore_wait(_sem, DISPATCH_TIME_FOREVER);
+    return @(YES);
+}
+
+- (void)networkRequestThreadEntryPoint0:(id)__unused object {
+    @autoreleasepool {
+        [[NSThread currentThread] setName:@&quot;CYLTest&quot;];
+        _runloop = [NSRunLoop currentRunLoop];
+        [_runloop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        _timeoutTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(stopLoop) userInfo:nil repeats:NO];
+        [_runloop addTimer:_timeoutTimer forMode:NSRunLoopCommonModes];
+        [_runloop run];//在实际开发中最好使用这种方式来确保能runloop退出，做双重的保障[runloop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:(timeoutInterval+5)]];
+    }
+}
+
+- (void)stopLoop {
+    CFRunLoopStop([_runloop getCFRunLoop]);
+    dispatch_semaphore_signal(_sem);
+}
+
+@end
+</code></pre>
+<p>如果</p>
+<pre><code class="language-objective-c">   for (int i = 0; i &lt; 300 ; i++) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+            [[Foo new] test];
+            NSLog(@&quot;🔴类名与方法名：%@（在第%@行），描述：%@&quot;, @(__PRETTY_FUNCTION__), @(__LINE__), @&quot;&quot;);
+        });
+    }
+</code></pre>
+<p>以上逻辑用真机测试会有卡死的几率，并非每次都会发生，但多尝试几次就会复现，伴随前后台切换，crash几率增大。</p>
+<p>其中我们采用了 GCD 全局队列的方式来创建常驻线程，因为在创建时可能已经出现了全局队列的线程池满了的情况，所以 GCD 派发的任务，无法执行，而且我们把超时检测的逻辑放进了这个任务中，所以导致的情况就是，有很多任务的超时检测功能失效了。此时就只能依赖于服务端响应来结束该任务（服务端响应能结束该任务的逻辑在 Demo 中未给出），但是如果再加之服务端不响应，那么任务就永远不会结束。后续的网络请求也会就此 block 住，造成 crash。</p>
+<p>如果我们把 GCD 全局队列换成 NSThread 的方式，那么就可以保证每次都会创建新的线程。</p>
+<p>注意：文章中只演示的是超时 cancel runloop 的操作，实际项目中一定有其他主动 cancel runloop 的操作，就比如网络请求成功或失败后需要进行cancel操作。代码中没有展示网络请求成功或失败后的 cancel 操作。</p>
+<p>Demo 的这种模拟可能比较极端，但是如果你维护的是一个像 AFNetworking 这样的一个网络库，你会放心把创建常驻线程这样的操作交给 GCD 全局队列吗？因为整个 APP 是在共享一个全局队列的线程池，那么如果 APP 把线程池沾满了，甚至线程池长时间占满且不结束，那么 AFNetworking 就自然不能再执行任务了，所以我们看到，即使是只会创建一条常驻线程， AFNetworking 依然采用了 NSThread 的方式而非  GCD 全局队列这种方式。</p>
+<p>注释：以下方法存在于老版本<a href="https://github.com/AFNetworking/AFNetworking/tree/2.x">AFN 2.x</a> 中。</p>
+<pre><code class="language-objective-c">+ (void)networkRequestThreadEntryPoint:(id)__unused object {
+    @autoreleasepool {
+        [[NSThread currentThread] setName:@&quot;AFNetworking&quot;];
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        [runLoop run];
+    }
+}
+ 
++ (NSThread *)networkRequestThread {
+    static NSThread *_networkRequestThread = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&amp;oncePredicate, ^{
+        _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];
+        [_networkRequestThread start];
+    });
+    return _networkRequestThread;
+}
+</code></pre>
+<p>正如你所看到的，没有任何一个库会用 GCD 全局队列来创建常驻线程，而你也应该</p>
+<blockquote>
+<p>避免使用 GCD Global 队列来创建 Runloop 常驻线程。</p>
+</blockquote>
+<!-- 最后的错误示例，如果发生在线上，如果遭遇服务端频繁不响应或超时，那么六七万日活APP，三天能有十个左右crash。150万日活APP，一周60个左右crash。 -->
+<hr>
+<p>Posted by <a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a><br>
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></p>
+<p align="center"><a href="http://weibo.com/u/1692391497?s=6uyXnP" target="_blank"><img border="0" src="http://service.t.sina.com.cn/widget/qmd/1692391497/b46c844b/1.png"/></a></a>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[17年会]]></title>
         <id>https://policx.github.io/post/17-nian-hui</id>
         <link href="https://policx.github.io/post/17-nian-hui">
@@ -3982,6 +4370,140 @@ https反向代理配置</p>
         </link>
         <updated>2017-02-21T13:46:58.000Z</updated>
         <content type="html"><![CDATA[<p>雪下的那么深，下的那么认真。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[有一种 Block 叫 Callback，有一种 Callback 叫 CompletionHandler]]></title>
+        <id>https://policx.github.io/post/block-callback</id>
+        <link href="https://policx.github.io/post/block-callback">
+        </link>
+        <updated>2017-02-06T11:07:03.000Z</updated>
+        <summary type="html"><![CDATA[<p>iOS10推送部分的API，大量使用了 CompletionHandler 这种命名方式，那么本文我们将对比下这种 Block 的特殊性，以便更好的理解和在自己的项目中实践 CompletionHandler 样式的 Blcok。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>iOS10推送部分的API，大量使用了 CompletionHandler 这种命名方式，那么本文我们将对比下这种 Block 的特殊性，以便更好的理解和在自己的项目中实践 CompletionHandler 样式的 Blcok。</p>
+<!-- more -->
+<p>我们作为开发者去集成一个 Lib （也可以叫轮子、SDK、下文统一叫 Lib）时，我们会发现我们遇到的 <code>Block</code>， 按照功能的角度划分，其实可以分为这几种：</p>
+<ul>
+<li>Lib 通知开发者，Lib操作已经完成。一般命名为 Callback</li>
+<li>开发者通知 Lib，开发者的操作已经完成。一般可以命名为 CompletionHandler。</li>
+</ul>
+<p>这两处的区别： 前者是 “Block 的执行”，后者是 “Block 的填充”。</p>
+<p><code>Callback vs CompletionHandler</code> 命名与功能的差别，Apple 也没有明确的编码规范指出过，只不过如果按照“执行与填充”的功能划分的话，<code>callback</code>与 <code>completionHandler</code> 的命名可以区分开来对待。同时也方便调用者理解 block 的功能。但总体来说，Apple 官方的命名中，“Block 填充“这个功能一般都会命名为 “completionHandler”，“Block 执行”这个功能大多命名为了“callback” ，也有少部分命名为了 “completionHandler”。</p>
+<p>比如：</p>
+<p>NSURLSession 中，下面的函数将 “callback” 命名为了 “completionHandler”：</p>
+<pre><code>- (NSURLSessionDataTask *)dataTaskWithURL:(NSURL *)url completionHandler:(void (^)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error))completionHandler;
+</code></pre>
+<p>我们常常见到 <code>CompletionHandler</code> 被用到了第一种场景，而第一种场景“Block 执行”命名为 Callback 则更合适。</p>
+<blockquote>
+<p>不是所有 Block 都适合叫做 CompletionHandler</p>
+</blockquote>
+<p>一般情况下，CompletionHandler 的设计往往考虑到多线程操作，于是，你就完全可以异步操作，然后在线程结束时执行该 CompletionHandler，下文的例子中会讲述下 CompletionHandler 方式在多线程场景下的一些优势。</p>
+<h3 id="completionhandler-delegate-组合">CompletionHandler + Delegate 组合</h3>
+<p>在 iOS10 中新增加的 <code>UserNotificaitons</code> 中大量使用了这种 Block，比如：</p>
+<pre><code>- (void)userNotificationCenter:(UNUserNotificationCenter *)center 
+didReceiveNotificationResponse:(UNNotificationResponse *)response 
+        withCompletionHandler:(void (^)(void))completionHandler;
+</code></pre>
+<p><a href="https://developer.apple.com/reference/usernotifications/unusernotificationcenterdelegate/1649501-usernotificationcenter?language=objc">文档</a> 对 completionHandler 的注释是这样的：</p>
+<pre><code>The block to execute when you have finished processing the user’s response. You must execute this block from your method and should call it as quickly as possible. The block has no return value or parameters.
+</code></pre>
+<p>同样在这里也有应用：</p>
+<pre><code>- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
+completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * __nullable credential))completionHandler;
+</code></pre>
+<p>还有另外一个也非常普遍的例子（Delegate 方式使用URLSession 时候必不可少的 4个代理函数之一 ）</p>
+<pre><code>- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+                                didReceiveResponse:(NSURLResponse *)response
+                                 completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler;
+</code></pre>
+<p>在代理方法实现代码里面，若是不执行 completionHandler(NSURLSessionResponseAllow) 话，http请求就终止了。</p>
+<h3 id="completionhandler-block-组合">CompletionHandler + Block 组合</h3>
+<p>函数中将函数作为参数或者返回值，就叫做高阶函数。</p>
+<p>按照这种定义，Block 中将 Block 作为参数，这也就是高阶函数。</p>
+<p>结合实际的应用场景来看一个例子：</p>
+<p>如果有这样一个需求：</p>
+<p>拿我之前的一个 IM 项目 ChatKit-OC （开源的，下面简称 ChatKit）为例，当你的应用想要集成一个 IM 服务时，可能这时候，你的 APP 已经上架了，已经有自己的注册、登录等流程了。用 ChatKit 进行聊天很简单，只需要给 ChatKit 一个 id 就够了。聊天是正常了，但是双方只能看到一个id，这样体验很不好。但是如何展示头像、昵称呢？于是就设计了这样一个接口，-setFetchProfilesBlock: 。</p>
+<p>这是上层（APP）提供用户信息的 Block，由于 ChatKit 并不关心业务逻辑信息，比如用户昵称，用户头像等。用户可以通过 ChatKit 单例向 ChatKit 注入一个用户信息内容提供 Block，通过这个用户信息提供 Block，ChatKit 才能够正确的进行业务逻辑数据的绘制。</p>
+<p>示意图如下：
+<img src="https://camo.githubusercontent.com/3a7069e9ce6d8ddc07b2b300716dd17f46579e01/687474703a2f2f7777322e73696e61696d672e636e2f6c617267652f38303162373830616a773166386168383835796e306a323065373062773735342e6a7067" alt="">
+具体实现如下：</p>
+<p>方法定义如下：</p>
+<pre><code>/*!
+*  @brief The block to execute with the users' information for the userIds. Always execute this block at some point when fetching profiles completes on main thread. Specify users' information how you want ChatKit to show.
+*  @attention If you fetch users fails, you should reture nil, meanwhile, give the error reason.
+*/
+typedef void(^LCCKFetchProfilesCompletionHandler)(NSArray&lt;id&lt;LCCKUserDelegate&gt;&gt; *users, NSError *error);
+
+/*!
+*  @brief When LeanCloudChatKit wants to fetch profiles, this block will be invoked.
+*  @param userIds User ids
+*  @param completionHandler The block to execute with the users' information for the userIds. Always execute this block at some point during your implementation of this method on main thread. Specify users' information how you want ChatKit to show.
+*/
+typedef void(^LCCKFetchProfilesBlock)(NSArray&lt;NSString *&gt; *userIds, LCCKFetchProfilesCompletionHandler completionHandler);
+
+@property (nonatomic, copy) LCCKFetchProfilesBlock fetchProfilesBlock;
+
+/*!
+*  @brief Add the ablitity to fetch profiles.
+*  @attention  You must get peer information by peer id with a synchronous implementation.
+*              If implemeted, this block will be invoked automatically by LeanCloudChatKit for fetching peer profile.
+*/
+- (void)setFetchProfilesBlock:(LCCKFetchProfilesBlock)fetchProfilesBlock;
+</code></pre>
+<p>用法如下所示：</p>
+<pre><code>#warning 注意：setFetchProfilesBlock 方法必须实现，如果不实现，ChatKit将无法显示用户头像、用户昵称。以下方法循环模拟了通过 userIds 同步查询 users 信息的过程，这里需要替换为 App 的 API 同步查询
+   [[LCChatKit sharedInstance] setFetchProfilesBlock:^(NSArray&lt;NSString *&gt; *userIds,
+                            LCCKFetchProfilesCompletionHandler completionHandler) {
+        if (userIds.count == 0) {
+            NSInteger code = 0;
+            NSString *errorReasonText = @&quot;User ids is nil&quot;;
+            NSDictionary *errorInfo = @{
+                                        @&quot;code&quot;:@(code),
+                                        NSLocalizedDescriptionKey : errorReasonText,
+                                        };
+            NSError *error = [NSError errorWithDomain:NSStringFromClass([self class])
+                                                 code:code
+                                             userInfo:errorInfo];
+            
+            !completionHandler ?: completionHandler(nil, error);
+            return;
+        }
+        
+        NSMutableArray *users = [NSMutableArray arrayWithCapacity:userIds.count];
+#warning 注意：以下方法循环模拟了通过 userIds 同步查询 users 信息的过程，这里需要替换为 App 的 API 同步查询
+        
+        [userIds enumerateObjectsUsingBlock:^(NSString *_Nonnull clientId, NSUInteger idx,
+                                              BOOL *_Nonnull stop) {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@&quot;peerId like %@&quot;, clientId];
+            //这里的LCCKContactProfiles，LCCKProfileKeyPeerId都为事先的宏定义，
+            NSArray *searchedUsers = [LCCKContactProfiles filteredArrayUsingPredicate:predicate];
+            if (searchedUsers.count &gt; 0) {
+                NSDictionary *user = searchedUsers[0];
+                NSURL *avatarURL = [NSURL URLWithString:user[LCCKProfileKeyAvatarURL]];
+                LCCKUser *user_ = [LCCKUser userWithUserId:user[LCCKProfileKeyPeerId]
+                                                      name:user[LCCKProfileKeyName]
+                                                 avatarURL:avatarURL
+                                                  clientId:clientId];
+                [users addObject:user_];
+            } else {
+                //注意：如果网络请求失败，请至少提供 ClientId！
+                LCCKUser *user_ = [LCCKUser userWithClientId:clientId];
+                [users addObject:user_];
+            }
+        }];
+        // 模拟网络延时，3秒
+        //         sleep(3);
+        
+#warning 重要：completionHandler 这个 Bock 必须执行，需要在你**获取到用户信息结束**后，将信息传给该Block！
+        !completionHandler ?: completionHandler([users copy], nil);
+    }];
+</code></pre>
+<p>对于以上 Fetch 方法的这种应用场景，其实用方法的返回值也可以实现，但是与 CompletionHandler 相比，无法自由切换线程是个弊端。</p>
+<hr>
+<p>Posted by <a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a><br>
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></p>
+<p align="center"><a href="http://weibo.com/u/1692391497?s=6uyXnP" target="_blank"><img border="0" src="http://service.t.sina.com.cn/widget/qmd/1692391497/b46c844b/1.png"/></a></a>
 ]]></content>
     </entry>
     <entry>
