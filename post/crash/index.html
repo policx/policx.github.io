@@ -1,0 +1,734 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>连续启动 crash 自修复技术实现与原理解析 | 江湖</title>
+<link rel="shortcut icon" href="https://policx.github.io/favicon.ico?v=1561369518707">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://policx.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142191817-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142191817-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://policx.github.io">
+  <img class="avatar" src="https://policx.github.io/images/avatar.png?v=1561369518707" alt="">
+  </a>
+  <h1 class="site-title">
+    江湖
+  </h1>
+  <p class="site-description">
+    <a href="https://www.2345.com/?k.cn" target="_blank">江湖远，庙堂高</a>
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://policx.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://policx.github.io/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-weibo"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.2345.com/?k.cn" target="_blank">
+          <i class="fab fa-facebook"></i>
+        </a>
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              连续启动 crash 自修复技术实现与原理解析
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2018-02-06 ·
+              </time>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('https://www.policx.com/talk/images/denglu.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <ul>
+<li>前言</li>
+<li>实现原理</li>
+<li>优化：降低50%以上误报机率</li>
+<li>对原有API设计的几点优化意见</li>
+<li>
+<ol>
+<li>机制状态应当用枚举来做为API透出</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>关键数值应当做为初始化参数供用户设置</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>修复、上报逻辑应当支持用户异步操作</li>
+</ol>
+</li>
+<li>什么时候会出现该异常？</li>
+<li>连续启动 crash 自修复技术实现与原理解析</li>
+</ul>
+<h2 id="前言">前言</h2>
+<hr>
+<blockquote>
+<p>如果 app 连续 crash 两次无法启动，用户往往会选择卸载。</p>
+</blockquote>
+<p>连续启动 crash 应该是 crash 类型中最严重的一类，该问题常常与数据库操作有关，比如：数据库损坏、服务端返回数据错误，存入数据库，app 读取时产生数组越界、找不到方法。</p>
+<p>那么除了热修复，能否“自修复”该问题呢？</p>
+<p>在微信读书团队发布的<a href="https://wereadteam.github.io/2016/05/23/GYBootingProtection/">《iOS 启动连续闪退保护方案》</a> 一文中，给出了连续启动crash的自修复技术的思路讲解，并在GitHub上给出了技术实现，并开源了<a href="https://github.com/liuslevis/GYBootingProtection"> GYBootingProtection</a>。方案思路很好，很轻量级。</p>
+<h2 id="实现原理">实现原理</h2>
+<hr>
+<p>在微信读书团队给出的文章中已经有比较详细的阐述，在此不做赘述，实现的流程图如下所示：
+<a href=""></a>
+但有个实现上可以优化下，可以降低50%以上误报机率，监听用户手动划掉 APP 这个事件，其中一些特定场景，是可以获取的。另外在这里也给出对其 API 设计的建议。最后给出优化后的实现。</p>
+<h2 id="优化降低50以上误报机率">优化：降低50%以上误报机率</h2>
+<hr>
+<p>用户主动 kill 掉 APP 分为两种情况：</p>
+<ul>
+<li>App在前台时用户手动划掉APP的时候</li>
+<li>APP在后台时划掉APP</li>
+</ul>
+<p>第一种场景更为常见，可以通过监听 UIApplicationWillTerminateNotification 来捕获该动作，捕获后恢复计数。第二种情况，无法监听到。但也足以降低 50% 以上的误报机率。</p>
+<h3 id="对原有api设计的几点优化意见">对原有API设计的几点优化意见</h3>
+<h4 id="1-机制状态应当用枚举来做为api透出">1. 机制状态应当用枚举来做为API透出</h4>
+<p>该机制当前所处的状态，比如：NeedFix 、isFixing，建议用枚举来做为API透出。比如：</p>
+<ul>
+<li>APP 启动正常</li>
+<li>正在检测是否会在特定时间内是否会 Crash，注意：检测状态下“连续启动崩溃计数”个数小于或等于上限值</li>
+<li>APP 出现连续启动 Crash，需要采取修复措施</li>
+<li>APP 出现连续启动 Crash，正在修复中</li>
+</ul>
+<h4 id="2-关键数值应当做为初始化参数供用户设置">2. 关键数值应当做为初始化参数供用户设置</h4>
+<ul>
+<li>当前启动Crash的状态</li>
+<li>达到需要执行上报操作的“连续启动崩溃计数”个数。</li>
+<li>达到需要执行修复操作的“连续启动崩溃计数”个数。</li>
+<li>APP 启动后经过多少秒，可以将“连续启动崩溃计数”清零</li>
+</ul>
+<h4 id="3-修复-上报逻辑应当支持用户异步操作">3. 修复、上报逻辑应当支持用户异步操作</h4>
+<p><code>reportBlock</code> 上报逻辑，
+<code>repairtBlock</code> 修复逻辑</p>
+<p>比如：</p>
+<pre><code>typedef void (^BoolCompletionHandler)(BOOL succeeded, NSError *error);
+typedef void (^RepairBlock)(ABSBoolCompletionHandler completionHandler);
+</code></pre>
+<p>用户执行 BoolCompletionHandler 后即可知道是否执行完毕，并且支持异步操作。</p>
+<p>异步操作带来的问题，可以通过前面提到的枚举API来实时监测状态，来决定各种其他操作。</p>
+<h2 id="什么时候会出现该异常">什么时候会出现该异常？</h2>
+<h3 id="连续启动-crash-自修复技术实现与原理解析">连续启动 crash 自修复技术实现与原理解析</h3>
+<p>下面给出优化后的代码实现：</p>
+<pre><code>//
+//  CYLBootingProtection.h
+//  
+//
+//  Created by ChenYilong on 18/01/10.
+//  Copyright © 2018年 ChenYilong. All rights reserved.
+//
+
+#import &lt;Foundation/Foundation.h&gt;
+
+typedef void (^ABSBoolCompletionHandler)(BOOL succeeded, NSError *error);
+typedef void (^ABSRepairBlock)(ABSBoolCompletionHandler completionHandler);
+typedef void (^ABSReportBlock)(NSUInteger crashCounts);
+
+typedef NS_ENUM(NSInteger, BootingProtectionStatus) {
+   BootingProtectionStatusNormal,  /**&lt;  APP 启动正常 */
+   BootingProtectionStatusNormalChecking,  /**&lt; 正在检测是否会在特定时间内是否会 Crash，注意：检测状态下“连续启动崩溃计数”个数小于或等于上限值 */
+   BootingProtectionStatusNeedFix, /**&lt; APP 出现连续启动 Crash，需要采取修复措施 */
+   BootingProtectionStatusFixing,   /**&lt; APP 出现连续启动 Crash，正在修复中... */
+};
+
+/**
+* 启动连续 crash 保护。
+* 启动后 `_crashOnLaunchTimeIntervalThreshold` 秒内 crash，反复超过 `_continuousCrashOnLaunchNeedToReport` 次则上报日志，超过 `_continuousCrashOnLaunchNeedToFix` 则启动修复操作。
+*/
+@interface CYLBootingProtection : NSObject
+
+/**
+* 启动连续 crash 保护方法。
+* 前置条件：在 App 启动时注册 crash 处理函数，在 crash 时调用[CYLBootingProtection addCrashCountIfNeeded]。
+* 启动后一定时间内（`crashOnLaunchTimeIntervalThreshold`秒内）crash，反复超过一定次数（`continuousCrashOnLaunchNeedToReport`次）则上报日志，超过一定次数（`continuousCrashOnLaunchNeedToFix`次）则启动修复程序；在一定时间内（`crashOnLaunchTimeIntervalThreshold`秒） 秒后若没有 crash 将“连续启动崩溃计数”计数置零。
+ `reportBlock` 上报逻辑，
+ `repairtBlock` 修复逻辑，完成后执行 `[self setCrashCount:0]`
+
+*/
+- (void)launchContinuousCrashProtect;
+
+/*!
+* 当前启动Crash的状态
+*/
+@property (nonatomic, assign, readonly) BootingProtectionStatus bootingProtectionStatus;
+
+/*!
+* 达到需要执行上报操作的“连续启动崩溃计数”个数。
+*/
+@property (nonatomic, assign, readonly) NSUInteger continuousCrashOnLaunchNeedToReport;
+
+/*!
+* 达到需要执行修复操作的“连续启动崩溃计数”个数。
+*/
+@property (nonatomic, assign, readonly) NSUInteger continuousCrashOnLaunchNeedToFix;
+
+/*!
+* APP 启动后经过多少秒，可以将“连续启动崩溃计数”清零
+*/
+@property (nonatomic, assign, readonly) NSTimeInterval crashOnLaunchTimeIntervalThreshold;
+
+/*!
+* 借助 context 可以让多个模块注册事件，并且事件 block 能独立执行，互不干扰。
+*/
+@property (nonatomic, copy, readonly) NSString *context;
+
+/*!
+* @details 启动后kCrashOnLaunchTimeIntervalThreshold秒内crash，反复超过continuousCrashOnLaunchNeedToReport次则上报日志，超过continuousCrashOnLaunchNeedToFix则启动修复程序；当所有操作完成后，执行 completion。在 crashOnLaunchTimeIntervalThreshold 秒后若没有 crash 将 kContinuousCrashOnLaunchCounterKey 计数置零。
+* @param context 借助 context 可以让多个模块注册事件，并且事件 block 能独立执行，互不干扰。
+*/
+- (instancetype)initWithContinuousCrashOnLaunchNeedToReport:(NSUInteger)continuousCrashOnLaunchNeedToReport
+                          continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix
+                        crashOnLaunchTimeIntervalThreshold:(NSTimeInterval)crashOnLaunchTimeIntervalThreshold
+                                                   context:(NSString *)context;
+/*!
+* 当前“连续启动崩溃“的状态
+*/
++ (BootingProtectionStatus)bootingProtectionStatusWithContext:(NSString *)context continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix;
+
+/*!
+* 设置上报逻辑，参数 crashCounts 为启动连续 crash 次数
+*/
+- (void)setReportBlock:(ABSReportBlock)reportBlock;
+
+/*!
+* 设置修复逻辑
+*/
+- (void)setRepairBlock:(ABSRepairBlock)repairtBlock;
+
++ (void)setLogger:(void (^)(NSString *))logger;
+
+@end
+</code></pre>
+<pre><code>//
+//  CYLBootingProtection.m
+//
+//
+//  Created by ChenYilong on 18/01/10.
+//  Copyright © 2018年 ChenYilong. All rights reserved.
+//
+
+#import &quot;CYLBootingProtection.h&quot;
+#import &lt;UIKit/UIKit.h&gt;
+
+static dispatch_queue_t _exceptionOperationQueue = 0;
+void (^Logger)(NSString *log);
+
+@interface CYLBootingProtection ()
+
+@property (nonatomic, assign) NSUInteger continuousCrashOnLaunchNeedToReport;
+@property (nonatomic, assign) NSUInteger continuousCrashOnLaunchNeedToFix;
+@property (nonatomic, assign) NSTimeInterval crashOnLaunchTimeIntervalThreshold;
+@property (nonatomic, copy) NSString *context;
+@property (nonatomic, copy) ABSReportBlock reportBlock;
+@property (nonatomic, copy) ABSRepairBlock repairBlock;
+
+/*!
+* 设置“连续启动崩溃计数”个数
+*/
+- (void)setCrashCount:(NSInteger)count;
+
+/*!
+* 设置“连续启动崩溃计数”个数
+*/
++ (void)setCrashCount:(NSUInteger)count context:(NSString *)context;
+
+/*!
+* “连续启动崩溃计数”个数
+*/
+- (NSUInteger)crashCount;
+
+/*!
+* “连续启动崩溃计数”个数
+*/
++ (NSUInteger)crashCountWithContext:(NSString *)context;
+
+@end
+
+@implementation CYLBootingProtection
++ (void)initialize {
+   static dispatch_once_t onceToken;
+   dispatch_once(&amp;onceToken, ^{
+       _exceptionOperationQueue = dispatch_queue_create(&quot;com.ChenYilong.CYLBootingProtection.fileCacheQueue&quot;, DISPATCH_QUEUE_SERIAL);
+   });
+}
+- (instancetype)initWithContinuousCrashOnLaunchNeedToReport:(NSUInteger)continuousCrashOnLaunchNeedToReport
+                          continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix
+                        crashOnLaunchTimeIntervalThreshold:(NSTimeInterval)crashOnLaunchTimeIntervalThreshold
+                                                   context:(NSString *)context {
+   if (!(self = [super init])) {
+       return nil;
+   }
+   _continuousCrashOnLaunchNeedToReport = continuousCrashOnLaunchNeedToReport;
+   _continuousCrashOnLaunchNeedToFix = continuousCrashOnLaunchNeedToFix;
+   _crashOnLaunchTimeIntervalThreshold = crashOnLaunchTimeIntervalThreshold;
+   _context = [context copy];
+   [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(applicationWillTerminate:)
+                                                name:UIApplicationWillTerminateNotification
+                                              object:[UIApplication sharedApplication]];
+   return self;
+}
+
+/*!
+* App在前台时用户手动划掉APP的时候，不计入检测。
+* 但是APP在后台时划掉APP，无法检测出来。
+* 见：https://stackoverflow.com/a/35041565/3395008
+*/
+- (void)applicationWillTerminate:(NSNotification *)note {
+   BOOL isNormalChecking = [self isNormalChecking];
+   if (isNormalChecking) {
+       [self decreaseCrashCount];
+   }
+}
+
+- (void)dealloc {
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+/*
+支持同步修复、异步修复，两种修复方式
+- 异步修复，不卡顿主UI，但有修复未完成就被再次触发crash、或者用户kill掉的可能。需要用户手动根据修复状态，来选择性地进行操作，应该有回掉。
+- 同步修复，最简单直观，在主线程删除或者下载修复包。
+*/
+- (void)launchContinuousCrashProtect {
+   NSAssert(_repairBlock, @&quot;_repairBlock is nil!&quot;);
+   [[self class] Logger:@&quot;CYLBootingProtection: Launch continuous crash report&quot;];
+   [self resetBootingProtectionStatus];
+   
+   NSUInteger launchCrashes = [self crashCount];
+   // 上报
+   if (launchCrashes &gt;= self.continuousCrashOnLaunchNeedToReport) {
+       NSString *logString = [NSString stringWithFormat:@&quot;CYLBootingProtection: App has continuously crashed for %@ times. Now synchronize uploading crash report and begin fixing procedure.&quot;, @(launchCrashes)];
+       [[self class] Logger:logString];
+       if (_reportBlock) {
+           dispatch_async(dispatch_get_main_queue(),^{
+               _reportBlock(launchCrashes);
+           });
+       }
+   }
+   
+   // 修复
+   if ([self isUpToBootingProtectionCount]) {
+       [[self class] Logger:@&quot;need to repair&quot;];
+       [self setIsFixing:YES];
+       if (_repairBlock) {
+           ABSBoolCompletionHandler completionHandler = ^(BOOL succeeded, NSError *__nullable error){
+               if (succeeded) {
+                   [self resetCrashCount];
+               } else {
+                   [[self class] Logger:error.description];
+               }
+           };
+           dispatch_async(dispatch_get_main_queue(),^{
+               _repairBlock(completionHandler);
+           });
+       }
+   } else {
+       [self increaseCrashCount:launchCrashes];
+       // 正常流程，无需修复
+       [[self class] Logger:@&quot;need no repair&quot;];
+       
+       // 记录启动时刻，用于计算启动连续 crash
+       // 重置启动 crash 计数
+       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.crashOnLaunchTimeIntervalThreshold * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
+           // APP活过了阈值时间，重置崩溃计数
+           NSString *logString = [NSString stringWithFormat:@&quot;CYLBootingProtection: long live the app ( more than %@ seconds ), now reset crash counts&quot;, @(self.crashOnLaunchTimeIntervalThreshold)];
+           [[self class] Logger:logString];
+           [self resetCrashCount];
+       });
+   }
+}
+
+//减少计数的时机：用户手动划掉APP
+- (void)decreaseCrashCount {
+   NSUInteger oldCrashCount = [self crashCount];
+   [self decreaseCrashCountWithOldCrashCount:oldCrashCount];
+}
+
+- (void)decreaseCrashCountWithOldCrashCount:(NSUInteger)oldCrashCount {
+   dispatch_sync(_exceptionOperationQueue, ^{
+       if (oldCrashCount &gt; 0) {
+           [self setCrashCount:oldCrashCount-1];
+       }
+       [self resetBootingProtectionStatus];
+   });
+}
+
+//重制计数的时机：修复完成、或者用户手动划掉APP
+- (void)resetCrashCount {
+   [self setCrashCount:0];
+   [self resetBootingProtectionStatus];
+}
+
+//只在未达到计数上限时才会增加计数
+- (void)increaseCrashCount:(NSUInteger)oldCrashCount {
+   dispatch_sync(_exceptionOperationQueue, ^{
+       [self setIsNormalChecking:YES];
+       [self setCrashCount:oldCrashCount+1];
+   });
+}
+
+- (void)resetBootingProtectionStatus {
+   [self setIsNormalChecking:NO];
+   [self setIsFixing:NO];
+}
+
+- (BootingProtectionStatus)bootingProtectionStatus {
+   return [[self class] bootingProtectionStatusWithContext:_context continuousCrashOnLaunchNeedToFix:_continuousCrashOnLaunchNeedToFix];
+}
+
+/*!
+*
+@attention 注意之所以要检查 `BootingProtectionStatusNormalChecking` 原因如下：
+
+`-launchContinuousCrashProtect` 方法与 `-bootingProtectionStatus` 方法，如果 `-launchContinuousCrashProtect` 先执行，那么会造成如下问题：
+假设n为上限，但crash（n-1）次，但是用 `-bootingProtectionStatus` 判断出来，当前已经处于n次了。原因如下：
+
+crash（n-1）次，正常流程，计数+1，变成n次，
+随后在检查 `-bootingProtectionStatus` 时，发现已经处于异常状态了，实际是正常状态。所以需要使用`BootingProtectionStatusNormalChecking` 来进行区分。
+*/
++ (BootingProtectionStatus)bootingProtectionStatusWithContext:(NSString *)context continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix {
+   
+   BOOL isNormalChecking = [self isNormalCheckingWithContext:context];
+   if (isNormalChecking) {
+       return BootingProtectionStatusNormalChecking;
+   }
+   
+   BOOL isUpToBootingProtectionCount = [self isUpToBootingProtectionCountWithContext:context
+                                                    continuousCrashOnLaunchNeedToFix:continuousCrashOnLaunchNeedToFix];
+   if (!isUpToBootingProtectionCount) {
+       return BootingProtectionStatusNormal;
+   }
+   
+   BootingProtectionStatus type;
+   BOOL isFixingCrash = [self isFixingCrashWithContext:context];
+   if (isFixingCrash) {
+       type = BootingProtectionStatusFixing;
+   } else {
+       type = BootingProtectionStatusNeedFix;
+   }
+   return type;
+}
+
+- (NSUInteger)crashCount {
+   return [[self class] crashCountWithContext:_context];
+}
+
+- (void)setCrashCount:(NSInteger)count {
+   if (count &gt;=0) {
+       [[self class] setCrashCount:count context:_context];
+   }
+}
+
+- (void)setIsFixing:(BOOL)isFixingCrash {
+   [[self class] setIsFixing:isFixingCrash context:_context];
+}
+
+/*!
+* 是否正在修复
+*/
+- (BOOL)isFixingCrash {
+   return [[self class] isFixingCrashWithContext:_context];
+}
+
+- (void)setIsNormalChecking:(BOOL)isNormalChecking {
+   [[self class] setIsNormalChecking:isNormalChecking context:_context];
+}
+
+/*!
+* 是否正在检查
+*/
+- (BOOL)isNormalChecking {
+   return [[self class] isNormalCheckingWithContext:_context];
+}
+
++ (NSUInteger)crashCountWithContext:(NSString *)context {
+   NSString *continuousCrashOnLaunchCounterKey = [self continuousCrashOnLaunchCounterKeyWithContext:context];
+   NSUInteger crashCount = [[NSUserDefaults standardUserDefaults] integerForKey:continuousCrashOnLaunchCounterKey];
+   NSString *logString = [NSString stringWithFormat:@&quot;crashCount:%@&quot;, @(crashCount)];
+   [[self class] Logger:logString];
+   return crashCount;
+}
+
++ (void)setCrashCount:(NSUInteger)count context:(NSString *)context {
+   NSString *continuousCrashOnLaunchCounterKey = [self continuousCrashOnLaunchCounterKeyWithContext:context];
+   NSString *logString = [NSString stringWithFormat:@&quot;setCrashCount:%@&quot;, @(count)];
+   [[self class] Logger:logString];
+   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+   [defaults setInteger:count forKey:continuousCrashOnLaunchCounterKey];
+   [defaults synchronize];
+}
+
++ (void)setIsFixing:(BOOL)isFixingCrash context:(NSString *)context {
+   NSString *continuousCrashFixingKey = [[self class] continuousCrashFixingKeyWithContext:context];
+   NSString *logString = [NSString stringWithFormat:@&quot;setisFixingCrash:{%@}&quot;, @(isFixingCrash)];
+   [[self class] Logger:logString];
+   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+   [defaults setBool:isFixingCrash forKey:continuousCrashFixingKey];
+   [defaults synchronize];
+}
+
++ (BOOL)isFixingCrashWithContext:(NSString *)context {
+   NSString *continuousCrashFixingKey = [[self class] continuousCrashFixingKeyWithContext:context];
+   BOOL isFixingCrash = [[NSUserDefaults standardUserDefaults] boolForKey:continuousCrashFixingKey];
+   NSString *logString = [NSString stringWithFormat:@&quot;isFixingCrash:%@&quot;, @(isFixingCrash)];
+   [[self class] Logger:logString];
+   return isFixingCrash;
+}
+
++ (void)setIsNormalChecking:(BOOL)isNormalChecking context:(NSString *)context {
+   NSString *continuousCrashNormalCheckingKey = [[self class] continuousCrashNormalCheckingKeyWithContext:context];
+   NSString *logString = [NSString stringWithFormat:@&quot;setIsNormalChecking:{%@}&quot;, @(isNormalChecking)];
+   [[self class] Logger:logString];
+   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+   [defaults setBool:isNormalChecking forKey:continuousCrashNormalCheckingKey];
+   [defaults synchronize];
+}
+
++ (BOOL)isNormalCheckingWithContext:(NSString *)context {
+   NSString *continuousCrashFixingKey = [[self class] continuousCrashNormalCheckingKeyWithContext:context];
+   BOOL isFixingCrash = [[NSUserDefaults standardUserDefaults] boolForKey:continuousCrashFixingKey];
+   NSString *logString = [NSString stringWithFormat:@&quot;isIsNormalChecking:%@&quot;, @(isFixingCrash)];
+   [[self class] Logger:logString];
+   return isFixingCrash;
+}
+
+- (BOOL)isUpToBootingProtectionCount {
+   return [[self class] isUpToBootingProtectionCountWithContext:_context continuousCrashOnLaunchNeedToFix:_continuousCrashOnLaunchNeedToFix];
+}
+
++ (BOOL)isUpToBootingProtectionCountWithContext:(NSString *)context continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix {
+   BOOL isUpToCount = [self crashCountWithContext:context] &gt;= continuousCrashOnLaunchNeedToFix;
+   if (isUpToCount) {
+       return YES;
+   }
+   return NO;
+}
+
+- (void)setReportBlock:(ABSReportBlock)block {
+   _reportBlock = block;
+}
+
+- (void)setRepairBlock:(ABSRepairBlock)block {
+   _repairBlock = block;
+}
+
+/*!
+*  “连续启动崩溃计数”个数，对应的Key
+*  默认为 &quot;_CONTINUOUS_CRASH_COUNTER_KEY&quot;
+*/
++ (NSString *)continuousCrashOnLaunchCounterKeyWithContext:(NSString *)context {
+   BOOL isValid = [[self class] isValidString:context];
+   NSString *validContext = isValid ? context : @&quot;&quot;;
+   NSString *continuousCrashOnLaunchCounterKey = [NSString stringWithFormat:@&quot;%@_CONTINUOUS_CRASH_COUNTER_KEY&quot;, validContext];
+   return continuousCrashOnLaunchCounterKey;
+}
+
+/*!
+*  是否正在修复记录，对应的Key
+*  默认为 &quot;_CONTINUOUS_CRASH_FIXING_KEY&quot;
+*/
++ (NSString *)continuousCrashFixingKeyWithContext:(NSString *)context {
+   BOOL isValid = [[self class] isValidString:context];
+   NSString *validContext = isValid ? context : @&quot;&quot;;
+   NSString *continuousCrashFixingKey = [NSString stringWithFormat:@&quot;%@_CONTINUOUS_CRASH_FIXING_KEY&quot;, validContext];
+   return continuousCrashFixingKey;
+}
+
+/*!
+*  是否正在检查是否在特定时间内会Crash，对应的Key
+*  默认为 &quot;_CONTINUOUS_CRASH_CHECKING_KEY&quot;
+*/
++ (NSString *)continuousCrashNormalCheckingKeyWithContext:(NSString *)context {
+   BOOL isValid = [[self class] isValidString:context];
+   NSString *validContext = isValid ? context : @&quot;&quot;;
+   NSString *continuousCrashFixingKey = [NSString stringWithFormat:@&quot;%@_CONTINUOUS_CRASH_CHECKING_KEY&quot;, validContext];
+   return continuousCrashFixingKey;
+}
+
+#pragma mark -
+#pragma mark - log and util Methods
+
++ (void)setLogger:(void (^)(NSString *))logger {
+   Logger = [logger copy];
+}
+
++ (void)Logger:(NSString *)log {
+   if (Logger) Logger(log);
+}
+
++ (BOOL)isValidString:(id)notValidString {
+   if (!notValidString) {
+       return NO;
+   }
+   if (![notValidString isKindOfClass:[NSString class]]) {
+       return NO;
+   }
+   NSInteger stringLength = 0;
+   @try {
+       stringLength = [notValidString length];
+   } @catch (NSException *exception) {}
+   if (stringLength == 0) {
+       return NO;
+   }
+   return YES;
+}
+
+@end
+</code></pre>
+<p>下面是相应的验证步骤：</p>
+<p>等待15秒会有对应计数清零的操作日志输出：</p>
+<pre><code>2018-01-18 16:25:37.162980+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：CYLBootingProtection: Launch continuous crash report
+2018-01-18 16:25:37.163140+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setIsNormalChecking:{0}
+2018-01-18 16:25:37.165738+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setisFixingCrash:{0}
+2018-01-18 16:25:37.166883+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：crashCount:0
+2018-01-18 16:25:37.167102+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：crashCount:0
+2018-01-18 16:25:37.167253+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setIsNormalChecking:{1}
+2018-01-18 16:25:37.167938+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setCrashCount:1
+2018-01-18 16:25:37.168806+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：need no repair
+
+
+
+2018-01-18 16:25:52.225197+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：CYLBootingProtection: long live the app ( more than 15 seconds ), now reset crash counts
+2018-01-18 16:25:52.225378+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setCrashCount:0
+2018-01-18 16:25:52.226234+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setIsNormalChecking:{0}
+2018-01-18 16:25:52.226595+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setisFixingCrash:{0}
+</code></pre>
+<blockquote>
+<p><a href="http://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a></p>
+</blockquote>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://policx.github.io/post/nginx">
+              <h3 class="post-title">
+                Nginx
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '668d4c1dc3767af8dc3b',
+    clientSecret: '4f94ef2329aa2b4c333b9d884b9264b0d0656346',
+    repo: 'talk',
+    owner: 'policx',
+    admin: ['policx'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://www.2345.com/?k.cn" target="_blank">Gridea</a><br><br><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277719446'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277719446%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script> | 
+  <a class="rss" href="https://policx.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
