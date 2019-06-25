@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-24T15:59:02.501Z</updated>
+    <updated>2019-06-25T00:46:52.705Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -17,12 +17,6 @@
         </link>
         <updated>2019-06-24T13:43:56.000Z</updated>
         <content type="html"><![CDATA[<hr>
-<p>以下是我列出来的能够帮助大家招到一个 靠谱的iOS实习生 需要掌握的点，再次说明下情况：</p>
-<ol>
-<li>此份题适用于电面和face to face，更加偏向于电面；</li>
-<li>能够较为流畅的说到每道题的点上，基本上可以认为是掌握了；</li>
-<li>考虑到电面过程中，对被电面者心理素质考验非常大，所以，我本人抵制电面过程中考算法（这是一个流氓行为）此套题不涉及任何关于算法方面知识。若有此需求，推荐找专门的在线OJ进行测评。</li>
-</ol>
 <h1 id="概念部分">概念部分</h1>
 <h2 id="struct和class的区别">struct和class的区别？</h2>
 <ul>
@@ -5319,8 +5313,8 @@ __这些文字会生成`&lt;strong&gt;`__
 </code></pre>
 <p>效果如下：</p>
 <ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-8191174"> 任务一 未做任务 <label class="task-list-item-label" for="task-item-8191174"> 任务一 未做任务 `- + 空格 + [ ]`</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-8995382"> 任务二 已做任务 <label class="task-list-item-label" for="task-item-8995382"> 任务二 已做任务 `- + 空格 + [x]`</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-933817"> 任务一 未做任务 <label class="task-list-item-label" for="task-item-933817"> 任务一 未做任务 `- + 空格 + [ ]`</label></li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-8316946"> 任务二 已做任务 <label class="task-list-item-label" for="task-item-8316946"> 任务二 已做任务 `- + 空格 + [x]`</label></li>
 </ul>
 <h2 id="图片">图片</h2>
 <p>Markdown 语法：</p>
