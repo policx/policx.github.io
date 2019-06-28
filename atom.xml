@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-28T16:51:36.665Z</updated>
+    <updated>2019-06-28T17:04:08.065Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -2034,7 +2034,7 @@ tags:                                #标签
 <p><strong>Markdown</strong>是一种轻量级<strong>标记语言</strong>，它以纯文本形式(<em>易读、易写、易更改</em>)编写文档，并最终以HTML格式发布。<br>
 <strong>Markdown</strong>也可以理解为将以MARKDOWN语法编写的语言转换成HTML内容的工具。</p>
 <h3 id="2-谁创造了它">2. <em>谁</em>创造了它？</h3>
-<p>它由<a href="http://www.aaronsw.com/"><strong>Aaron Swartz</strong></a>和<strong>John Gruber</strong>共同设计，<strong>Aaron Swartz</strong>就是那位于去年（<em>2013年1月11日</em>）自杀,有着<strong>开挂</strong>一般人生经历的程序员。维基百科对他的<a href="http://zh.wikipedia.org/wiki/%E4%BA%9A%E4%BC%A6%C2%B7%E6%96%AF%E6%B2%83%E8%8C%A8">介绍</a>是：<strong>软件工程师、作家、政治组织者、互联网活动家、维基百科人</strong>。</p>
+<p>它由<a href="http://www.aaronsw.com/"><strong>Aaron Swartz</strong></a>和<strong>John Gruber</strong>共同设计，<strong>Aaron Swartz</strong>就是那位于（<em>2013年1月11日</em>）自杀,有着<strong>开挂</strong>一般人生经历的程序员。维基百科对他的<a href="http://zh.wikipedia.org/wiki/%E4%BA%9A%E4%BC%A6%C2%B7%E6%96%AF%E6%B2%83%E8%8C%A8">介绍</a>是：<strong>软件工程师、作家、政治组织者、互联网活动家、维基百科人</strong>。</p>
 <p>他有着足以让你跪拜的人生经历：</p>
 <ul>
 <li><strong>14岁</strong>参与RSS 1.0规格标准的制订。</li>
@@ -19646,10 +19646,24 @@ GRANT OPTION;
         <link href="https://policx.github.io/post/wjx">
         </link>
         <updated>2014-08-13T13:14:48.000Z</updated>
-        <summary type="html"><![CDATA[<p>1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
+        <summary type="html"><![CDATA[<blockquote>
+<p>1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
+</blockquote>
 ]]></summary>
-        <content type="html"><![CDATA[<p>1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
+        <content type="html"><![CDATA[<blockquote>
+<p>1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
+</blockquote>
 <!-- more -->
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[望京西]]></title>
+        <id>https://policx.github.io/post/wang-jing-xi</id>
+        <link href="https://policx.github.io/post/wang-jing-xi">
+        </link>
+        <updated>2014-08-13T13:14:48.000Z</updated>
+        <content type="html"><![CDATA[<p><img src="https://www.policx.com/talk/images/wang-jing-xi.jpg" alt="">
+1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
 ]]></content>
     </entry>
     <entry>
