@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-28T16:37:15.296Z</updated>
+    <updated>2019-06-28T16:46:34.565Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -2020,297 +2020,233 @@ tags:                                #标签
         <link href="https://policx.github.io/post/markdown">
         </link>
         <updated>2018-03-22T11:32:01.000Z</updated>
-        <summary type="html"><![CDATA[<h2 id="markdown-的设计哲学">Markdown 的设计哲学</h2>
+        <content type="html"><![CDATA[<h2 id="主要内容">主要内容</h2>
 <blockquote>
-<p>Markdown 的目標是實現「易讀易寫」。
-不過最需要強調的便是它的可讀性。一份使用 Markdown 格式撰寫的文件應該可以直接以純文字發佈，並且看起來不會像是由許多標籤或是格式指令所構成。
-Markdown 的語法有個主要的目的：用來作為一種網路內容的<em>寫作</em>用語言。</p>
+<h4 id="markdown是什么">Markdown<em>是什么</em>？</h4>
+<h4 id="谁创造了它"><em>谁</em>创造了它？</h4>
+<h4 id="为什么要使用它"><em>为什么</em>要使用它？</h4>
+<h4 id="怎么使用"><em>怎么</em>使用？</h4>
+<h4 id="谁在用"><em>谁</em>在用？</h4>
+<h4 id="尝试一下">尝试一下</h4>
 </blockquote>
-]]></summary>
-        <content type="html"><![CDATA[<h2 id="markdown-的设计哲学">Markdown 的设计哲学</h2>
-<blockquote>
-<p>Markdown 的目標是實現「易讀易寫」。
-不過最需要強調的便是它的可讀性。一份使用 Markdown 格式撰寫的文件應該可以直接以純文字發佈，並且看起來不會像是由許多標籤或是格式指令所構成。
-Markdown 的語法有個主要的目的：用來作為一種網路內容的<em>寫作</em>用語言。</p>
-</blockquote>
-<!-- more -->
-<h2 id="本文约定">本文约定</h2>
-<p>如果有写 <code>效果如下：</code>， 在 MWeb 编辑状态下只有用 <code>CMD + 4</code> 或 <code>CMD + R</code> 预览才可以看效果。</p>
-<h2 id="标题">标题</h2>
-<p>Markdown 语法：</p>
-<pre><code># 第一级标题 `&lt;h1&gt;` 
-## 第二级标题 `&lt;h2&gt;` 
-###### 第六级标题 `&lt;h6&gt;` 
-</code></pre>
-<p>效果如下：</p>
-<h1 id="第一级标题-h1">第一级标题 <code>&lt;h1&gt;</code></h1>
-<h2 id="第二级标题-h2">第二级标题 <code>&lt;h2&gt;</code></h2>
-<h6 id="第六级标题-h6">第六级标题 <code>&lt;h6&gt;</code></h6>
-<h2 id="强调">强调</h2>
-<p>Markdown 语法：</p>
-<pre><code>*这些文字会生成`&lt;em&gt;`*
-_这些文字会生成`&lt;u&gt;`_
-
-**这些文字会生成`&lt;strong&gt;`**
-__这些文字会生成`&lt;strong&gt;`__
-</code></pre>
-<p>在 MWeb 中的快捷键为： <code>CMD + U</code>、<code>CMD + I</code>、<code>CMD + B</code>
-效果如下：</p>
-<p><em>这些文字会生成<code>&lt;em&gt;</code></em>
-<em>这些文字会生成<code>&lt;u&gt;</code></em></p>
-<p><strong>这些文字会生成<code>&lt;strong&gt;</code></strong>
-<strong>这些文字会生成<code>&lt;strong&gt;</code></strong></p>
-<h2 id="换行">换行</h2>
-<p>四个及以上空格加回车。
-如果不想打这么多空格，只要回车就为换行，请勾选：<code>Preferences</code> - <code>Themes</code> - <code>Translate newlines to &lt;br&gt; tags</code></p>
-<h2 id="列表">列表</h2>
-<h3 id="无序列表">无序列表</h3>
-<p>Markdown 语法：</p>
-<pre><code>* 项目一 无序列表 `* + 空格键`
-* 项目二
-	* 项目二的子项目一 无序列表 `TAB + * + 空格键`
-	* 项目二的子项目二
-</code></pre>
-<p>在 MWeb 中的快捷键为： <code>Option + U</code>
-效果如下：</p>
+<h2 id="正文">正文</h2>
+<h3 id="1-markdown是什么">1. Markdown<em>是什么</em>？</h3>
+<p><strong>Markdown</strong>是一种轻量级<strong>标记语言</strong>，它以纯文本形式(<em>易读、易写、易更改</em>)编写文档，并最终以HTML格式发布。<br>
+<strong>Markdown</strong>也可以理解为将以MARKDOWN语法编写的语言转换成HTML内容的工具。</p>
+<h3 id="2-谁创造了它">2. <em>谁</em>创造了它？</h3>
+<p>它由<a href="http://www.aaronsw.com/"><strong>Aaron Swartz</strong></a>和<strong>John Gruber</strong>共同设计，<strong>Aaron Swartz</strong>就是那位于去年（<em>2013年1月11日</em>）自杀,有着<strong>开挂</strong>一般人生经历的程序员。维基百科对他的<a href="http://zh.wikipedia.org/wiki/%E4%BA%9A%E4%BC%A6%C2%B7%E6%96%AF%E6%B2%83%E8%8C%A8">介绍</a>是：<strong>软件工程师、作家、政治组织者、互联网活动家、维基百科人</strong>。</p>
+<p>他有着足以让你跪拜的人生经历：</p>
 <ul>
-<li>项目一 无序列表 <code>* + 空格键</code></li>
-<li>项目二
+<li><strong>14岁</strong>参与RSS 1.0规格标准的制订。</li>
+<li><strong>2004</strong>年入读<strong>斯坦福</strong>，之后退学。</li>
+<li><strong>2005</strong>年创建<a href="http://infogami.org/">Infogami</a>，之后与<a href="http://www.reddit.com/">Reddit</a>合并成为其合伙人。</li>
+<li><strong>2010</strong>年创立求进会（Demand Progress），积极参与禁止网络盗版法案（SOPA）活动，最终该提案被撤回。</li>
+<li><strong>2011</strong>年7月19日，因被控从MIT和JSTOR下载480万篇学术论文并以免费形式上传于网络被捕。</li>
+<li><strong>2013</strong>年1月自杀身亡。</li>
+</ul>
+<p><img src="https://github.com/younghz/Markdown/raw/master/resource/Aaron_Swartz.jpg" alt="Aaron Swartz"></p>
+<p>天才都有早逝的归途。</p>
+<h3 id="3-为什么要使用它">3. <em>为什么</em>要使用它？</h3>
 <ul>
-<li>项目二的子项目一 无序列表 <code>TAB + * + 空格键</code></li>
-<li>项目二的子项目二</li>
+<li>它是易读（看起来舒服）、易写（语法简单）、易更改<strong>纯文本</strong>。处处体现着<strong>极简主义</strong>的影子。</li>
+<li>兼容HTML，可以转换为HTML格式发布。</li>
+<li>跨平台使用。</li>
+<li>越来越多的网站支持Markdown。</li>
+<li>更方便清晰地组织你的电子邮件。（Markdown-here, Airmail）</li>
+<li>摆脱Word（我不是认真的）。</li>
 </ul>
-</li>
-</ul>
-<h3 id="有序列表">有序列表</h3>
-<p>Markdown 语法：</p>
-<pre><code>1. 项目一 有序列表 `数字 + . + 空格键`
-2. 项目二 
-3. 项目三
-	1. 项目三的子项目一 有序列表 `TAB + 数字 + . + 空格键`
-	2. 项目三的子项目二
-</code></pre>
-<p>效果如下：</p>
-<ol>
-<li>项目一 有序列表 <code>数字 + . + 空格键</code></li>
-<li>项目二</li>
-<li>项目三
-<ol>
-<li>项目三的子项目一 有序列表 <code>TAB + 数字 + . + 空格键</code></li>
-<li>项目三的子项目二</li>
-</ol>
-</li>
-</ol>
-<h3 id="列表中嵌入代码块语法">列表中嵌入代码块语法</h3>
-<pre><code>1. 项目一 有序列表 `数字 + . + 空格键`
-    
-    列表中嵌入代码块必须前后空一行，如这个写法
-       
-    ```js
-    function fancyAlert(arg) {
-      if(arg) {
-        $.facebox({div:'#foo'})
-      }
-    }
-    ```
-    
-    其他文本。
-    
-2. 项目二
-</code></pre>
-<h3 id="任务列表task-lists">任务列表（Task lists）</h3>
-<p>Markdown 语法：</p>
-<pre><code>- [ ] 任务一 未做任务 `- + 空格 + [ ]`
-- [x] 任务二 已做任务 `- + 空格 + [x]`
-</code></pre>
-<p>效果如下：</p>
-<ul class="contains-task-list">
-<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox" id="task-item-9712921"> 任务一 未做任务 <label class="task-list-item-label" for="task-item-9712921"> 任务一 未做任务 `- + 空格 + [ ]`</label></li>
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-5561016"> 任务二 已做任务 <label class="task-list-item-label" for="task-item-5561016"> 任务二 已做任务 `- + 空格 + [x]`</label></li>
-</ul>
-<h2 id="图片">图片</h2>
-<p>Markdown 语法：</p>
-<pre><code>![GitHub set up](http://zh.mweb.im/asset/img/set-up-git.gif)
-格式: ![Alt Text](url)
-</code></pre>
-<p><code>Control + Shift + I</code> 可插入Markdown语法。
-如果是 MWeb 的文档库中的文档，还可以用拖放图片、<code>CMD + V</code> 粘贴、<code>CMD + Option + I</code> 导入这三种方式来增加图片。
-效果如下：</p>
-<p><img src="http://zh.mweb.im/asset/img/set-up-git.gif" alt="GitHub set up"></p>
-<p>MWeb 引入的特别的语法来设置图片宽度，方法是在图片描述后加 <code>-w + 图片宽度</code> 即可，比如说要设置上面的图片的宽度为 140，语法如为 <code>![GitHub-w140](set-up-git.gif)</code>：</p>
-<p><img src="http://zh.mweb.im/asset/img/set-up-git.gif" alt="GitHub set up-w140"></p>
-<h2 id="链接">链接</h2>
-<p>Markdown 语法：</p>
-<pre><code>email &lt;example@example.com&gt;
-[GitHub](http://github.com)
-自动生成连接  &lt;http://www.github.com/&gt;
-</code></pre>
-<p><code>Control + Shift + L</code> 可插入Markdown语法。
-如果是 MWeb 的文档库中的文档，拖放或<code>CMD + Option + I</code> 导入非图片时，会生成连接。
-效果如下：</p>
-<p>Email 连接： <a href="mailto:example@example.com">example@example.com</a>
-<a href="http://github.com">连接标题Github网站</a>
-自动生成连接像： <a href="http://www.github.com/">http://www.github.com/</a> 这样</p>
-<h2 id="区块引用">区块引用</h2>
-<p>Markdown 语法：</p>
-<pre><code>某某说:
-&gt; 第一行引用
-&gt; 第二行费用文字
-</code></pre>
-<p><code>CMD + Shift + B</code> 可插入Markdown语法。
-效果如下：</p>
-<p>某某说:</p>
+<h3 id="4-怎么使用">4. <em>怎么</em>使用？</h3>
+<p>如果不算<strong>扩展</strong>，Markdown的语法绝对<strong>简单</strong>到让你爱不释手。</p>
+<p>Markdown语法主要分为如下几大部分：
+<strong>标题</strong>，<strong>段落</strong>，<strong>区块引用</strong>，<strong>代码区块</strong>，<strong>强调</strong>，<strong>列表</strong>，<strong>分割线</strong>，<strong>链接</strong>，<strong>图片</strong>，<strong>反斜杠 <code>\</code></strong>，<strong>符号'`'</strong>。</p>
+<h4 id="41-标题">4.1 标题</h4>
+<p>两种形式：<br>
+1）使用<code>=</code>和<code>-</code>标记一级和二级标题。</p>
 <blockquote>
-<p>第一行引用
-第二行费用文字</p>
+<p>一级标题<br>
+<code>=========</code><br>
+二级标题<br>
+<code>---------</code></p>
 </blockquote>
-<h2 id="行内代码">行内代码</h2>
-<p>Markdown 语法：</p>
-<pre><code>像这样即可：`&lt;addr&gt;` `code`
-</code></pre>
-<p><code>CMD + K</code> 可插入Markdown语法。
-效果如下：</p>
-<p>像这样即可：<code>&lt;addr&gt;</code> <code>code</code></p>
-<h2 id="多行或者一段代码">多行或者一段代码</h2>
-<p>Markdown 语法：</p>
-<pre><code>```js
-function fancyAlert(arg) {
-  if(arg) {
-    $.facebox({div:'#foo'})
-  }
-
-}
-```
-</code></pre>
-<p><code>CMD + Shift + K</code> 可插入Markdown语法。
-效果如下：</p>
-<pre><code class="language-js">function fancyAlert(arg) {
-	if(arg) {
-		$.facebox({div:'#foo'})
-	}
-
+<p>效果：</p>
+<blockquote>
+<h1 id="一级标题">一级标题</h1>
+<h2 id="二级标题">二级标题</h2>
+</blockquote>
+<p>2）使用<code>#</code>，可表示1-6级标题。</p>
+<blockquote>
+<p># 一级标题<br>
+## 二级标题<br>
+### 三级标题<br>
+#### 四级标题<br>
+##### 五级标题<br>
+###### 六级标题</p>
+</blockquote>
+<p>效果：</p>
+<blockquote>
+<h1 id="一级标题-2">一级标题</h1>
+<h2 id="二级标题-2">二级标题</h2>
+<h3 id="三级标题">三级标题</h3>
+<h4 id="四级标题">四级标题</h4>
+<h5 id="五级标题">五级标题</h5>
+<h6 id="六级标题">六级标题</h6>
+</blockquote>
+<h4 id="42-段落">4.2 段落</h4>
+<p>段落的前后要有空行，所谓的空行是指没有文字内容。若想在段内强制换行的方式是使用<strong>两个以上</strong>空格加上回车（引用中换行省略回车）。</p>
+<h4 id="43-区块引用">4.3 区块引用</h4>
+<p>在段落的每行或者只在第一行使用符号<code>&gt;</code>,还可使用多个嵌套引用，如：</p>
+<blockquote>
+<p>&gt; 区块引用<br>
+&gt;&gt; 嵌套引用</p>
+</blockquote>
+<p>效果：</p>
+<blockquote>
+<p>区块引用</p>
+<blockquote>
+<p>嵌套引用</p>
+</blockquote>
+</blockquote>
+<h4 id="44-代码区块">4.4 代码区块</h4>
+<p>代码区块的建立是在每行加上4个空格或者一个制表符（如同写代码一样）。如<br>
+普通段落：</p>
+<p>void main()<br>
+{<br>
+printf(&quot;Hello, Markdown.&quot;);<br>
+}</p>
+<p>代码区块：</p>
+<pre><code>void main()
+{
+    printf(&quot;Hello, Markdown.&quot;);
 }
 </code></pre>
-<h2 id="顺序图或流程图">顺序图或流程图</h2>
-<p>Markdown 语法：</p>
-<pre><code>```sequence
-张三-&gt;李四: 嘿，小四儿, 写博客了没?
-Note right of 李四: 李四愣了一下，说：
-李四--&gt;张三: 忙得吐血，哪有时间写。
-```
-
-```flow
-st=&gt;start: 开始
-e=&gt;end: 结束
-op=&gt;operation: 我的操作
-cond=&gt;condition: 确认？
-
-st-&gt;op-&gt;cond
-cond(yes)-&gt;e
-cond(no)-&gt;op
-```
-</code></pre>
-<p>效果如下（ <code>Preferences</code> - <code>Themes</code> - <code>Enable sequence &amp; flow chart</code> 才会看到效果 ）：</p>
-<pre><code class="language-sequence">张三-&gt;李四: 嘿，小四儿, 写博客了没?
-Note right of 李四: 李四愣了一下，说：
-李四--&gt;张三: 忙得吐血，哪有时间写。
-</code></pre>
-<pre><code class="language-flow">st=&gt;start: 开始
-e=&gt;end: 结束
-op=&gt;operation: 我的操作
-cond=&gt;condition: 确认？
-
-st-&gt;op-&gt;cond
-cond(yes)-&gt;e
-cond(no)-&gt;op
-</code></pre>
-<p>更多请参考：<a href="http://bramp.github.io/js-sequence-diagrams/">http://bramp.github.io/js-sequence-diagrams/</a>, <a href="http://adrai.github.io/flowchart.js/">http://adrai.github.io/flowchart.js/</a></p>
-<h2 id="表格">表格</h2>
-<p>Markdown 语法：</p>
-<pre><code class="language-txt">第一格表头 | 第二格表头
---------- | -------------
-内容单元格 第一列第一格 | 内容单元格第二列第一格
-内容单元格 第一列第二格 多加文字 | 内容单元格第二列第二格
-</code></pre>
-<p>效果如下：</p>
+<p><strong>注意</strong>:需要和普通段落之间存在空行。</p>
+<h4 id="45-强调">4.5 强调</h4>
+<p>在强调内容两侧分别加上<code>*</code>或者<code>_</code>，如：</p>
+<blockquote>
+<p>*斜体*，_斜体_<br>
+**粗体**，__粗体__</p>
+</blockquote>
+<p>效果：</p>
+<blockquote>
+<p><em>斜体</em>，<em>斜体</em><br>
+<strong>粗体</strong>，<strong>粗体</strong></p>
+</blockquote>
+<h4 id="46-列表">4.6 列表</h4>
+<p>使用<code>·</code>、<code>+</code>、或<code>-</code>标记无序列表，如：</p>
+<blockquote>
+<p>-（+*） 第一项
+-（+*） 第二项
+- （+*）第三项</p>
+</blockquote>
+<p><strong>注意</strong>：标记后面最少有一个_空格_或_制表符_。若不在引用区块中，必须和前方段落之间存在空行。</p>
+<p>效果：</p>
+<blockquote>
+<ul>
+<li>第一项</li>
+<li>第二项</li>
+<li>第三项</li>
+</ul>
+</blockquote>
+<p>有序列表的标记方式是将上述的符号换成数字,并辅以<code>.</code>，如：</p>
+<blockquote>
+<p>1 . 第一项<br>
+2 . 第二项<br>
+3 . 第三项</p>
+</blockquote>
+<p>效果：</p>
+<blockquote>
+<ol>
+<li>第一项</li>
+<li>第二项</li>
+<li>第三项</li>
+</ol>
+</blockquote>
+<h4 id="47-分割线">4.7 分割线</h4>
+<p>分割线最常使用就是三个或以上<code>*</code>，还可以使用<code>-</code>和<code>_</code>。</p>
+<h4 id="48-链接">4.8 链接</h4>
+<p>链接可以由两种形式生成：<strong>行内式</strong>和<strong>参考式</strong>。<br>
+<strong>行内式</strong>：</p>
+<blockquote>
+<p>[younghz的Markdown库](https:://github.com/younghz/Markdown &quot;Markdown&quot;)。</p>
+</blockquote>
+<p>效果：</p>
+<blockquote>
+<p><a href="https:://github.com/younghz/Markdown" title="Markdown">younghz的Markdown库</a>。</p>
+</blockquote>
+<p><strong>参考式</strong>：</p>
+<blockquote>
+<p>[younghz的Markdown库1][1]<br>
+[younghz的Markdown库2][2]<br>
+[1]:https:://github.com/younghz/Markdown &quot;Markdown&quot;<br>
+[2]:https:://github.com/younghz/Markdown &quot;Markdown&quot;</p>
+</blockquote>
+<p>效果：</p>
+<blockquote>
+<p><a href="https:://github.com/younghz/Markdown" title="Markdown">younghz的Markdown库1</a><br>
+<a href="https:://github.com/younghz/Markdown" title="Markdown">younghz的Markdown库2</a></p>
+</blockquote>
+<p><strong>注意</strong>：上述的<code>[1]:https:://github.com/younghz/Markdown &quot;Markdown&quot;</code>不出现在区块中。</p>
+<h4 id="49-图片">4.9 图片</h4>
+<p>添加图片的形式和链接相似，只需在链接的基础上前方加一个<code>！</code>。</p>
+<h4 id="410-反斜杠">4.10 反斜杠<code>\</code></h4>
+<p>相当于<strong>反转义</strong>作用。使符号成为普通符号。</p>
+<h4 id="411-符号">4.11 符号'`'</h4>
+<p>起到标记作用。如：</p>
+<blockquote>
+<p>`ctrl+a`</p>
+</blockquote>
+<p>效果：</p>
+<blockquote>
+<p><code>ctrl+a</code></p>
+</blockquote>
+<h4 id="5-谁在用">5. <em>谁</em>在用？</h4>
+<p>Markdown的使用者：</p>
+<ul>
+<li>GitHub</li>
+<li>简书</li>
+<li>Stack Overflow</li>
+<li>Apollo</li>
+<li>Moodle</li>
+<li>Reddit</li>
+<li>等等</li>
+</ul>
+<h4 id="6-尝试一下">6. 尝试一下</h4>
+<ul>
+<li><strong>Chrome</strong>下的插件诸如<code>stackedit</code>与<code>markdown-here</code>等非常方便，也不用担心平台受限。</li>
+<li><strong>在线</strong>的dillinger.io评价也不错</li>
+<li><strong>Windowns</strong>下的MarkdownPad也用过，不过免费版的体验不是很好。</li>
+<li><strong>Mac</strong>下的Mou是国人贡献的，口碑很好。</li>
+<li><strong>Linux</strong>下的ReText不错。</li>
+</ul>
+<p><strong>当然，最终境界永远都是笔下是语法，心中格式化 :)。</strong></p>
+<hr>
+<p><strong>注意</strong>：不同的Markdown解释器或工具对相应语法（扩展语法）的解释效果不尽相同，具体可参见工具的使用说明。
+虽然有人想出面搞一个所谓的标准化的Markdown，[没想到还惹怒了健在的创始人John Gruber]
+(http://blog.codinghorror.com/standard-markdown-is-now-common-markdown/ )。</p>
+<hr>
+<p>以上基本是所有traditonal markdown的语法。</p>
+<h3 id="其它">其它：</h3>
+<p>列表的使用(非traditonal markdown)：</p>
+<p>用<code>|</code>表示表格纵向边界，表头和表内容用<code>-</code>隔开，并可用<code>:</code>进行对齐设置，两边都有<code>:</code>则表示居中，若不加<code>:</code>则默认左对齐。</p>
 <table>
 <thead>
 <tr>
-<th>第一格表头</th>
-<th>第二格表头</th>
+<th style="text-align:center">代码库</th>
+<th>链接</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>内容单元格 第一列第一格</td>
-<td>内容单元格第二列第一格</td>
+<td style="text-align:center">MarkDown</td>
+<td><a href="https://github.com/younghz/Markdown" title="Markdown">https://github.com/younghz/Markdown</a></td>
 </tr>
 <tr>
-<td>内容单元格 第一列第二格 多加文字</td>
-<td>内容单元格第二列第二格</td>
+<td style="text-align:center">MarkDownCopy</td>
+<td><a href="https://github.com/younghz/Markdown" title="Markdown">https://github.com/younghz/Markdown</a></td>
 </tr>
 </tbody>
 </table>
-<h2 id="删除线">删除线</h2>
-<p>Markdown 语法：</p>
-<pre><code>加删除线像这样用： ~~删除这些~~
-</code></pre>
-<p>效果如下：</p>
-<p>加删除线像这样用： <s>删除这些</s></p>
-<h2 id="分隔线">分隔线</h2>
-<p>以下三种方式都可以生成分隔线：</p>
-<pre><code>***
-
-*****
-
-- - -
-</code></pre>
-<p>效果如下：</p>
-<hr>
-<hr>
-<hr>
-<h2 id="mathjax">MathJax</h2>
-<p>Markdown 语法：</p>
-<pre><code>块级公式：
-$$	x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
-
-\\[ \frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} =
-1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}}
-{1+\frac{e^{-8\pi}} {1+\ldots} } } } \\]
-
-行内公式： $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$
-</code></pre>
-<p>效果如下（<code>Preferences</code> - <code>Themes</code> - <code>Enable MathJax</code> 才会看到效果）：</p>
-<p>块级公式：</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>=</mo><mfrac><mrow><mo>−</mo><mi>b</mi><mo>±</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} 
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.276389em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.590389em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span><span class="mord mathdefault">a</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">−</span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.913389em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.740108em;"><span style="top:-2.9890000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">4</span><span class="mord mathdefault">a</span><span class="mord mathdefault">c</span></span></span><span style="top:-2.873389em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,
--10,-9.5,-14c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54c44.2,-33.3,65.8,
--50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10s173,378,173,378c0.7,0,
-35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429c69,-144,104.5,-217.7,106.5,
--221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
-s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
-s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.12661100000000003em;"><span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
-<p>\[ \frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} =
-1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}}
-{1+\frac{e^{-8\pi}} {1+\ldots} } } } \]</p>
-<p>行内公式： <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">Γ</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">!</mo><mspace width="1em"/><mi mathvariant="normal">∀</mi><mi>n</mi><mo>∈</mo><mi mathvariant="double-struck">N</mi></mrow><annotation encoding="application/x-tex">\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Γ</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:1em;"></span><span class="mord">∀</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68889em;vertical-align:0em;"></span><span class="mord mathbb">N</span></span></span></span></p>
-<h2 id="脚注footnote">脚注（Footnote）</h2>
-<p>Markdown 语法：</p>
-<pre><code>这是一个脚注：[^sample_footnote]
-</code></pre>
-<p>效果如下：</p>
-<p>这是一个脚注：<a href="%E8%BF%99%E9%87%8C%E6%98%AF%E8%84%9A%E6%B3%A8%E4%BF%A1%E6%81%AF">^sample_footnote</a></p>
-<h2 id="注释和阅读更多">注释和阅读更多</h2>
-<!-- comment -->
-<!-- more -->
-<p>Actions-&gt;Insert Read More Comment <em>或者</em> <code>Command + .</code>
-<strong>注</strong> 阅读更多的功能只用在生成网站或博客时，插入时注意要后空一行。</p>
-<h2 id="toc">TOC</h2>
-<p>Markdown 语法：</p>
-<pre><code>[TOC]
-</code></pre>
-<p>效果如下：</p>
-<p>[TOC]</p>
+<p>关于其它扩展语法可参见具体工具的使用说明。</p>
 ]]></content>
     </entry>
     <entry>
