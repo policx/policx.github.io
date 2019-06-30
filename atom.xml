@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-29T00:53:51.015Z</updated>
+    <updated>2019-06-30T03:39:48.469Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -4213,8 +4213,8 @@ _dispatch_queue_wakeup_global_slow(dispatch_queue_t dq, unsigned int n)
     </entry>
     <entry>
         <title type="html"><![CDATA[17年会]]></title>
-        <id>https://policx.github.io/post/17-nian-hui</id>
-        <link href="https://policx.github.io/post/17-nian-hui">
+        <id>https://policx.github.io/post/17</id>
+        <link href="https://policx.github.io/post/17">
         </link>
         <updated>2017-06-13T14:49:20.000Z</updated>
         <content type="html"><![CDATA[<p><img src="https://policx.github.io/post-images/1560714701182.jpg" alt="">
@@ -19309,8 +19309,8 @@ while ((key = [enumerator nextObject]) != nil) {
     </entry>
     <entry>
         <title type="html"><![CDATA[16年会]]></title>
-        <id>https://policx.github.io/post/nianhui</id>
-        <link href="https://policx.github.io/post/nianhui">
+        <id>https://policx.github.io/post/16</id>
+        <link href="https://policx.github.io/post/16">
         </link>
         <updated>2016-02-10T16:32:03.000Z</updated>
         <content type="html"><![CDATA[<p><img src="https://policx.github.io/post-images/1560773974247.jpg" alt="">
@@ -22954,8 +22954,8 @@ self.dataMember = temp;
     </entry>
     <entry>
         <title type="html"><![CDATA[读书]]></title>
-        <id>https://policx.github.io/post/dushu</id>
-        <link href="https://policx.github.io/post/dushu">
+        <id>https://policx.github.io/post/kindle</id>
+        <link href="https://policx.github.io/post/kindle">
         </link>
         <updated>2014-03-14T12:01:34.000Z</updated>
         <content type="html"><![CDATA[<p><img src="https://policx.github.io/post-images/1560706873491.gif" alt="">
