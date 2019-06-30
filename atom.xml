@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://policx.github.io</id>
     <title>江湖</title>
-    <updated>2019-06-30T03:39:48.469Z</updated>
+    <updated>2019-06-30T03:41:11.233Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://policx.github.io"/>
     <link rel="self" href="https://policx.github.io/atom.xml"/>
@@ -19650,24 +19650,11 @@ GRANT OPTION;
         <link href="https://policx.github.io/post/wjx">
         </link>
         <updated>2014-08-13T13:14:48.000Z</updated>
-        <summary type="html"><![CDATA[<blockquote>
-<p>1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
-</blockquote>
+        <summary type="html"><![CDATA[<p>1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
 ]]></summary>
-        <content type="html"><![CDATA[<blockquote>
-<p>1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
-</blockquote>
+        <content type="html"><![CDATA[<p>1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
 <!-- more -->
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[望京西]]></title>
-        <id>https://policx.github.io/post/wang-jing-xi</id>
-        <link href="https://policx.github.io/post/wang-jing-xi">
-        </link>
-        <updated>2014-08-13T13:14:48.000Z</updated>
-        <content type="html"><![CDATA[<p><img src="https://www.policx.com/talk/images/wang-jing-xi.jpg" alt="">
-1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</p>
+<p><img src="https://www.policx.com/talk/images/wang-jing-xi.jpg" alt=""></p>
 ]]></content>
     </entry>
     <entry>
