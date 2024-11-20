@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://policx.github.io</id>
+    <title>Digital Life Program</title>
+    <updated>2024-11-20T00:43:35.036Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://policx.github.io"/>
+    <link rel="self" href="https://policx.github.io/atom.xml"/>
+    <subtitle>&lt;a href=&quot;https://www.2345.com/?k.cn&quot; target=&quot;_blank&quot;&gt;The Wandering Earth&lt;/a&gt;</subtitle>
+    <logo>https://policx.github.io/images/avatar.png</logo>
+    <icon>https://policx.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2024, Digital Life Program</rights>
+    <entry>
+        <title type="html"><![CDATA[Follow Airdrop ]]></title>
+        <id>https://policx.github.io/airdrop/</id>
+        <link href="https://policx.github.io/airdrop/">
+        </link>
+        <updated>2024-11-02T09:00:53.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[「Follow」RSS 订阅软件]]></title>
+        <id>https://policx.github.io/follow/</id>
+        <link href="https://policx.github.io/follow/">
+        </link>
+        <updated>2024-10-26T04:41:42.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2019]]></title>
+        <id>https://policx.github.io/2019/</id>
+        <link href="https://policx.github.io/2019/">
+        </link>
+        <updated>2019-06-05T03:06:39.000Z</updated>
+        <summary type="html"><![CDATA[<p>Your time is limited, so don't waste it living someone else's life.…Don't let the noise of others' opinions drown out your own inner voice。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Your time is limited, so don't waste it living someone else's life.…Don't let the noise of others' opinions drown out your own inner voice。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2018]]></title>
+        <id>https://policx.github.io/2018/</id>
+        <link href="https://policx.github.io/2018/">
+        </link>
+        <updated>2018-06-04T16:59:59.000Z</updated>
+        <summary type="html"><![CDATA[<p>Being the richest man in the cemetery doesn't matter to me ... Going to bed at night saying we've done something wonderful... that's what matters to me。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Being the richest man in the cemetery doesn't matter to me ... Going to bed at night saying we've done something wonderful... that's what matters to me。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2017]]></title>
+        <id>https://policx.github.io/2017/</id>
+        <link href="https://policx.github.io/2017/">
+        </link>
+        <updated>2017-06-04T16:50:49.000Z</updated>
+        <summary type="html"><![CDATA[<p>We think basically you watch television to turn your brain off, and you work on your computer when you want to turn your brain on.</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>We think basically you watch television to turn your brain off, and you work on your computer when you want to turn your brain on.</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2016]]></title>
+        <id>https://policx.github.io/2016/</id>
+        <link href="https://policx.github.io/2016/">
+        </link>
+        <updated>2016-06-13T16:43:27.000Z</updated>
+        <summary type="html"><![CDATA[<p>There's a phrase in Buddhism, 'Beginner's mind.' It's wonderful to have a beginner's mind.</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>There's a phrase in Buddhism, 'Beginner's mind.' It's wonderful to have a beginner's mind.</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2015]]></title>
+        <id>https://policx.github.io/2015/</id>
+        <link href="https://policx.github.io/2015/">
+        </link>
+        <updated>2015-06-04T17:02:03.000Z</updated>
+        <summary type="html"><![CDATA[<p>I think the greatest value of learning how to think.... I think everybody in this country should learn how to program a computer, should learn a computer language, because it teaches you how to think, it’s like going to law school, I don’t think anybody should be a lawyer, but I think going to law school may actually be useful coz it teaches you how to think in a certain way. In the same way the computer programming teaches you in a slightly different way how to think... And so … I view computer science as a liberal art. It should be something everybody takes in a year in their life, one of the courses they take is, you know learning how to program.<br>
+-------- Steve Jobs</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>I think the greatest value of learning how to think.... I think everybody in this country should learn how to program a computer, should learn a computer language, because it teaches you how to think, it’s like going to law school, I don’t think anybody should be a lawyer, but I think going to law school may actually be useful coz it teaches you how to think in a certain way. In the same way the computer programming teaches you in a slightly different way how to think... And so … I view computer science as a liberal art. It should be something everybody takes in a year in their life, one of the courses they take is, you know learning how to program.<br>
+-------- Steve Jobs</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WWDC 2014]]></title>
+        <id>https://policx.github.io/2014/</id>
+        <link href="https://policx.github.io/2014/">
+        </link>
+        <updated>2014-06-06T03:01:22.000Z</updated>
+        <summary type="html"><![CDATA[<p>Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[关于]]></title>
+        <id>https://policx.github.io/about/</id>
+        <link href="https://policx.github.io/about/">
+        </link>
+        <updated>2012-12-21T01:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p><a href="https://www.2345.com/?k.cn">一个对着手机微笑的女孩，我也会猜测她微笑，是恋人的密语，还是朋友的问候，或许是看一段笑话，总之，很美。我想坐过去，但她的目光投过来，我又低下了头，像个犯错的孩子。</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://www.2345.com/?k.cn">一个对着手机微笑的女孩，我也会猜测她微笑，是恋人的密语，还是朋友的问候，或许是看一段笑话，总之，很美。我想坐过去，但她的目光投过来，我又低下了头，像个犯错的孩子。</a></p>
+]]></content>
+    </entry>
+</feed>
