@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://policx.github.io/sitemap.xml
