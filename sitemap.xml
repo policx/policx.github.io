@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://policx.github.io/</loc>
-    <lastmod>2026-08-03T19:29:44+08:00</lastmod>
+    <lastmod>2026-08-03T21:22:08+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,21 +13,12 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://policx.github.io/post/airdrop/</loc>
-    <lastmod>2026-08-03T17:35:58+08:00</lastmod>
+    <loc>https://policx.github.io/post/RSSGuard/</loc>
+    <lastmod>2026-08-01T12:41:42+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
-      <image:loc>https://images-ext-1.discordapp.net/external/Zwk2C2R0ZsEA3tXdLiEK-T9mqteQml8MhjyDIlNrshw/%3F6fd38075a584afdd/https/follow.is/opengraph-image.png?format=webp&amp;quality=lossless&amp;width=1940&amp;height=1092</image:loc>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://policx.github.io/post/follow/</loc>
-    <lastmod>2026-08-03T17:35:58+08:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://policx.github.io/post-images/follow.png</image:loc>
+      <image:loc>https://github.com/martinrotter/rssguard/raw/master/resources/graphics/rssguard.png?raw=true</image:loc>
     </image:image>
   </url>
   <url>
@@ -95,43 +86,43 @@
   </url>
   <url>
     <loc>https://policx.github.io/post/</loc>
-    <lastmod>2026-08-03T19:29:44+08:00</lastmod>
+    <lastmod>2026-08-03T21:22:08+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://policx.github.io/memos/</loc>
-    <lastmod>2026-08-03T19:29:44+08:00</lastmod>
+    <lastmod>2026-08-03T21:22:08+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://policx.github.io/tags/</loc>
-    <lastmod>2026-08-03T19:29:44+08:00</lastmod>
+    <lastmod>2026-08-03T21:22:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://policx.github.io/archives/</loc>
-    <lastmod>2026-08-03T19:29:44+08:00</lastmod>
+    <lastmod>2026-08-03T21:22:08+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://policx.github.io/tag/wwdc/</loc>
-    <lastmod>2026-08-03T19:29:44+08:00</lastmod>
+    <loc>https://policx.github.io/tag/software/</loc>
+    <lastmod>2026-08-03T21:22:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://policx.github.io/tag/software/</loc>
-    <lastmod>2026-08-03T19:29:44+08:00</lastmod>
+    <loc>https://policx.github.io/tag/wwdc/</loc>
+    <lastmod>2026-08-03T21:22:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://policx.github.io/links/</loc>
-    <lastmod>2026-08-03T19:29:44+08:00</lastmod>
+    <lastmod>2026-08-03T21:22:08+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
