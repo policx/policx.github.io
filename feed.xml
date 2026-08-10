@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Digital Life</title>
+    <link>https://policx.github.io/</link>
+    <description>Digital Life Initiative</description>
+    <language>zh-cn</language>
+    <generator>Gridea Pro</generator>
+    <lastBuildDate>Mon, 10 Aug 2026 15:59:00 +0800</lastBuildDate>
+    <atom:link href="https://policx.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
+    <item>
+      <title>HDC 2026</title>
+      <link>https://policx.github.io/post/hdc-2026/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/hdc-2026/</guid>
+      <pubDate>Fri, 12 Jun 2026 21:29:15 +0800</pubDate>
+      <description><![CDATA[<!-- more -->
+<p><a href="https://live.huawei.com/hdc2026/meeting/cn/16448.html">HDC 2026</a></p>
+]]></description>
+      <category>HDC</category>
+      <enclosure url="https://huawei-static2.vhallyun.com/upload/20260612171402/hw/7f/04/7f0440d69ac0910d750bab3bcc88a1d7.jpg" length="0" type="image/jpeg"></enclosure>
+    </item>
+    <item>
+      <title>RSS Guard 桌面 RSS 阅读器</title>
+      <link>https://policx.github.io/post/RSSGuard/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/RSSGuard/</guid>
+      <pubDate>Sat, 01 Aug 2026 12:41:42 +0800</pubDate>
+      <description><![CDATA[<h2 id="-rss">为什么又聊 RSS</h2>
+<p>2026 年了，算法推荐统治了信息获取，但 RSS 不但没死，反而在技术圈悄悄复兴。原因很简单——把信息筛选权拿回自己手里，不被平台投喂牵着走。</p>
+<p>在试过 Inoreader、Fluent Reader、QuiteRSS、NewsFlash 之后，我最终把主力换成了 <strong>RSS Guard</strong>，用了大半年，把心得整理出来。</p>
+<h2 id="rss-guard--">RSS Guard 是谁&hellip;</h2>
+]]></description>
+      <category>Software</category>
+      <enclosure url="https://github.com/martinrotter/rssguard/raw/master/resources/graphics/rssguard.png?raw=true" length="0" type="image/jpeg"></enclosure>
+    </item>
+    <item>
+      <title>从iPhone到华为Mate</title>
+      <link>https://policx.github.io/post/huawei-mate/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/huawei-mate/</guid>
+      <pubDate>Wed, 04 Mar 2026 02:18:51 +0800</pubDate>
+      <description><![CDATA[<blockquote>
+<p>用了八年 iPhone，今年终于下定决心换到了华为 Mate。这篇文章不是参数对比，也不是粉丝站队——只是一个普通用户的真实体验，写给正在犹豫的你。</p>
+</blockquote>
+<hr />
+<h2 id="heading">一、为什么要换？告别舒适区的三个理由</h2>
+<p><img src="https://placehold.co/800x400/16213e/e0e0e0?text=%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BB%8EiPhone%E6%8D%A2%E5%88%B0%E5%8D%8E%E4%B8%BAMate%EF%BC%9F" alt="换机动机" /></p>
+<p>换手机这件事，对&hellip;</p>
+]]></description>
+      <enclosure url="https://consumer.huawei.com/content/dam/huawei-cbg-site/cn/mkt/pdp/phones/mate80-pro/img/kv/kv-pad.webp" length="0" type="image/webp"></enclosure>
+    </item>
+    <item>
+      <title>WWDC 2019</title>
+      <link>https://policx.github.io/post/2019/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/2019/</guid>
+      <pubDate>Wed, 05 Jun 2019 11:06:39 +0800</pubDate>
+      <description><![CDATA[<p>Your time is limited, so don&rsquo;t waste it living someone else&rsquo;s life.…Don&rsquo;t let the noise of others&rsquo; opinions drown out your own inner voice。</p>
+]]></description>
+      <category>WWDC</category>
+      <enclosure url="https://policx.github.io/post-images/2019.png" length="0" type="image/png"></enclosure>
+    </item>
+    <item>
+      <title>WWDC 2018</title>
+      <link>https://policx.github.io/post/2018/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/2018/</guid>
+      <pubDate>Tue, 05 Jun 2018 00:59:59 +0800</pubDate>
+      <description><![CDATA[<p>Being the richest man in the cemetery doesn&rsquo;t matter to me &hellip; Going to bed at night saying we&rsquo;ve done something wonderful&hellip; that&rsquo;s what matters to me。</p>
+]]></description>
+      <category>WWDC</category>
+      <enclosure url="https://policx.github.io/post-images/2018.jpg" length="0" type="image/jpeg"></enclosure>
+    </item>
+    <item>
+      <title>WWDC 2017</title>
+      <link>https://policx.github.io/post/2017/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/2017/</guid>
+      <pubDate>Mon, 05 Jun 2017 00:50:49 +0800</pubDate>
+      <description><![CDATA[<p>We think basically you watch television to turn your brain off, and you work on your computer when you want to turn your brain on.</p>
+]]></description>
+      <category>WWDC</category>
+      <enclosure url="https://policx.github.io/post-images/2017.png" length="0" type="image/png"></enclosure>
+    </item>
+    <item>
+      <title>WWDC 2016</title>
+      <link>https://policx.github.io/post/2016/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/2016/</guid>
+      <pubDate>Tue, 14 Jun 2016 00:43:27 +0800</pubDate>
+      <description><![CDATA[<p>There&rsquo;s a phrase in Buddhism, &lsquo;Beginner&rsquo;s mind.&rsquo; It&rsquo;s wonderful to have a beginner&rsquo;s mind.</p>
+]]></description>
+      <category>WWDC</category>
+      <enclosure url="https://policx.github.io/post-images/2016.png" length="0" type="image/png"></enclosure>
+    </item>
+    <item>
+      <title>WWDC 2015</title>
+      <link>https://policx.github.io/post/2015/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/2015/</guid>
+      <pubDate>Fri, 05 Jun 2015 01:02:03 +0800</pubDate>
+      <description><![CDATA[<p>I think the greatest value of learning how to think&hellip;. I think everybody in this country should learn how to program a computer, should learn a computer language, because it teaches you how to think, it’s like going to law school, I don’t think anybody should be a lawyer, but I think going to law school may actually be useful coz it teaches you how to think in a certain way. In the same way the computer programming teaches you in a slightly different way how to think&hellip; And so … I view computer science as a liberal art. It should be something everybody takes in a year in their life, one of the courses they take is, you know learning how to program.<br />
+&mdash;&mdash;&ndash; Steve Jobs</p>
+]]></description>
+      <category>WWDC</category>
+      <enclosure url="https://policx.github.io/post-images/2015.png" length="0" type="image/png"></enclosure>
+    </item>
+    <item>
+      <title>WWDC 2014</title>
+      <link>https://policx.github.io/post/2014/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/2014/</guid>
+      <pubDate>Fri, 06 Jun 2014 11:01:22 +0800</pubDate>
+      <description><![CDATA[<p>Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose。</p>
+]]></description>
+      <category>WWDC</category>
+      <enclosure url="https://policx.github.io/post-images/2014.png" length="0" type="image/png"></enclosure>
+    </item>
+    <item>
+      <title>关于</title>
+      <link>https://policx.github.io/post/about/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/about/</guid>
+      <pubDate>Fri, 21 Dec 2012 09:00:00 +0800</pubDate>
+      <description><![CDATA[<h2 id="heading">我是谁</h2>
+<p>曾经的程序员，现在的工地工人。</p>
+<p>写过代码，搬过砖——字面意义上的那种。从 IDE 到工地，从键盘到铁锹，生活的转折比想象中更陡峭。但写程序教会我的东西并没有丢：分解问题、接受迭代、在混乱中寻找秩序。</p>
+<p>现在每天面对的是钢筋水泥而非代码仓库，但两者有一个共同点——都是在搭建。只不过一个建在云端，一个建在地上。</p>
+<h2 id="heading-1">这个站点</h2>
+<p>Digital Life 是我在&hellip;</p>
+]]></description>
+    </item>
+  </channel>
+</rss>
