@@ -68,6 +68,17 @@
       <enclosure url="https://policx.github.io/post-images/2018.jpg" length="0" type="image/jpeg"></enclosure>
     </item>
     <item>
+      <title>HTTP状态码汇总</title>
+      <link>https://policx.github.io/post/http/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/http/</guid>
+      <pubDate>Tue, 06 Feb 2018 16:32:20 +0800</pubDate>
+      <description><![CDATA[<p><strong>HTTP状态码</strong>（英语：HTTP Status Code）是用以表示网页服务器超文本传输协议响应状态的3位数字代码。它由 RFC 2616 规范定义的，并得到 RFC 2518、RFC 2817、RFC 2295、RFC 2774 与 RFC 4918 等规范扩展。所有状态码的第一个数字代表了响应的五种状态之一。所示的消息短语是典型的，但是可以提供任何可读取的替代方案。 除非另有说明，状态码是HTTP / 1.1标准（RFC 7231）的一部分。</p>
+<p>HTTP状态码的官方注册表由互联网号码分配局（Internet Assigned Numbers Authority）维护。</p>
+<p>微软互联网信息服务 （Microsoft Internet Information Services）有时会使用额外的十进制子代码来获取更多具体信息，但是这些子代码仅出现在响应有效内容和文档中，而不是代替实际的HTTP状态代码。</p>
+]]></description>
+      <enclosure url="https://i.loli.net/2019/07/11/5d27296d524c226778.jpeg" length="0" type="image/jpeg"></enclosure>
+    </item>
+    <item>
       <title>WWDC 2017</title>
       <link>https://policx.github.io/post/2017/</link>
       <guid isPermaLink="true">https://policx.github.io/post/2017/</guid>
@@ -107,19 +118,6 @@
 ]]></description>
       <category>WWDC</category>
       <enclosure url="https://policx.github.io/post-images/2014.png" length="0" type="image/png"></enclosure>
-    </item>
-    <item>
-      <title>关于</title>
-      <link>https://policx.github.io/post/about/</link>
-      <guid isPermaLink="true">https://policx.github.io/post/about/</guid>
-      <pubDate>Fri, 21 Dec 2012 09:00:00 +0800</pubDate>
-      <description><![CDATA[<h2 id="heading">我是谁</h2>
-<p>曾经的程序员，现在的工地工人。</p>
-<p>写过代码，搬过砖——字面意义上的那种。从 IDE 到工地，从键盘到铁锹，生活的转折比想象中更陡峭。但写程序教会我的东西并没有丢：分解问题、接受迭代、在混乱中寻找秩序。</p>
-<p>现在每天面对的是钢筋水泥而非代码仓库，但两者有一个共同点——都是在搭建。只不过一个建在云端，一个建在地上。</p>
-<h2 id="heading-1">这个站点</h2>
-<p>Digital Life 是我在&hellip;</p>
-]]></description>
     </item>
   </channel>
 </rss>
