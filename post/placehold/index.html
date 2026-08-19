@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+<meta name="viewport"
+    content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, width=device-width" />
+<meta name="renderer" content="webkit">
+<meta name="format-detection" content="telephone=no, email=no, address=no">
+
+
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#292a2d" media="(prefers-color-scheme: dark)">
+
+
+<link rel="shortcut icon" href="/media/images/favicon.ico">
+<link rel="stylesheet" href="/styles/main.min.css">
+
+
+<style>:root{--accent-color:#28df99;}</style>
+
+
+<script>
+    // 自动为所有 target="_blank" 的链接添加 rel="noopener noreferrer"
+    document.addEventListener('DOMContentLoaded', function () {
+        var links = document.querySelectorAll('a[target="_blank"]');
+        links.forEach(function (link) {
+            var rel = link.getAttribute('rel') || '';
+            if (rel.indexOf('noopener') === -1) {
+                rel += ' noopener';
+            }
+            if (rel.indexOf('noreferrer') === -1) {
+                rel += ' noreferrer';
+            }
+            link.setAttribute('rel', rel.trim());
+        });
+    });
+</script>
+
+<script>
+    // declaraction of document.ready() function.
+    (function () {
+        var ie = !!(window.attachEvent && !window.opera);
+        var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && (RegExp.$1 < 525);
+        var fn = [];
+        var run = function () {
+            for (var i = 0; i < fn.length; i++) fn[i]();
+        };
+        var d = document;
+        d.ready = function (f) {
+            if (!ie && !wk && d.addEventListener)
+                return d.addEventListener('DOMContentLoaded', f, false);
+            if (fn.push(f) > 1) return;
+            if (ie)
+                (function () {
+                    try {
+                        d.documentElement.doScroll('left');
+                        run();
+                    } catch (err) {
+                        setTimeout(arguments.callee, 0);
+                    }
+                })();
+            else if (wk)
+                var t = setInterval(function () {
+                    if (/^(loaded|complete)$/.test(d.readyState))
+                        clearInterval(t), run();
+                }, 0);
+        };
+    })();
+
+
+    document.ready(
+        function () {
+            var _Blog = window._Blog || {};
+
+            const getSystemTheme = () => {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    return 'dark';
+                }
+                return 'light';
+            };
+
+            const configDefault = 'dark';
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme');
+            const initialTheme = currentTheme || configDefault || getSystemTheme();
+            const isDark = initialTheme === 'dark';
+
+            const updateButtons = (dark) => {
+                const sunBtn = document.getElementById("theme-toggle-sun");
+                const moonBtn = document.getElementById("theme-toggle-moon");
+                const mobileSunBtn = document.getElementById("mobile-theme-toggle-sun");
+                const mobileMoonBtn = document.getElementById("mobile-theme-toggle-moon");
+
+                if (dark) {
+                    if (sunBtn) sunBtn.style.display = 'none';
+                    if (moonBtn) moonBtn.style.display = 'inline-block';
+                    if (mobileSunBtn) mobileSunBtn.style.display = 'none';
+                    if (mobileMoonBtn) mobileMoonBtn.style.display = 'inline-block';
+                } else {
+                    if (sunBtn) sunBtn.style.display = 'inline-block';
+                    if (moonBtn) moonBtn.style.display = 'none';
+                    if (mobileSunBtn) mobileSunBtn.style.display = 'inline-block';
+                    if (mobileMoonBtn) mobileMoonBtn.style.display = 'none';
+                }
+            };
+
+            const updateThemeColor = (dark) => {
+                const themeColor = dark ? '#292a2d' : '#ffffff';
+                const metaTags = document.querySelectorAll('meta[name="theme-color"]');
+                if (metaTags.length > 0) {
+                    // 保留第一个，移除其他的，避免重复
+                    for (let i = 1; i < metaTags.length; i++) {
+                        metaTags[i].remove();
+                    }
+                    metaTags[0].setAttribute('content', themeColor);
+                    metaTags[0].removeAttribute('media');
+                } else {
+                    const meta = document.createElement('meta');
+                    meta.name = 'theme-color';
+                    meta.content = themeColor;
+                    document.head.appendChild(meta);
+                }
+            };
+
+            const applyTheme = (dark) => {
+                const body = document.getElementsByTagName('body')[0];
+                if (dark) {
+                    body.classList.add('dark-theme');
+                } else {
+                    body.classList.remove('dark-theme');
+                }
+                updateButtons(dark);
+                updateThemeColor(dark);
+            };
+
+            // Initial application
+            applyTheme(isDark);
+            if (!currentTheme) {
+                window.localStorage && window.localStorage.setItem('theme', initialTheme);
+            }
+
+            _Blog.toggleTheme = function () {
+                const toggleFunc = (e) => {
+                    // Prevent bubbling if needed, though buttons are distinct now
+                    if (e) e.stopPropagation();
+
+                    const body = document.getElementsByTagName('body')[0];
+                    const isCurrentlyDark = body.classList.contains('dark-theme');
+
+                    if (isCurrentlyDark) {
+                        body.classList.remove('dark-theme');
+                        updateButtons(false);
+                        window.localStorage && window.localStorage.setItem('theme', 'light');
+                    } else {
+                        body.classList.add('dark-theme');
+                        updateButtons(true);
+                        window.localStorage && window.localStorage.setItem('theme', 'dark');
+                    }
+                };
+
+                const sunBtn = document.getElementById("theme-toggle-sun");
+                const moonBtn = document.getElementById("theme-toggle-moon");
+                const mobileSunBtn = document.getElementById("mobile-theme-toggle-sun");
+                const mobileMoonBtn = document.getElementById("mobile-theme-toggle-moon");
+
+                if (sunBtn) sunBtn.addEventListener('click', toggleFunc);
+                if (moonBtn) moonBtn.addEventListener('click', toggleFunc);
+                if (mobileSunBtn) mobileSunBtn.addEventListener('click', toggleFunc);
+                if (mobileMoonBtn) mobileMoonBtn.addEventListener('click', toggleFunc);
+            };
+            _Blog.toggleTheme();
+
+            if (window.matchMedia && !configDefault) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    const newTheme = e.matches ? 'dark' : 'light';
+                    applyTheme(e.matches);
+                    window.localStorage && window.localStorage.setItem('theme', newTheme);
+                });
+            }
+        }
+    );
+</script>
+
+<script>
+    // Reading Progress Component
+    document.addEventListener('DOMContentLoaded', () => {
+        const progressValue = document.querySelector('.reading-value');
+        const progressCircle = document.querySelector('.progress-ring__circle');
+        const container = document.querySelector('.reading-progress-container');
+
+        // Exit if elements don't exist (e.g., not on a post page)
+        if (!progressValue || !progressCircle || !container) {
+            return;
+        }
+
+        // SVG Circle setup
+        const radius = progressCircle.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        progressCircle.style.strokeDashoffset = circumference;
+
+        function setProgress(percent) {
+            const safePercent = Math.min(100, Math.max(0, percent));
+            progressValue.textContent = `${Math.round(safePercent)}%`;
+            const offset = circumference - (safePercent / 100) * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+        }
+
+        function onScroll() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+
+            if (scrollHeight <= 0) {
+                setProgress(0);
+                return;
+            }
+
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            setProgress(scrollPercent);
+
+            // Show/Hide logic: Show if scrolled more than 100px
+            if (scrollTop > 100) {
+                container.classList.add('show');
+            } else {
+                container.classList.remove('show');
+            }
+        }
+
+        // Initialize
+        onScroll();
+
+        // Listen for scroll events
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        // Recalculate on resize
+        window.addEventListener('resize', onScroll);
+    });
+</script>
+
+
+
+
+
+
+
+    <meta name="generator" content="Gridea Pro 1.2.2">
+    <title>placehold.co使用指南 | Digital Life</title>
+
+    
+<meta name="description" content="placehold.co 占位图服务使用指南 面向开发者与设计师的完整使用参考，基于 placehold.co 官方文档整理。 目录 服务简介与优势 URL 构成解析 尺寸控制 格式选择 颜色配置 6&amp;hellip;">
+<link rel="canonical" href="https://policx.github.io/post/placehold/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"placehold.co使用指南","url":"https://policx.github.io/post/placehold/","description":"placehold.co 占位图服务使用指南 面向开发者与设计师的完整使用参考，基于 placehold.co 官方文档整理。 目录 服务简介与优势 URL 构成解析 尺寸控制 格式选择 颜色配置 6\u0026hellip;","image":"https://placehold.co/800x400/1b1b2f/e0e0e0?text=placehold.co%5CnGuide","datePublished":"2026-08-19T10:52:44Z","dateModified":"2026-08-19T10:52:44Z","author":{"@type":"Person","name":"Digital Life"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/avatar.png"},"name":"Digital Life"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://policx.github.io","name":"Digital Life","position":1},{"@type":"ListItem","item":"https://policx.github.io/post/placehold/","name":"placehold.co使用指南","position":2}]}</script>
+<meta property="og:title" content="placehold.co使用指南">
+<meta property="og:description" content="placehold.co 占位图服务使用指南 面向开发者与设计师的完整使用参考，基于 placehold.co 官方文档整理。 目录 服务简介与优势 URL 构成解析 尺寸控制 格式选择 颜色配置 6&amp;hellip;">
+<meta property="og:url" content="https://policx.github.io/post/placehold/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Digital Life">
+<meta property="og:image" content="https://placehold.co/800x400/1b1b2f/e0e0e0?text=placehold.co%5CnGuide">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://policx.github.io/post/placehold/">
+<meta name="twitter:title" content="placehold.co使用指南">
+<meta name="twitter:description" content="placehold.co 占位图服务使用指南 面向开发者与设计师的完整使用参考，基于 placehold.co 官方文档整理。 目录 服务简介与优势 URL 构成解析 尺寸控制 格式选择 颜色配置 6&amp;hellip;">
+<meta name="twitter:image" content="https://placehold.co/800x400/1b1b2f/e0e0e0?text=placehold.co%5CnGuide">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Digital Life Initiative">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/icons/icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/icons/icon-192x192.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/icons/icon-192x192.png">
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
+</head>
+
+<body class="">
+
+    
+<script>
+    (function () {
+        const getSystemTheme = () => {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return 'dark';
+            }
+            return 'light';
+        };
+
+        const configDefault = 'dark';
+        const savedTheme = localStorage.getItem('theme');
+        const theme = savedTheme || configDefault || getSystemTheme();
+
+        if (theme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+
+        if (!savedTheme) {
+            localStorage.setItem('theme', theme);
+        }
+    })();
+</script>
+<header class="mod-head">
+    <div class="mod-head__left">
+        <div class="mod-head__logo">
+            <a href="/">
+                
+                <img class="avatar" alt="avatar" src="/images/avatar.png">
+                
+            </a>
+        </div>
+    </div>
+
+    <div class="mod-head__right">
+        <span>
+            <button id="theme-toggle-sun" class="tiptap-button theme-toggle-sun" aria-label="Switch to dark mode">
+                <svg width="18" height="18" class="tiptap-button-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 1C12.5523 1 13 1.44772 13 2V4C13 4.55228 12.5523 5 12 5C11.4477 5 11 4.55228 11 4V2C11 1.44772 11.4477 1 12 1Z"
+                        fill="currentColor"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12ZM12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M13 20C13 19.4477 12.5523 19 12 19C11.4477 19 11 19.4477 11 20V22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22V20Z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M4.22282 4.22289C4.61335 3.83236 5.24651 3.83236 5.63704 4.22289L7.04704 5.63289C7.43756 6.02341 7.43756 6.65658 7.04704 7.0471C6.65651 7.43762 6.02335 7.43762 5.63283 7.0471L4.22282 5.6371C3.8323 5.24658 3.8323 4.61341 4.22282 4.22289Z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M18.367 16.9529C17.9765 16.5623 17.3433 16.5623 16.9528 16.9529C16.5623 17.3434 16.5623 17.9766 16.9528 18.3671L18.3628 19.7771C18.7533 20.1676 19.3865 20.1676 19.777 19.7771C20.1675 19.3866 20.1675 18.7534 19.777 18.3629L18.367 16.9529Z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M1 12C1 11.4477 1.44772 11 2 11H4C4.55228 11 5 11.4477 5 12C5 12.5523 4.55228 13 4 13H2C1.44772 13 1 12.5523 1 12Z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M20 11C19.4477 11 19 11.4477 19 12C19 12.5523 19.4477 13 20 13H22C22.5523 13 23 12.5523 23 12C23 11.4477 22.5523 11 22 11H20Z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M7.04704 16.9529C7.43756 17.3434 7.43756 17.9766 7.04704 18.3671L5.63704 19.7771C5.24651 20.1676 4.61335 20.1676 4.22282 19.7771C3.8323 19.3866 3.8323 18.7534 4.22283 18.3629L5.63283 16.9529C6.02335 16.5623 6.65651 16.5623 7.04704 16.9529Z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M19.777 5.6371C20.1675 5.24657 20.1675 4.61341 19.777 4.22289C19.3865 3.83236 18.7533 3.83236 18.3628 4.22289L16.9528 5.63289C16.5623 6.02341 16.5623 6.65658 16.9528 7.0471C17.3433 7.43762 17.9765 7.43762 18.367 7.0471L19.777 5.6371Z"
+                        fill="currentColor"></path>
+                </svg>
+            </button>
+            <button id="theme-toggle-moon" class="tiptap-button theme-toggle-moon" aria-label="Switch to light mode">
+                <svg width="18" height="18" class="tiptap-button-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C22 11.5955 21.7564 11.2309 21.3827 11.0761C21.009 10.9213 20.5789 11.0069 20.2929 11.2929C19.287 12.2988 17.9226 12.864 16.5 12.864C15.0774 12.864 13.713 12.2988 12.7071 11.2929C11.7012 10.287 11.136 8.92261 11.136 7.5C11.136 6.07739 11.7012 4.71304 12.7071 3.70711C12.9931 3.42111 13.0787 2.99099 12.9239 2.61732C12.7691 2.24364 12.4045 2 12 2ZM7.55544 5.34824C8.27036 4.87055 9.05353 4.51389 9.87357 4.28778C9.39271 5.27979 9.13604 6.37666 9.13604 7.5C9.13604 9.45304 9.91189 11.3261 11.2929 12.7071C12.6739 14.0881 14.547 14.864 16.5 14.864C17.6233 14.864 18.7202 14.6073 19.7122 14.1264C19.4861 14.9465 19.1295 15.7296 18.6518 16.4446C17.7727 17.7602 16.5233 18.7855 15.0615 19.391C13.5997 19.9965 11.9911 20.155 10.4393 19.8463C8.88743 19.5376 7.46197 18.7757 6.34315 17.6569C5.21447 16.538 4.4624 15.1126 4.15372 13.5607C3.84504 12.0089 4.00347 10.4003 4.60897 8.93853C5.21447 7.47672 6.23985 6.22729 7.55544 5.34824Z"
+                        fill="currentColor"></path>
+                    <path
+                        d="M19 2C19.5523 2 20 2.44772 20 3V4H21C21.5523 4 22 4.44772 22 5C22 5.55228 21.5523 6 21 6H20V7C20 7.55228 19.5523 8 19 8C18.4477 8 18 7.55228 18 7V6H17C16.4477 6 16 5.55228 16 5C16 4.44772 16.4477 4 17 4H18V3C18 2.44772 18.4477 2 19 2Z"
+                        fill="currentColor"></path>
+                </svg>
+            </button>
+        </span>
+    </div>
+</header>
+<!-- <a href="#" id="back-to-top" style="display: inline;"> ^ </a> -->
+
+<article class="mod-post mod-post__type-post">
+    <header>
+        <h1 class="mod-post__title">
+            placehold.co使用指南
+        </h1>
+    </header>
+
+    <div class="mod-post__meta">
+        <time datetime="2026-08-19">
+            2026-08-19
+        </time> • 11 分钟阅读 •
+         </div>
+
+
+
+            <div class="mod-post__entry wzulli">
+                 <img src="https://placehold.co/800x400/1b1b2f/e0e0e0?text=placehold.co%5CnGuide" class="img"
+                    alt="placehold.co使用指南" />
+                
+                <h1 id="placeholdco-">placehold.co 占位图服务使用指南</h1>
+<blockquote>
+<p>面向开发者与设计师的完整使用参考，基于 placehold.co 官方文档整理。</p>
+</blockquote>
+<hr />
+<h2 id="heading">目录</h2>
+<ol>
+<li><a href="#%E4%B8%80%E6%9C%8D%E5%8A%A1%E7%AE%80%E4%BB%8B%E4%B8%8E%E4%BC%98%E5%8A%BF">服务简介与优势</a></li>
+<li><a href="#%E4%BA%8Curl-%E6%9E%84%E6%88%90%E8%A7%A3%E6%9E%90">URL 构成解析</a></li>
+<li><a href="#%E4%B8%89%E5%B0%BA%E5%AF%B8%E6%8E%A7%E5%88%B6">尺寸控制</a></li>
+<li><a href="#%E5%9B%9B%E6%A0%BC%E5%BC%8F%E9%80%89%E6%8B%A9">格式选择</a></li>
+<li><a href="#%E4%BA%94%E9%A2%9C%E8%89%B2%E9%85%8D%E7%BD%AE">颜色配置</a></li>
+<li><a href="#%E5%85%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%87%E5%AD%97">自定义文字</a></li>
+<li><a href="#%E4%B8%83%E5%AD%97%E4%BD%93%E9%85%8D%E7%BD%AE">字体配置</a></li>
+<li><a href="#%E5%85%ABretina-%E9%AB%98%E6%B8%85">Retina 高清</a></li>
+<li><a href="#%E4%B9%9D%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%E6%B1%87%E6%80%BB">完整示例汇总</a></li>
+<li><a href="#%E5%8D%81%E5%B8%B8%E8%A7%81%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF">常见使用场景</a></li>
+<li><a href="#%E5%8D%81%E4%B8%80%E9%95%BF%E6%9C%9F%E5%8F%AF%E7%94%A8%E6%80%A7%E5%88%86%E6%9E%90%E4%B8%8E%E6%9B%BF%E4%BB%A3%E5%85%9C%E5%BA%95%E5%BB%BA%E8%AE%AE">长期可用性分析与替代兜底建议</a></li>
+<li><a href="#%E5%8D%81%E4%BA%8C%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98faq">常见问题（FAQ）</a></li>
+</ol>
+<hr />
+<h2 id="heading-1">一、服务简介与优势</h2>
+<p><strong>placehold.co</strong> 是一个简单、快速且免费的图片占位服务。只需通过 URL 就能按需生成指定尺寸、格式、颜色和文字的占位图，无需注册、无需 API Key、无需下载任何资源。</p>
+<p>主要优势：</p>
+<ul>
+<li><strong>零门槛</strong>：纯 URL 驱动，浏览器、代码、设计稿中直接引用即可。</li>
+<li><strong>免费快速</strong>：服务免费，生成速度快，适合开发调试与设计排版阶段使用。</li>
+<li><strong>灵活定制</strong>：尺寸、格式、背景色、文字色、文字内容、字体、清晰度均可自定义。</li>
+<li><strong>多格式支持</strong>：SVG、PNG、JPEG、GIF、WebP、AVIF 六种格式任意切换。</li>
+<li><strong>SVG 默认格式</strong>：默认输出 SVG，矢量无损、体积小，适合原型与文档插图。</li>
+</ul>
+<hr />
+<h2 id="url-">二、URL 构成解析</h2>
+<p>placehold.co 的 URL 遵循以下基本结构：</p>
+<pre><code>https://placehold.co/{宽度}x{高度}.{格式}/{背景色}/{文字色}?text={文字}&amp;font={字体}
+</code></pre>
+<p>各部分说明：</p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>位置</th>
+<th>说明</th>
+<th>是否必填</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基础域名</td>
+<td>路径起始</td>
+<td><code>https://placehold.co</code></td>
+<td>必填</td>
+</tr>
+<tr>
+<td>尺寸</td>
+<td>路径第一段</td>
+<td><code>{宽度}x{高度}</code>，如 <code>600x400</code></td>
+<td>必填</td>
+</tr>
+<tr>
+<td>格式</td>
+<td>尺寸后缀</td>
+<td><code>.svg</code> / <code>.png</code> / <code>.jpg</code> / <code>.gif</code> / <code>.webp</code> / <code>.avif</code></td>
+<td>可选，默认 SVG</td>
+</tr>
+<tr>
+<td>背景色</td>
+<td>路径第二段</td>
+<td><code>{背景色}</code>，如 <code>22c55e</code></td>
+<td>可选</td>
+</tr>
+<tr>
+<td>文字色</td>
+<td>路径第三段</td>
+<td><code>{文字色}</code>，如 <code>ffffff</code></td>
+<td>可选</td>
+</tr>
+<tr>
+<td>查询参数</td>
+<td>问号之后</td>
+<td><code>text=</code>、<code>font=</code> 等</td>
+<td>可选</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意：颜色（背景色、文字色）必须<strong>成对</strong>指定，两者需同时出现。</p>
+</blockquote>
+<h3 id="heading-2">最小示例</h3>
+<pre><code>https://placehold.co/600x400
+</code></pre>
+<p>即生成一张 600×400 像素的默认 SVG 占位图。</p>
+<hr />
+<h2 id="heading-3">三、尺寸控制</h2>
+<h3 id="31-">3.1 基本尺寸</h3>
+<p>使用 <code>宽度x高度</code> 格式指定尺寸：</p>
+<pre><code>https://placehold.co/600x400.png
+</code></pre>
+<h3 id="32-">3.2 方形（省略高度）</h3>
+<p>高度可以省略，此时自动生成正方形：</p>
+<pre><code>https://placehold.co/600.png
+</code></pre>
+<p>等价于 <code>600x600</code>。</p>
+<h3 id="33-">3.3 尺寸限制</h3>
+<ul>
+<li><strong>最大尺寸</strong>：<code>4000 x 4000</code> px</li>
+<li><strong>最小尺寸</strong>：<code>10 x 10</code> px</li>
+</ul>
+<p>超出范围时服务可能无法正确生成，请控制在上述区间内。</p>
+<hr />
+<h2 id="heading-4">四、格式选择</h2>
+<h3 id="41-">4.1 支持的格式</h3>
+<p>支持以下六种格式：</p>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>后缀</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SVG</td>
+<td><code>.svg</code></td>
+<td><strong>默认格式</strong>，矢量无损、体积小，适合原型与文档</td>
+</tr>
+<tr>
+<td>PNG</td>
+<td><code>.png</code></td>
+<td>位图，支持透明背景，适合 UI 设计稿</td>
+</tr>
+<tr>
+<td>JPEG</td>
+<td><code>.jpg</code></td>
+<td>位图，体积较小，适合照片类占位</td>
+</tr>
+<tr>
+<td>GIF</td>
+<td><code>.gif</code></td>
+<td>支持简单动图场景占位</td>
+</tr>
+<tr>
+<td>WebP</td>
+<td><code>.webp</code></td>
+<td>现代网页格式，压缩率高</td>
+</tr>
+<tr>
+<td>AVIF</td>
+<td><code>.avif</code></td>
+<td>最新一代高效图片格式</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-">4.2 在尺寸后追加格式</h3>
+<p>格式作为尺寸段的扩展名，直接拼接：</p>
+<pre><code>https://placehold.co/600x400.png
+https://placehold.co/600x400.jpg
+https://placehold.co/600x400.webp
+</code></pre>
+<h3 id="43-">4.3 格式与颜色组合</h3>
+<p>格式可以与颜色同时使用，例如：</p>
+<pre><code>https://placehold.co/600x400.png/22c55e/ffffff
+</code></pre>
+<hr />
+<h2 id="heading-5">五、颜色配置</h2>
+<p>背景色与文字色放在路径第二段、第三段，用 <code>/</code> 分隔。<strong>两者必须成对出现</strong>。</p>
+<h3 id="51-">5.1 十六进制颜色值</h3>
+<p>最常用方式，直接使用十六进制值（不需要 <code>#</code> 前缀）：</p>
+<pre><code>https://placehold.co/600x400/22c55e/ffffff
+</code></pre>
+<p>上例：背景色 <code>#22c55e</code>（绿色），文字色 <code>#ffffff</code>（白色）。</p>
+<h3 id="52-css-">5.2 CSS 颜色名称</h3>
+<p>支持使用 CSS 颜色名替代十六进制值：</p>
+<pre><code>https://placehold.co/600x400/orange/white
+</code></pre>
+<p>上例：背景色 <code>orange</code>，文字色 <code>white</code>。</p>
+<h3 id="53-">5.3 透明背景</h3>
+<p>使用 <code>transparent</code> 关键字可以得到透明背景：</p>
+<pre><code>https://placehold.co/600x400.png/transparent/000000
+</code></pre>
+<p>透明通常配合 PNG 等支持透明通道的格式使用，效果最佳。</p>
+<hr />
+<h2 id="heading-6">六、自定义文字</h2>
+<h3 id="61-">6.1 通过查询参数设置文字</h3>
+<p>使用 <code>text</code> 查询参数自定义图片上的文字：</p>
+<pre><code>https://placehold.co/600x400?text=Hello+World
+</code></pre>
+<h3 id="62---">6.2 空格用 <code>+</code> 表示</h3>
+<p>URL 中的空格用 <code>+</code> 表示：</p>
+<pre><code>https://placehold.co/600x400?text=Hello+World
+</code></pre>
+<p>渲染结果文字为 <code>Hello World</code>。</p>
+<h3 id="63--n-">6.3 换行用 <code>\n</code> 表示</h3>
+<p>需要换行时，在 text 参数中使用 <code>\n</code>：</p>
+<pre><code>https://placehold.co/600x400?text=Line1%5CnLine2
+</code></pre>
+<h3 id="64-">6.4 默认文字</h3>
+<p><strong>默认文字为图片的尺寸</strong>。例如 <code>https://placehold.co/600x400</code> 默认会在图上显示 <code>600 x 400</code>。</p>
+<hr />
+<h2 id="heading-7">七、字体配置</h2>
+<h3 id="71-">7.1 通过查询参数设置字体</h3>
+<p>使用 <code>font</code> 查询参数指定字体：</p>
+<pre><code>https://placehold.co/600x400?font=roboto
+</code></pre>
+<h3 id="72-">7.2 默认字体</h3>
+<p><strong>默认字体为 Lato</strong>。</p>
+<h3 id="73-">7.3 可用字体</h3>
+<p>服务内置了多种开源字体可供选择（如 Roboto、Montserrat、Oswald、Raleway 等 Google Fonts 常用字体）。字体名通常使用小写形式，如 <code>lato</code>、<code>roboto</code>、<code>montserrat</code>。</p>
+<blockquote>
+<p>提示：具体可用字体清单以服务官方文档的 &ldquo;The following fonts can be used&rdquo; 列表为准，使用前建议在服务页面确认支持情况。</p>
+</blockquote>
+<h3 id="74-">7.4 字体与文字组合</h3>
+<p>字体参数可与文字参数自由组合：</p>
+<pre><code>https://placehold.co/600x400?text=Hello+World&amp;font=roboto
+</code></pre>
+<hr />
+<h2 id="retina-">八、Retina 高清</h2>
+<h3 id="81--2x--3x-">8.1 通过 @2x / @3x 获取高清图</h3>
+<p>在尺寸后追加 <code>@2x</code> 或 <code>@3x</code>，即可获得高分辨率版本，适配 Retina 屏：</p>
+<pre><code>https://placehold.co/600x400@2x.png
+https://placehold.co/600x400@3x.png
+</code></pre>
+<h3 id="82-">8.2 适用格式</h3>
+<p>仅以下格式支持 retina 图片：</p>
+<ul>
+<li>PNG</li>
+<li>JPEG</li>
+<li>GIF</li>
+<li>WebP</li>
+<li>AVIF</li>
+</ul>
+<blockquote>
+<p><strong>SVG 不支持 retina 后缀</strong>（SVG 本身为矢量，无需高清倍数）。</p>
+</blockquote>
+<hr />
+<h2 id="heading-8">九、完整示例汇总</h2>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基础占位图（默认 SVG）</td>
+<td><code>https://placehold.co/600x400</code></td>
+</tr>
+<tr>
+<td>指定尺寸 PNG</td>
+<td><code>https://placehold.co/600x400.png</code></td>
+</tr>
+<tr>
+<td>正方形</td>
+<td><code>https://placehold.co/600.png</code></td>
+</tr>
+<tr>
+<td>指定十六进制颜色</td>
+<td><code>https://placehold.co/600x400/22c55e/ffffff</code></td>
+</tr>
+<tr>
+<td>CSS 颜色名</td>
+<td><code>https://placehold.co/600x400/orange/white</code></td>
+</tr>
+<tr>
+<td>透明背景</td>
+<td><code>https://placehold.co/600x400.png/transparent/000000</code></td>
+</tr>
+<tr>
+<td>自定义文字（空格用 +）</td>
+<td><code>https://placehold.co/600x400?text=Hello+World</code></td>
+</tr>
+<tr>
+<td>文字换行（\n）</td>
+<td><code>https://placehold.co/600x400?text=Line1%5CnLine2</code></td>
+</tr>
+<tr>
+<td>自定义字体</td>
+<td><code>https://placehold.co/600x400?font=roboto</code></td>
+</tr>
+<tr>
+<td>字体 + 文字组合</td>
+<td><code>https://placehold.co/600x400?text=Hello+World&amp;font=roboto</code></td>
+</tr>
+<tr>
+<td>Retina @2x</td>
+<td><code>https://placehold.co/600x400@2x.png</code></td>
+</tr>
+<tr>
+<td>Retina @3x</td>
+<td><code>https://placehold.co/600x400@3x.png</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>综合示例</strong>（尺寸 + 格式 + 颜色 + 文字 + 字体 + 高清一次搞定）：</p>
+<pre><code>https://placehold.co/800x600.png/22c55e/ffffff@2x?text=Product+Image&amp;font=montserrat
+</code></pre>
+<hr />
+<h2 id="heading-9">十、常见使用场景</h2>
+<h3 id="101-">10.1 前端开发</h3>
+<ul>
+<li>组件开发阶段用占位图替代真实图片，避免依赖外部素材。</li>
+<li>布局调试时快速验证响应式尺寸（结合不同宽度 URL）。</li>
+<li>单元测试 / 截图对比时使用固定 URL 保证可复现。</li>
+</ul>
+<h3 id="102-ui--ux-">10.2 UI / UX 设计</h3>
+<ul>
+<li>设计稿中占位 Banner、卡片配图、头像位，不阻塞视觉评审。</li>
+<li>用颜色参数快速模拟品牌色在版面上的呈现。</li>
+<li>用 Retina 版本确认高清屏下的显示效果。</li>
+</ul>
+<h3 id="103-">10.3 文档与演示</h3>
+<ul>
+<li>README、API 文档中插入示意图片。</li>
+<li>技术方案 / PPT 中使用统一风格占位图。</li>
+</ul>
+<h3 id="104--mock">10.4 原型与 Mock</h3>
+<ul>
+<li>直接以 SVG 格式嵌入 HTML，矢量缩放不失真。</li>
+<li>通过 <code>text</code> 参数标注模块用途（如 &ldquo;Banner&rdquo;、&ldquo;Avatar&rdquo;）。</li>
+</ul>
+<hr />
+<h2 id="heading-10">十一、长期可用性分析与替代兜底建议</h2>
+<h3 id="111-">11.1 可用性分析</h3>
+<ul>
+<li><strong>服务性质</strong>：第三方免费公共服务，稳定性与可用性由官方维护决定，不提供 SLA 承诺。</li>
+<li><strong>风险点</strong>：
+<ul>
+<li>免费服务可能调整策略、限流或下线。</li>
+<li>依赖外部网络，内网 / 离线环境不可用。</li>
+<li>生成结果可能因服务端更新产生细微差异。</li>
+</ul>
+</li>
+<li><strong>适用定位</strong>：适合开发、设计、原型、文档等<strong>非生产</strong>场景；生产环境依赖占位图时需谨慎。</li>
+</ul>
+<h3 id="112-">11.2 替代兜底建议</h3>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自建占位服务</td>
+<td>用本地脚本（如 ImageMagick、sharp、Pillow）按需生成，完全可控</td>
+</tr>
+<tr>
+<td>前端动态生成</td>
+<td>Canvas / SVG 在浏览器端实时绘制占位图，零外部依赖</td>
+</tr>
+<tr>
+<td>其他在线占位服务</td>
+<td>如 <code>dummyimage.com</code>、<code>via.placeholder.com</code> 等同类服务作为备选</td>
+</tr>
+<tr>
+<td>静态资源本地化</td>
+<td>一次性生成所需占位图，随项目打包，彻底消除运行时外部依赖</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>建议：在长期项目中，将占位图作为<strong>临时过渡方案</strong>，并在关键文档中注明替换路径。</p>
+</blockquote>
+<hr />
+<h2 id="faq">十二、常见问题（FAQ）</h2>
+<h3 id="q1">Q1：尺寸必须带高度吗？</h3>
+<p>不必。省略高度会生成正方形，如 <code>https://placehold.co/600</code> 等于 <code>600x600</code>。</p>
+<h3 id="q2">Q2：最大/最小尺寸是多少？</h3>
+<p>最大 <code>4000x4000</code> px，最小 <code>10x10</code> px。</p>
+<h3 id="q3">Q3：默认输出什么格式？</h3>
+<p>默认格式为 <strong>SVG</strong>。</p>
+<h3 id="q4">Q4：背景色和文字色必须一起设置吗？</h3>
+<p>是。两者必须成对指定，不能只设置其中一个。</p>
+<h3 id="q5--">Q5：颜色值需要带 <code>#</code> 吗？</h3>
+<p>不需要。直接写十六进制值即可（如 <code>22c55e</code>），也支持 CSS 颜色名和 <code>transparent</code>。</p>
+<h3 id="q6">Q6：图片默认显示什么文字？</h3>
+<p>默认显示图片的尺寸，如 <code>600 x 400</code>。</p>
+<h3 id="q7">Q7：文字里的空格和换行怎么处理？</h3>
+<p>空格用 <code>+</code>，换行用 <code>\n</code>（URL 中可编码为 <code>%5Cn</code>）。</p>
+<h3 id="q8">Q8：默认字体是什么？</h3>
+<p>默认字体为 <strong>Lato</strong>，可通过 <code>font</code> 参数更换。</p>
+<h3 id="q9svg--retina-">Q9：SVG 支持 Retina 吗？</h3>
+<p>不支持。仅 PNG、JPEG、GIF、WebP、AVIF 支持 <code>@2x</code> / <code>@3x</code>。</p>
+<h3 id="q10">Q10：可以用在生产环境吗？</h3>
+<p>可临时使用，但第三方免费服务不保证 SLA，生产环境建议自建或本地化占位资源。</p>
+<hr />
+<h2 id="heading-11">附：速查表</h2>
+<pre><code>占位图      https://placehold.co/600x400
+方形        https://placehold.co/600
+改格式      https://placehold.co/600x400.png
+改颜色      https://placehold.co/600x400/22c55e/ffffff
+透明背景    https://placehold.co/600x400.png/transparent/000000
+自定义文字  https://placehold.co/600x400?text=Hello+World
+自定义字体  https://placehold.co/600x400?font=roboto
+Retina      https://placehold.co/600x400@2x.png
+</code></pre>
+<hr />
+<p><em>本指南基于 placehold.co 官方文档整理。示例 URL 可直接在浏览器打开验证。</em></p>
+
+            </div>
+
+</article>
+
+
+
+
+
+
+<div class="mod-post__poster">
+</div>
+
+</div>
+
+
+
+
+
+
+<!-- Reading Progress Component -->
+<div class="reading-progress-container">
+  <span class="reading-label">阅读进度</span>
+  <span class="reading-value">0%</span>
+  <svg class="progress-ring" viewBox="0 0 24 24">
+    <!-- Background Circle -->
+    <circle class="progress-ring__circle-bg" stroke-width="3" fill="transparent" r="10" cx="12" cy="12" />
+    <!-- Progress Circle -->
+    <circle class="progress-ring__circle" stroke-width="3" fill="transparent" r="10" cx="12" cy="12" />
+  </svg>
+</div>
+<footer id="footer" class="footer">
+    <nav>
+        
+        
+        <a class="menu-item" href="/">首页</a>
+        
+         · 
+        <a class="menu-item" href="/post">博客</a>
+        
+         · 
+        <a class="menu-item" href="/memos">闪念</a>
+        
+         · 
+        <a class="menu-item" href="/archives">归档</a>
+        
+         · 
+        <a class="menu-item" href="/tags">标签</a>
+        
+         · 
+        <a class="menu-item" href="/links">友链</a>
+        
+         · 
+        <a class="menu-item" href="/post/about">关于</a>
+        
+    </nav>
+
+    <div class="Copyright">Copyright &copy; <span class="current-year"></span> <a href="https://policx.github.io">Digital Life</a></div>
+    <script>document.querySelector('.current-year').textContent = new Date().getFullYear();</script>
+
+    <div class="index_footer">
+        Powered by Gridea Pro ·
+        <a class="rss" href="/feed.xml" target="_blank" rel="noopener noreferrer">
+            <i class="ri-rss-line"></i>RSS
+        </a>
+    </div>
+</footer>
+
+
+
+
+    
+
+    
+<script>console.log("\n%c ✦ Gridea Pro v1.2.2 %c · Theme: amore-jinja2 v1.1.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+
+</html>

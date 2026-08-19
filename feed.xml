@@ -20,6 +20,28 @@
       <enclosure url="https://huawei-static2.vhallyun.com/upload/20260612171402/hw/7f/04/7f0440d69ac0910d750bab3bcc88a1d7.jpg" length="0" type="image/jpeg"></enclosure>
     </item>
     <item>
+      <title>placehold.co使用指南</title>
+      <link>https://policx.github.io/post/placehold/</link>
+      <guid isPermaLink="true">https://policx.github.io/post/placehold/</guid>
+      <pubDate>Wed, 19 Aug 2026 10:52:44 +0000</pubDate>
+      <description><![CDATA[<h1 id="placeholdco-">placehold.co 占位图服务使用指南</h1>
+<blockquote>
+<p>面向开发者与设计师的完整使用参考，基于 placehold.co 官方文档整理。</p>
+</blockquote>
+<hr />
+<h2 id="heading">目录</h2>
+<ol>
+<li><a href="#%E4%B8%80%E6%9C%8D%E5%8A%A1%E7%AE%80%E4%BB%8B%E4%B8%8E%E4%BC%98%E5%8A%BF">服务简介与优势</a></li>
+<li><a href="#%E4%BA%8Curl-%E6%9E%84%E6%88%90%E8%A7%A3%E6%9E%90">URL 构成解析</a></li>
+<li><a href="#%E4%B8%89%E5%B0%BA%E5%AF%B8%E6%8E%A7%E5%88%B6">尺寸控制</a></li>
+<li><a href="#%E5%9B%9B%E6%A0%BC%E5%BC%8F%E9%80%89%E6%8B%A9">格式选择</a></li>
+<li><a href="#%E4%BA%94%E9%A2%9C%E8%89%B2%E9%85%8D%E7%BD%AE">颜色配置</a><br />
+6&hellip;</li>
+</ol>
+]]></description>
+      <enclosure url="https://placehold.co/800x400/1b1b2f/e0e0e0?text=placehold.co%5CnGuide" length="0" type="image/jpeg"></enclosure>
+    </item>
+    <item>
       <title>朱镕基同志永垂不朽！</title>
       <link>https://policx.github.io/post/zhu-rong-ji-tong-zhi-yong-chui-bu-xiu/</link>
       <guid isPermaLink="true">https://policx.github.io/post/zhu-rong-ji-tong-zhi-yong-chui-bu-xiu/</guid>
@@ -84,7 +106,7 @@
 <p>HTTP状态码的官方注册表由互联网号码分配局（Internet Assigned Numbers Authority）维护。</p>
 <p>微软互联网信息服务 （Microsoft Internet Information Services）有时会使用额外的十进制子代码来获取更多具体信息，但是这些子代码仅出现在响应有效内容和文档中，而不是代替实际的HTTP状态代码。</p>
 ]]></description>
-      <enclosure url="https://placehold.co/800x400/16213e/e0e0e0?text=HTTP+Status+Code" length="0" type="image/jpeg"></enclosure>
+      <enclosure url="https://placehold.co/600x300/orange/31343C?font=oswald&amp;text=HTTP+Status+Code" length="0" type="image/jpeg"></enclosure>
     </item>
     <item>
       <title>WWDC 2017</title>
@@ -105,17 +127,6 @@
 ]]></description>
       <category>WWDC</category>
       <enclosure url="https://policx.github.io/post-images/2016.png" length="0" type="image/png"></enclosure>
-    </item>
-    <item>
-      <title>WWDC 2015</title>
-      <link>https://policx.github.io/post/2015/</link>
-      <guid isPermaLink="true">https://policx.github.io/post/2015/</guid>
-      <pubDate>Fri, 05 Jun 2015 01:02:03 +0800</pubDate>
-      <description><![CDATA[<p>I think the greatest value of learning how to think&hellip;. I think everybody in this country should learn how to program a computer, should learn a computer language, because it teaches you how to think, it’s like going to law school, I don’t think anybody should be a lawyer, but I think going to law school may actually be useful coz it teaches you how to think in a certain way. In the same way the computer programming teaches you in a slightly different way how to think&hellip; And so … I view computer science as a liberal art. It should be something everybody takes in a year in their life, one of the courses they take is, you know learning how to program.<br />
-&mdash;&mdash;&ndash; Steve Jobs</p>
-]]></description>
-      <category>WWDC</category>
-      <enclosure url="https://policx.github.io/post-images/2015.png" length="0" type="image/png"></enclosure>
     </item>
   </channel>
 </rss>
